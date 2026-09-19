@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function verifiedOwner(uid) {
+      return isOwner(uid) && request.auth.token.email_verified == true;
+    }
+
+    function validRequest() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['title', 'category', 'timeline', 'details', 'status', 'createdAt'])
+        && data.keys().hasOnly(['title', 'category', 'timeline', 'details', 'status', 'createdAt'])
+        && data.title is string && data.title.size() >= 3 && data.title.size() <= 120
+        && data.category is string && data.category.size() >= 1 && data.category.size() <= 80
+        && data.timeline is string && data.timeline.size() <= 100
+        && data.details is string && data.details.size() >= 10 && data.details.size() <= 6000
+        && data.status is string && data.status == 'Submitted'
+        && data.createdAt is timestamp && data.createdAt == request.time;
+    }
+
+    match /users/{uid}/requests/{requestId} {
+      allow read: if isOwner(uid);
+      allow create: if verifiedOwner(uid) && validRequest();
+      // Customers cannot edit workflow status or remove submissions.
+      // The founder can manage status in the Firebase console with appropriate IAM access.
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
