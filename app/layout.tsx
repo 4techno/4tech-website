@@ -2,8 +2,11 @@ import type { Metadata, Viewport } from 'next';
 import '@fontsource-variable/geist/wght.css';
 import '@fontsource-variable/geist-mono/wght.css';
 import './globals.css';
+import './premium.css';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
+import { MotionPreferences } from '@/components/motion-preferences';
+import ScrollProgress from '@/components/scroll-progress';
 import { siteConfig, siteUrl } from '@/config';
 
 // Server Component: fonts, navigation, document shell and SEO never depend on WebGL.
@@ -20,5 +23,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: '#0a0a0a', colorScheme: 'dark' };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body id="top"><a href="#main" className="skip-link">Skip to content</a><SiteHeader/>{children}<SiteFooter/></body></html>;
+  return <html lang="en"><body id="top"><MotionPreferences><a href="#main" className="skip-link">Skip to content</a><ScrollProgress/><SiteHeader/>{children}<SiteFooter/></MotionPreferences></body></html>;
 }

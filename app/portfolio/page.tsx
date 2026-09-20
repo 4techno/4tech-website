@@ -7,6 +7,7 @@ import { featuredProjects } from '@/lib/projects';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import JourneyNav from '@/components/journey-nav';
 import Reveal from '@/components/reveal';
+import TextReveal from '@/components/text-reveal';
 
 export const metadata: Metadata = { title: 'Mohammed Vashir | Portfolio', description: 'Explore Mohammed Vashir’s skills, education and projects in embedded systems, robotics, automation and engineering computation.', alternates: { canonical: '/portfolio' } };
 
@@ -14,7 +15,7 @@ export default function PortfolioPage() {
   return <main id="main" className="personal-portfolio container-shell">
     <JourneyNav current="portfolio"/>
     <section className="profile-hero">
-      <Reveal><p className="section-kicker">{`{ THE PERSON BEHIND 4TECH }_`}</p><h1>Mohammed<br/><span>Vashir.</span></h1><p className="profile-role">Engineering student.<br/>Curious builder. Founder of 4tech.</p><p className="profile-intro">I connect code, circuits and mechanisms to explore practical engineering ideas. My interests span embedded systems, robotic motion and computational research.</p><div className="flex flex-wrap gap-3"><Link className="button-primary" href="/resume">View my résumé ↗</Link><a href="#skills" className="button-secondary">Explore my skills ↓</a></div></Reveal>
+      <Reveal><p className="section-kicker">{`{ THE PERSON BEHIND 4TECH }_`}</p><h1><TextReveal text="Mohammed"/><br/><span><TextReveal text="Vashir." delay={.12}/></span></h1><p className="profile-role">Engineering student.<br/>Curious builder. Founder of 4tech.</p><p className="profile-intro">I connect code, circuits and mechanisms to explore practical engineering ideas. My interests span embedded systems, robotic motion and computational research.</p><div className="flex flex-wrap gap-3"><Link className="button-primary" href="/resume">View my résumé ↗</Link><a href="#skills" className="button-secondary">Explore my skills ↓</a></div></Reveal>
       <Reveal className="profile-portrait"><Image src={siteConfig.founder.image} alt={siteConfig.founder.imageAlt} fill priority sizes="(max-width: 700px) 88vw, 38vw" style={{objectFit:'cover',objectPosition:siteConfig.founder.imagePosition}}/><div className="portrait-gradient"/><div className="portrait-caption"><span>Engineering through exploration.</span><span>KALPAKKAM, INDIA</span></div></Reveal>
     </section>
     <section id="skills" className="profile-section"><Reveal><p className="section-kicker">{`{ 01 / MY TOOLKIT }_`}</p><h2>Skills put<br/><span className="text-zinc-500">into practice.</span></h2><p className="profile-section-lede">Tools and methods I use across my projects and studies.</p></Reveal>

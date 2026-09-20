@@ -1,5 +1,6 @@
 'use client';
 import { Children, useEffect, useState, type ReactNode } from 'react';
+import Reveal from '../reveal';
 
 type Level = 'Research Level' | 'Advanced' | 'Intermediate';
 type SearchEntry = { id: string; text: string; difficulty: Level };
@@ -31,7 +32,7 @@ export function ProjectFilter({ entries, children }: { entries: readonly SearchE
       const indexes = entries.flatMap((entry, index) => entry.difficulty === group.level && visible[index] ? [index] : []);
       return <section key={group.level} id={group.id} className="project-level-section" hidden={!indexes.length} aria-labelledby={`${group.id}-heading`}>
         <div className="project-level-heading"><div><p className="section-kicker">{`{ 0${groupIndex + 1} / ${group.level.toUpperCase()} }_`}</p><h2 id={`${group.id}-heading`}>{group.title}</h2></div><p>{group.description}</p></div>
-        <div className="engineering-grid">{indexes.map(index => <div key={entries[index].id}>{cards[index]}</div>)}</div>
+        <div className="engineering-grid">{indexes.map((index, order) => <Reveal key={entries[index].id} delay={(order % 2) * .07}>{cards[index]}</Reveal>)}</div>
       </section>;
     })}</div>
     {count === 0 && <div className="panel px-6 py-16 text-center"><h2 className="text-xl text-zinc-200">No matching projects.</h2><p className="mt-3 text-sm text-zinc-400">Try RF, robotics, sensors or another difficulty level.</p><button type="button" className="button-secondary mt-7" onClick={() => { setQuery(''); setLevel('All'); }}>Reset filters</button></div>}

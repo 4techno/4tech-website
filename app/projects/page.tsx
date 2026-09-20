@@ -4,6 +4,7 @@ import { siteUrl } from '@/config';
 import { projects } from '@/lib/projects';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import { ProjectFilter } from '@/components/projects/ProjectFilter';
+import TextReveal from '@/components/text-reveal';
 
 const description = 'Explore the 4tech engineering portfolio: robotics, embedded systems, RF technology, automation and experimental R&D. Browse by engineering difficulty and development stage.';
 export const metadata: Metadata = { title: 'Engineering & R&D', description, alternates: { canonical: siteUrl('/projects') }, openGraph: { title: 'Engineering & R&D — 4tech', description, url: siteUrl('/projects'), type: 'website' } };
@@ -14,7 +15,7 @@ export default function ProjectsPage() {
     <section className="container-shell engineering-intro">
       <Link href="/portfolio" className="text-sm text-zinc-400 transition-colors hover:text-white">← Mohammed Vashir / Portfolio</Link>
       <p className="section-kicker mt-14">{`{ 4TECH / ENGINEERING & R&D }_`}</p>
-      <div className="engineering-intro-grid"><h1>Systems thinking.<br/><span>Real-world ambition.</span></h1><p>From RF measurement to robotic motion. A focused collection of integrated systems, prototypes and research directions.</p></div>
+      <div className="engineering-intro-grid"><h1><TextReveal text="Systems thinking."/><br/><span><TextReveal text="Real-world ambition." delay={.12}/></span></h1><p>From RF measurement to robotic motion. A focused collection of integrated systems, prototypes and research directions.</p></div>
       <div className="engineering-disciplines"><span>Robotics</span><span>Embedded systems</span><span>RF technology</span><span>Automation & AI</span><span>Experimental engineering</span></div>
       <p className="portfolio-stage-note"><span aria-hidden="true"/>Development stage is shown on every project. Proposed R&D concepts describe intended work; project details distinguish existing progress from planned capabilities.</p>
     </section>

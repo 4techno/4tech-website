@@ -1,5 +1,23 @@
 # Verification record
 
+## Premium motion and design release — 20 September 2026
+
+- The Next.js-inspired redesign and Origin Kit-inspired pixel-light field are published at https://4tech-9cy.pages.dev/.
+- Both `npm run build` and `npm run build:pages` passed with TypeScript checking. The Cloudflare release contains 176 exported assets and all 15 case studies.
+- All eight galaxy physics tests passed, including repulsion, spring return and pause behavior.
+- Desktop and 390px mobile layouts were inspected. Checked layouts had no horizontal overflow. Service panels retain `transform: none` and no rotation animation.
+- The process tabs respond to clicks and Arrow/Home/End keyboard input, update their panel label, and show the selected stage. End-key selection was also verified on the public site.
+- Pause/resume was checked against the global motion state and rendered galaxy. Mobile navigation opens and closes with Escape. Browser reduced-motion preferences are implemented; this is not a full OS/device accessibility certification.
+- The final local production build and live homepage captured no application JavaScript errors during the checked interactions. The initial motion-preference hydration mismatch was corrected before publication.
+- Production project filtering was checked: Advanced plus ESP32 returns one project. Word and card reveals preserve server-rendered content.
+- On 20 September, all 21 public/account routes returned HTTP 200, all 15 cards and illustrations were present, and no broken internal links were found. All 11 retired IDs redirect to the current collection; an unknown URL returns 404.
+- The public resume remains a valid 62,156-byte PDF. Open Graph remains a 1200 × 630 PNG. No YouTube link is included.
+- Firebase configuration, rules and account workflow are unchanged. No fresh end-to-end sign-in or enquiry was submitted as part of this visual release; the limits below still apply.
+
+See [DESIGN-NOTES.md](DESIGN-NOTES.md) for reference attribution, the original implementation and motion behavior.
+
+## Previous release record — 19 September 2026
+
 Checked 19 September 2026 (India time) against the production build and public Cloudflare deployment of `4tech-next`.
 
 ## Completed

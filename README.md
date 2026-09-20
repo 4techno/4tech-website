@@ -28,6 +28,10 @@ Copy `.env.example` to `.env.local` if you want to set the local metadata origin
 
 Customer services need an internet connection. Local previews use the Firebase project already configured in `lib/firebase.ts`, so submitting an enquiry creates real data there. Use accounts you control for testing and remove test data afterward.
 
+## Visual direction
+
+The premium design refresh adds a centered Astra hero, masked word reveals, a keyboard-accessible engineering process and an original pixel-light contact field. Service cards remain stationary. See [DESIGN-NOTES.md](DESIGN-NOTES.md) for the reference map, motion controls and editing guide.
+
 ## Architecture
 
 | Area | Responsibility |

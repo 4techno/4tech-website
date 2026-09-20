@@ -57,7 +57,7 @@ const vertexShader = /* glsl */ `
     vShimmer = 0.87 + 0.13 * sin(uTime * 0.55 + aPhase);
     vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
     gl_Position = projectionMatrix * viewPosition;
-    gl_PointSize = clamp(aSize * uPixelRatio * (10.0 / -viewPosition.z), 0.8, 8.0);
+    gl_PointSize = clamp(aSize * 1.28 * uPixelRatio * (10.0 / -viewPosition.z), 0.8, 8.0);
   }
 `;
 
