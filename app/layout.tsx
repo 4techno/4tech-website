@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   applicationName: '4tech',
   authors: [{ name: siteConfig.founder.name }],
+  // Keep this public tag in place to retain Google Search Console ownership.
+  verification: { google: 'ridPpTRjP7lcZMd-jm1K3y6zE0CEV3cEXp5twz4oK3c' },
   openGraph: { type: 'website', locale: 'en_IN', siteName: '4tech', title: '4tech — Ideas into reality.', description: siteConfig.description, images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: '4tech — Engineering, robotics & RF technology' }] },
   twitter: { card: 'summary_large_image', title: '4tech — Ideas into reality.', description: siteConfig.description, images: ['/opengraph-image'] },
   robots: { index: true, follow: true },

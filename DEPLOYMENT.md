@@ -93,6 +93,14 @@ Enquiry notifications are not automated. The owner must check Firebase and commu
 
 Choose and register a domain only when you want one. For the current hosting, add it under **Cloudflare Pages → 4tech → Custom domains** and follow the displayed DNS instructions. For a future Vercel deployment, use **Project → Settings → Domains**. Preserve existing email MX/TXT records. Wait for verification and HTTPS, update `NEXT_PUBLIC_SITE_URL`, authorize the hostname in Firebase and redeploy. Recheck public pages and sign-in before sharing the new address. [Cloudflare custom domains](https://developers.cloudflare.com/pages/configuration/custom-domains/), [Vercel custom-domain setup](https://vercel.com/docs/domains/working-with-domains/add-a-domain).
 
+## Google Search Console
+
+Use the URL-prefix property `https://4tech-9cy.pages.dev/` in [Google Search Console](https://search.google.com/search-console). The public Google ownership tag is configured in `app/layout.tsx` using `metadata.verification.google`. Keep it in future deployments so ownership remains verified; it is a public verification value, not a private API credential.
+
+Under **Sitemaps**, submit `https://4tech-9cy.pages.dev/sitemap.xml`. The sitemap lists the 20 public pages and excludes the customer account. Use **URL inspection** for the homepage or a substantially updated page, then **Request indexing** when appropriate. Inspect the indexing reports for Google's actual crawl and indexing status. Submission does not guarantee inclusion or a ranking.
+
+If the production domain changes, verify the new property, update the canonical origin and submit its sitemap. Keep the current property while planning a migration. [Google's verification guide](https://support.google.com/webmasters/answer/9008080) and [URL Inspection guide](https://support.google.com/webmasters/answer/9012289).
+
 ## Future changes
 
 Edit the source, run the checks, and publish through the Cloudflare upload workflow above or a deliberately configured Vercel deployment. `config.js` centralizes founder-image, social and contact destinations; `lib/projects.ts` owns the curated records, difficulty groups, ranking and selected-project export. Follow the engineering-content guidance in [README.md](README.md), including the distinction between proposed concepts, illustrations and demonstrated results. Account status updates made in Firebase do not need a website redeployment.
