@@ -3,13 +3,15 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { siteUrl } from '@/config';
 import { getProjectBySlug, projects } from '@/lib/projects';
-import { ProjectVisual } from '@/components/projects/ProjectVisual';
+import Reveal from '@/components/reveal';
+import TextReveal from '@/components/text-reveal';
+import styles from '@/components/projects/secondary.module.css';
 
 type ProjectPageProps = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.id }));
+  return projects.map(project => ({ slug: project.id }));
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
@@ -20,7 +22,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     title: project.name,
     description: project.short,
     alternates: { canonical: siteUrl(`/projects/${project.id}`) },
-    openGraph: { title: `${project.name} — 4tech`, description: project.short, type: 'article', url: siteUrl(`/projects/${project.id}`) },
+    openGraph: { title: `${project.name} | 4tech`, description: project.short, type: 'article', url: siteUrl(`/projects/${project.id}`) },
   };
 }
 
@@ -28,33 +30,33 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();
-  const index = projects.findIndex((entry) => entry.id === project.id);
+  const index = projects.findIndex(entry => entry.id === project.id);
   const next = projects[(index + 1) % projects.length];
-  return (
-    <main id="main" className="bg-zinc-950 pb-24 text-zinc-100">
-      <article className="container-shell pt-40 sm:pt-48">
-        <Link href="/projects" className="mb-12 inline-block text-sm text-zinc-500 transition-colors hover:text-zinc-100">← The project collection</Link>
-        <header className="max-w-5xl">
-          <p className="section-kicker">{String(index + 1).padStart(2, '0')} / {project.category}</p>
-          <h1 className="mt-6 text-4xl font-medium leading-[1.08] tracking-[-0.045em] sm:text-6xl lg:text-7xl">{project.name}</h1>
-          <p className="text-muted mt-7 max-w-2xl text-lg leading-8">{project.short}</p>
-          <div className="mt-8 flex flex-wrap items-center gap-4"><span className="difficulty-badge" data-level={project.difficulty}>{project.difficulty}</span><span className="font-mono text-xs text-zinc-400">{project.stage}</span></div>
-        </header>
-        <ProjectVisual art={project.art} className="mt-12 h-64 rounded-2xl border border-white/10 sm:h-96" />
-        <div className="mt-12 grid gap-5 lg:grid-cols-[1.6fr_1fr]">
-          <div className="space-y-5">
-            <section className="panel p-7 sm:p-10"><p className="section-kicker">01 / Context</p><h2 className="mt-4 text-2xl font-medium tracking-tight">The problem</h2><p className="text-muted mt-5 leading-8">{project.problem}</p></section>
-            <section className="panel p-7 sm:p-10"><p className="section-kicker">02 / Engineering</p><h2 className="mt-4 text-2xl font-medium tracking-tight">The approach</h2><p className="mt-5 leading-8 text-zinc-300">{project.solution}</p><p className="text-muted mt-5 leading-8">{project.body}</p></section>
-          </div>
-          <div className="space-y-5">
-            <section className="panel p-7 sm:p-10"><p className="section-kicker">03 / Toolkit</p><h2 className="mt-4 text-2xl font-medium tracking-tight">Technologies</h2><ul className="mt-6 flex flex-wrap gap-2">{project.tech.map((technology) => <li key={technology} className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 font-mono text-xs text-zinc-300">{technology}</li>)}</ul></section>
-            <section className="panel p-7 sm:p-10"><p className="section-kicker">04 / Purpose</p><h2 className="mt-4 text-2xl font-medium tracking-tight">Intended contribution</h2><p className="text-muted mt-5 leading-8">{project.impact}</p></section>
-          </div>
+  return <main id="main" className={styles.page}>
+    <article className={`container-shell ${styles.caseHero}`}>
+      <Link href="/projects" className={styles.back}>← The project collection</Link>
+      <header>
+        <p className={styles.eyebrow}>{String(index + 1).padStart(2, '0')} / Engineering case study</p>
+        <h1 className={styles.caseTitle}><TextReveal text={project.name} /></h1>
+        <p className={styles.caseIntro}>{project.short}</p>
+        <dl className={styles.caseMeta}>
+          <div><dt>Engineering domain</dt><dd>{project.category}</dd></div>
+          <div><dt>Project status</dt><dd>{project.stage}<br />Developed by Mohammed Vashir</dd></div>
+          <div><dt>Difficulty</dt><dd><span className={styles.badge} data-level={project.difficulty}>{project.difficulty}</span></dd></div>
+        </dl>
+      </header>
+      <div className={styles.caseLayout}>
+        <nav className={styles.caseNav} aria-label="Project sections"><a href="#problem">01 / The problem</a><a href="#approach">02 / The approach</a><a href="#technologies">03 / Technologies</a><a href="#contribution">04 / Contribution</a><a href="#validation">05 / Development record</a></nav>
+        <div className={styles.caseContent}>
+          <section id="problem" className={styles.caseBlock}><Reveal><h2>The problem.</h2><p>{project.problem}</p></Reveal></section>
+          <section id="approach" className={styles.caseBlock}><Reveal><h2>The engineering approach.</h2><p>{project.solution}</p><p>{project.body}</p></Reveal></section>
+          <section id="technologies" className={styles.caseBlock}><Reveal><h2>The toolkit.</h2><ul className={styles.caseTech}>{project.tech.map(technology => <li key={technology}>{technology}</li>)}</ul></Reveal></section>
+          <section id="contribution" className={styles.caseBlock}><Reveal><h2>Engineering contribution.</h2><p>{project.impact}</p></Reveal></section>
+          <section id="validation" className={styles.validation} aria-labelledby="validation-heading"><h2 id="validation-heading">Technical scope</h2><p>{project.validation}</p></section>
         </div>
-        <section className="mt-5 rounded-2xl border border-red-500/20 bg-red-500/[0.035] p-7 sm:p-10" aria-labelledby="validation-heading"><p className="section-kicker">Development record</p><h2 id="validation-heading" className="mt-4 text-2xl font-medium tracking-tight">What has been established</h2><p className="mt-5 max-w-4xl leading-8 text-zinc-300">{project.validation}</p></section>
-        <div className="flex flex-col gap-6 border-b border-white/10 py-12 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xl font-medium">Have a related challenge?</p><p className="text-muted mt-2 text-sm">Start with your goal. We will work through the possibilities.</p></div><Link href={`/account?project=${project.id}`} className="button-primary shrink-0">Enquire about a similar project <span aria-hidden="true">↗</span></Link></div>
-        <nav className="flex flex-col gap-6 pt-8 text-sm sm:flex-row sm:items-center sm:justify-between" aria-label="More projects"><Link href="/projects" className="text-zinc-400 transition-colors hover:text-white">← All projects</Link><Link href={`/projects/${next.id}`} className="text-zinc-300 transition-colors hover:text-red-400">Next: {next.name} <span aria-hidden="true">→</span></Link></nav>
-      </article>
-    </main>
-  );
+      </div>
+      <section className={styles.invite}><div><h2>Have a related <span className={styles.accent}>challenge?</span></h2><p>Start with your goal. We will work through the possibilities.</p></div><Link href={`/account?project=${project.id}`} className="button-primary">Discuss a similar project</Link></section>
+      <nav aria-label="More projects"><Link className={styles.nextProject} href={`/projects/${next.id}`}><div><span>Next in the collection</span><strong>{next.name}</strong></div></Link></nav>
+    </article>
+  </main>;
 }

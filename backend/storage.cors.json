@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://4tech-9cy.pages.dev"],
+    "method": ["GET", "HEAD"],
+    "responseHeader": ["Content-Type", "Content-Disposition"],
+    "maxAgeSeconds": 3600
+  }
+]

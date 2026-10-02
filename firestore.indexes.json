@@ -1,0 +1,17 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    { "collectionGroup": "requests", "fieldPath": "createdAt", "indexes": [
+      { "order": "ASCENDING", "queryScope": "COLLECTION" },
+      { "order": "DESCENDING", "queryScope": "COLLECTION" },
+      { "order": "DESCENDING", "queryScope": "COLLECTION_GROUP" }
+    ] },
+    { "collectionGroup": "quotes", "fieldPath": "createdAt", "indexes": [
+      { "order": "ASCENDING", "queryScope": "COLLECTION" },
+      { "order": "DESCENDING", "queryScope": "COLLECTION" },
+      { "order": "DESCENDING", "queryScope": "COLLECTION_GROUP" }
+    ] },
+    { "collectionGroup": "visitorSessions", "fieldPath": "expiresAt", "ttl": true, "indexes": [] },
+    { "collectionGroup": "visitorDays", "fieldPath": "expiresAt", "ttl": true, "indexes": [] }
+  ]
+}

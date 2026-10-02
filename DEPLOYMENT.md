@@ -87,7 +87,7 @@ After the hosting provider reports success:
 5. Submit a small verified test enquiry and confirm the server acknowledges it. Verify another customer cannot read or change it. Confirm an owner change to `status` or `updateMessage` appears only in the intended customer's history.
 6. Remove test records and accounts appropriately. Deleting only the Authentication user does not delete their Firestore documents.
 
-Enquiry notifications are not automated. The owner must check Firebase and communicate manually. These steps are release checks to perform, not a claim that live services have already passed.
+In-app notifications, quotations and owner updates require the new Firestore rules and owner role. Private uploads and optional email delivery require separate backend activation; they default to disabled. Consult the backend activation guide before enabling either public feature flag. These steps are release checks to perform, not a claim that live services have already passed.
 
 ## Optional custom domain later
 
@@ -97,7 +97,7 @@ Choose and register a domain only when you want one. For the current hosting, ad
 
 Use the URL-prefix property `https://4tech-9cy.pages.dev/` in [Google Search Console](https://search.google.com/search-console). The public Google ownership tag is configured in `app/layout.tsx` using `metadata.verification.google`. Keep it in future deployments so ownership remains verified; it is a public verification value, not a private API credential.
 
-Under **Sitemaps**, submit `https://4tech-9cy.pages.dev/sitemap.xml`. The sitemap lists the 20 public pages and excludes the customer account. Use **URL inspection** for the homepage or a substantially updated page, then **Request indexing** when appropriate. Inspect the indexing reports for Google's actual crawl and indexing status. Submission does not guarantee inclusion or a ranking.
+Under **Sitemaps**, submit `https://4tech-9cy.pages.dev/sitemap.xml`. The sitemap lists the 20 public pages and excludes customer and owner dashboards. Use **URL inspection** for the homepage or a substantially updated page, then **Request indexing** when appropriate. Inspect the indexing reports for Google's actual crawl and indexing status. Submission does not guarantee inclusion or a ranking.
 
 If the production domain changes, verify the new property, update the canonical origin and submit its sitemap. Keep the current property while planning a migration. [Google's verification guide](https://support.google.com/webmasters/answer/9008080) and [URL Inspection guide](https://support.google.com/webmasters/answer/9012289).
 

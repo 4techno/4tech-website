@@ -7,9 +7,10 @@ import {
   signInWithPopup, signOut as firebaseSignOut, updateProfile, validatePassword, type User,
 } from "firebase/auth";
 import {
-  addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, type Unsubscribe,
+  addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc, type Unsubscribe,
 } from "firebase/firestore";
 import { getFirebaseClient, type FirebaseClient } from "@/lib/firebase";
+import { recordConsentedSignIn } from "@/lib/visitor-client";
 
 export const requestCategories = [
   "College project support", "School project support", "Startup prototyping",
@@ -51,7 +52,14 @@ function timestampMillis(value: unknown): number | null {
 }
 
 const stringValue = (value: unknown, fallback = "") => typeof value === "string" ? value : fallback;
-const customerFromUser = (user: User): Customer => ({ uid: user.uid, displayName: user.displayName ?? "", email: user.email ?? "", verified: user.emailVerified });
+const customerFromUser = (user: User): Customer => {
+  return {
+    uid: user.uid,
+    displayName: user.displayName ?? "",
+    email: user.email ?? "",
+    verified: user.emailVerified,
+  };
+};
 
 export function useCustomerAccount() {
   const clientRef = useRef<FirebaseClient | null>(null);
@@ -184,7 +192,8 @@ export function useCustomerAccount() {
     try {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: "select_account" });
-      await signInWithPopup(client.auth, provider);
+      const result = await signInWithPopup(client.auth, provider);
+      void recordConsentedSignIn(result.user.uid).catch(() => { /* Optional reporting never blocks authentication. */ });
       if (lifecycle.current === mounted) setAuthStatus("");
     } catch (error) {
       if (lifecycle.current === mounted) handleProviderError(error, "google");
@@ -214,7 +223,10 @@ export function useCustomerAccount() {
         try { await updateProfile(result.user, { displayName }); } catch { /* Account remains usable with its email label. */ }
         if (lifecycle.current === mounted && client.auth.currentUser?.uid === result.user.uid) setCustomer(customerFromUser(result.user));
         // Email verification is sent only when the customer clicks its dedicated button.
-      } else await signInWithEmailAndPassword(client.auth, input.email.trim(), input.password);
+      } else {
+        const result = await signInWithEmailAndPassword(client.auth, input.email.trim(), input.password);
+        void recordConsentedSignIn(result.user.uid).catch(() => { /* Optional reporting never blocks authentication. */ });
+      }
       if (lifecycle.current === mounted) setAuthStatus("");
     } catch (error) {
       if (lifecycle.current === mounted) handleProviderError(error, "email");
@@ -279,17 +291,19 @@ export function useCustomerAccount() {
     }
   }
 
-  async function signOut() {
+  async function signOut(): Promise<boolean> {
     const client = clientRef.current;
-    if (!client || authInFlight.current) return;
+    if (!client || authInFlight.current) return false;
     const mounted = lifecycle.current;
     authInFlight.current = true;
     setAuthBusy(true);
     try {
       await firebaseSignOut(client.auth);
       if (lifecycle.current === mounted) setAuthStatus("You are signed out.");
+      return true;
     } catch {
       if (lifecycle.current === mounted) setRequestStatus("Sign-out could not be completed. Please try again.");
+      return false;
     } finally {
       authInFlight.current = false;
       if (lifecycle.current === mounted) setAuthBusy(false);
@@ -322,6 +336,9 @@ export function useCustomerAccount() {
       if (stillCurrent()) setRequestStatus("Still waiting for server confirmation. Keep this page open; your request has not yet been confirmed.");
     }, 12000);
     try {
+      await setDoc(doc(client.db, "users", current.uid), {
+        displayName: (current.displayName ?? "").slice(0, 80), email: current.email ?? "", updatedAt: serverTimestamp(),
+      });
       await addDoc(collection(client.db, "users", current.uid, "requests"), {
         ...values, status: "Submitted", createdAt: serverTimestamp(),
       });

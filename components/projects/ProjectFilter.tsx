@@ -1,6 +1,7 @@
 'use client';
 import { Children, useEffect, useState, type ReactNode } from 'react';
 import Reveal from '../reveal';
+import styles from './secondary.module.css';
 
 type Level = 'Research Level' | 'Advanced' | 'Intermediate';
 type SearchEntry = { id: string; text: string; difficulty: Level };
@@ -21,20 +22,20 @@ export function ProjectFilter({ entries, children }: { entries: readonly SearchE
   const visible = entries.map(entry => (level === 'All' || entry.difficulty === level) && words.every(word => entry.text.toLowerCase().includes(word)));
   const count = visible.filter(Boolean).length;
   return <div>
-    <div className="project-controls">
-      <div className="project-level-filters" role="group" aria-label="Filter by difficulty">
+    <div className={styles.controls}>
+      <div className={styles.filterTabs} role="group" aria-label="Filter by difficulty">
         {(['All', ...groups.map(group => group.level)] as const).map(item => <button type="button" key={item} aria-pressed={level === item} disabled={!enabled} onClick={() => setLevel(item)} aria-controls="project-results">{item === 'All' ? 'All engineering' : item}</button>)}
       </div>
-      <div className="project-search-row"><div><label htmlFor="project-search" className="section-kicker">Search the portfolio</label><input id="project-search" type="search" value={query} onChange={event => setQuery(event.target.value)} disabled={!enabled} placeholder="Project, domain or technology…" aria-controls="project-results" /></div><p role="status" aria-live="polite" aria-atomic="true">{count} of {entries.length} projects</p></div>
+      <div className={styles.searchRow}><div className={styles.searchField}><label htmlFor="project-search">Search by project, domain or technology</label><input id="project-search" type="search" value={query} onChange={event => setQuery(event.target.value)} disabled={!enabled} placeholder="Try RF, robotics or ESP32…" aria-controls="project-results" /></div><div className={styles.resultCount}><p role="status" aria-live="polite" aria-atomic="true">{count} of {entries.length} projects</p>{(query || level !== 'All') && <button type="button" onClick={() => { setQuery(''); setLevel('All'); }}>Clear filters</button>}</div></div>
     </div>
     <noscript><p className="mb-8 text-sm text-zinc-400">Browse every project below. Search and filters become available with JavaScript.</p></noscript>
-    <div id="project-results">{groups.map((group, groupIndex) => {
+    <div id="project-results">{groups.map(group => {
       const indexes = entries.flatMap((entry, index) => entry.difficulty === group.level && visible[index] ? [index] : []);
-      return <section key={group.level} id={group.id} className="project-level-section" hidden={!indexes.length} aria-labelledby={`${group.id}-heading`}>
-        <div className="project-level-heading"><div><p className="section-kicker">{`{ 0${groupIndex + 1} / ${group.level.toUpperCase()} }_`}</p><h2 id={`${group.id}-heading`}>{group.title}</h2></div><p>{group.description}</p></div>
-        <div className="engineering-grid">{indexes.map((index, order) => <Reveal key={entries[index].id} delay={(order % 2) * .07}>{cards[index]}</Reveal>)}</div>
+      return <section key={group.level} id={group.id} className={styles.levelSection} hidden={!indexes.length} aria-labelledby={`${group.id}-heading`}>
+        <div className={styles.levelHeading}><h2 id={`${group.id}-heading`}>{group.title}</h2><p>{group.description}</p></div>
+        <div className={styles.projectGrid}>{indexes.map((index, order) => <Reveal key={entries[index].id} delay={(order % 2) * .07}>{cards[index]}</Reveal>)}</div>
       </section>;
     })}</div>
-    {count === 0 && <div className="panel px-6 py-16 text-center"><h2 className="text-xl text-zinc-200">No matching projects.</h2><p className="mt-3 text-sm text-zinc-400">Try RF, robotics, sensors or another difficulty level.</p><button type="button" className="button-secondary mt-7" onClick={() => { setQuery(''); setLevel('All'); }}>Reset filters</button></div>}
+    {count === 0 && <div className={styles.empty}><h2>No matching projects.</h2><p>Try RF, robotics, sensors or another difficulty level.</p><button type="button" className="button-secondary" onClick={() => { setQuery(''); setLevel('All'); }}>Reset filters</button></div>}
   </div>;
 }

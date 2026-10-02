@@ -1,36 +1,114 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isOwner(uid) {
-      return request.auth != null && request.auth.uid == uid;
-    }
-
-    function verifiedOwner(uid) {
-      return isOwner(uid) && request.auth.token.email_verified == true;
-    }
-
-    function validRequest() {
-      let data = request.resource.data;
+    function signedIn() { return request.auth != null; }
+    function customer(uid) { return signedIn() && request.auth.uid == uid; }
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
+    function owner() { return verified() && request.auth.token.owner == true && request.auth.token.email == 'mohammedvashir75@gmail.com'; }
+    function participant(uid) { return customer(uid) || owner(); }
+    function validStatus(status) { return status in ['Submitted', 'Reviewing', 'Planning', 'In progress', 'Ready for review', 'Completed', 'On hold']; }
+    function bounded(value, min, max) { return value is string && value.size() >= min && value.size() <= max; }
+    function requestExists(uid, rid) { return exists(/databases/$(database)/documents/users/$(uid)/requests/$(rid)); }
+    function validRequest(data) {
       return data.keys().hasAll(['title', 'category', 'timeline', 'details', 'status', 'createdAt'])
         && data.keys().hasOnly(['title', 'category', 'timeline', 'details', 'status', 'createdAt'])
-        && data.title is string && data.title.size() >= 3 && data.title.size() <= 120
-        && data.category is string && data.category.size() >= 1 && data.category.size() <= 80
-        && data.timeline is string && data.timeline.size() <= 100
-        && data.details is string && data.details.size() >= 10 && data.details.size() <= 6000
-        && data.status is string && data.status == 'Submitted'
-        && data.createdAt is timestamp && data.createdAt == request.time;
+        && bounded(data.title, 3, 120) && bounded(data.category, 1, 80)
+        && bounded(data.timeline, 0, 100) && bounded(data.details, 10, 6000)
+        && data.status == 'Submitted' && data.createdAt == request.time;
     }
-
-    match /users/{uid}/requests/{requestId} {
-      allow read: if isOwner(uid);
-      allow create: if verifiedOwner(uid) && validRequest();
-      // Customers cannot edit workflow status or remove submissions.
-      // The founder can manage status in the Firebase console with appropriate IAM access.
-      allow update, delete: if false;
+    function validFile(data, path, imageOnly) {
+      return data.keys().hasAll(['name', 'storagePath', 'contentType', 'size', 'createdAt'])
+        && data.keys().hasOnly(['name', 'storagePath', 'contentType', 'size', 'createdAt'])
+        && bounded(data.name, 1, 180) && data.storagePath == path
+        && data.size is int && data.size > 0 && data.size <= (imageOnly ? 8388608 : 10485760)
+        && (data.contentType in ['image/jpeg', 'image/png', 'image/webp', 'image/avif'] || (!imageOnly && data.contentType == 'application/pdf'))
+        && data.createdAt == request.time;
     }
-
-    match /{document=**} {
-      allow read, write: if false;
+    match /users/{uid} {
+      allow read: if participant(uid);
+      allow create, update: if customer(uid) && verified()
+        && request.resource.data.keys().hasOnly(['displayName', 'email', 'updatedAt'])
+        && request.resource.data.keys().hasAll(['displayName', 'email', 'updatedAt'])
+        && bounded(request.resource.data.displayName, 0, 80)
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if false;
+      match /requests/{rid} {
+        allow read: if participant(uid);
+        allow create: if customer(uid) && verified() && validRequest(request.resource.data);
+        allow update: if owner()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updateMessage', 'updatedAt'])
+          && validStatus(request.resource.data.status)
+          && bounded(request.resource.data.updateMessage, 3, 4000)
+          && request.resource.data.updatedAt == request.time;
+        allow delete: if false;
+        match /updates/{id} {
+          allow read: if participant(uid);
+          allow create: if owner() && requestExists(uid, rid)
+            && request.resource.data.keys().hasOnly(['status', 'message', 'createdAt'])
+            && validStatus(request.resource.data.status) && bounded(request.resource.data.message, 3, 4000)
+            && request.resource.data.createdAt == request.time;
+          allow update, delete: if false;
+        }
+        match /quotes/{id} {
+          allow read: if participant(uid);
+          allow create: if owner() && requestExists(uid, rid)
+            && request.resource.data.keys().hasAll(['title', 'scope', 'amountPaise', 'currency', 'terms', 'status', 'validUntil', 'createdAt', 'respondedAt'])
+            && request.resource.data.keys().hasOnly(['title', 'scope', 'amountPaise', 'currency', 'terms', 'status', 'validUntil', 'createdAt', 'respondedAt'])
+            && bounded(request.resource.data.title, 3, 120) && bounded(request.resource.data.scope, 10, 6000)
+            && bounded(request.resource.data.terms, 10, 4000)
+            && request.resource.data.amountPaise is int && request.resource.data.amountPaise >= 100 && request.resource.data.amountPaise <= 1000000000
+            && request.resource.data.currency == 'INR' && request.resource.data.status == 'Sent'
+            && request.resource.data.respondedAt == null && request.resource.data.createdAt == request.time
+            && request.resource.data.validUntil is timestamp && request.resource.data.validUntil > request.time
+            && request.resource.data.validUntil <= request.time + duration.value(366, 'd');
+          allow update: if customer(uid) && verified() && resource.data.status == 'Sent'
+            && resource.data.validUntil > request.time
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'respondedAt'])
+            && request.resource.data.status in ['Accepted', 'Declined'] && request.resource.data.respondedAt == request.time;
+          allow delete: if false;
+        }
+        match /files/{id} {
+          allow read: if participant(uid);
+          allow create: if participant(uid) && verified() && requestExists(uid, rid)
+            && validFile(request.resource.data, 'request-files/' + uid + '/' + rid + '/' + id, false);
+          allow update, delete: if false;
+        }
+      }
+      match /notifications/{id} {
+        allow read: if participant(uid);
+        allow create: if owner() && request.resource.data.keys().hasOnly(['title', 'body', 'requestId', 'read', 'createdAt'])
+          && bounded(request.resource.data.title, 3, 120) && bounded(request.resource.data.body, 1, 500)
+          && requestExists(uid, request.resource.data.requestId)
+          && request.resource.data.read == false && request.resource.data.createdAt == request.time;
+        allow update: if customer(uid) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read'])
+          && request.resource.data.read == true;
+        allow delete: if false;
+      }
+      match /preferences/{id} {
+        allow read: if participant(uid);
+        allow create, update: if id == 'notifications' && customer(uid) && verified()
+          && request.resource.data.keys().hasOnly(['emailEnabled', 'updatedAt'])
+          && request.resource.data.emailEnabled is bool && request.resource.data.updatedAt == request.time;
+        allow delete: if false;
+      }
     }
+    // Enables the owner's collection-group inbox; no other role can list all requests.
+    match /{path=**}/requests/{rid} { allow read: if owner(); }
+    match /{path=**}/quotes/{qid} { allow read: if owner(); }
+    // Visitors never write analytics directly; the App Check protected callable
+    // validates consent, identity, paths, limits, timestamps and counters.
+    match /visitorSessions/{id} { allow read: if owner(); allow write: if false; }
+    match /visitorDays/{id} { allow read: if owner(); allow write: if false; }
+    match /authEvents/{id} { allow read: if owner(); allow write: if false; }
+    match /ownerMedia/{uid}/{category}/{id} {
+      allow read: if owner() && request.auth.uid == uid && category in ['personal', 'business'];
+      allow create: if owner() && request.auth.uid == uid && category in ['personal', 'business']
+        && validFile(request.resource.data, 'owner-media/' + uid + '/' + category + '/' + id, true);
+      allow delete: if owner() && request.auth.uid == uid && category in ['personal', 'business'];
+      allow update: if false;
+    }
+    match /mailDeliveries/{id} { allow read, write: if false; }
+    match /{document=**} { allow read, write: if false; }
   }
 }

@@ -7,3 +7,9 @@ node_modules/
 *.tsbuildinfo
 next-env.d.ts
 out/
+**/.wrangler/
+**/.dry-run/
+**/*debug.log
+**/latest-rules-test.log
+preview-local*.log
+backend/security-tests/portal-rules-test-report.json

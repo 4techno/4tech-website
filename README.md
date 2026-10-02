@@ -30,7 +30,7 @@ Customer services need an internet connection. Local previews use the Firebase p
 
 ## Visual direction
 
-The premium design refresh adds a centered Astra hero, masked word reveals, a keyboard-accessible engineering process and an original pixel-light contact field. Service cards remain stationary. See [DESIGN-NOTES.md](DESIGN-NOTES.md) for the reference map, motion controls and editing guide.
+The visual refresh combines an interactive Three.js engineering instrument, Anime.js signal traces, a scroll-responsive assembly, and the uploaded portfolio's cinematic chapter structure. The portfolio has its own browser-only 3D scene; readable content and navigation render on the server. Service panels remain stationary. Personal photos are not included in the public release. See [DESIGN-NOTES.md](DESIGN-NOTES.md).
 
 ## Architecture
 
@@ -39,9 +39,10 @@ The premium design refresh adds a centered Astra hero, masked word reveals, a ke
 | `app/page.tsx` | Business introduction, services, founder and contact sections. The project catalogue remains on its own route. |
 | `app/layout.tsx` | Shared page shell, metadata defaults and local typography. |
 | `app/portfolio/page.tsx`, `app/resume/page.tsx`, `lib/profile.ts` | Personal portfolio, résumé and owner-supplied profile content. |
-| `config.js` | Public `siteConfig` content and `siteUrl(path)` helper. Founder image and social/contact links are owner maintained. |
-| `components/galaxy-experience.tsx` | Small client wrapper that loads the WebGL galaxy with `next/dynamic` and `ssr: false`. Handles motion preferences, pause state and visibility. |
-| `components/galaxy/*` | Browser-only Three.js/React Three Fiber scene. |
+| `config.js` | Public `siteConfig` content and `siteUrl(path)` helper. Owner-maintained social/contact links. No public portrait is configured. |
+| `components/engine/` | Lazy-loaded Three.js/React Three Fiber instrument, particle physics, motion controls and fallback. |
+| `components/engineering-lab.tsx`, `components/scroll-assembly.tsx` | Scoped Anime.js signal and scroll interactions with cleanup. |
+| `components/portfolio/` | Cinematic personal portfolio, chapter navigation and isolated 3D presentation. |
 | `components/expertise-experience.tsx` | Client wrapper for optional card interaction, while service content stays available in the initial HTML. |
 | `app/projects/page.tsx` | Public server-rendered catalogue, metadata and all 15 project cards. |
 | `components/projects/ProjectFilter.tsx` | Search and difficulty grouping around server-rendered cards. The complete collection remains available with JavaScript disabled. |
@@ -49,10 +50,10 @@ The premium design refresh adds a centered Astra hero, masked word reveals, a ke
 | `lib/projects.ts` | Typed records, three difficulty levels, ordering ranks and the four selected projects, alongside technical descriptions and validation status. |
 | `components/projects/` | Project cards, search/grouping and illustrative engineering visuals. |
 | `components/social-links.tsx` | Accessible SVG social/contact icons using the centralized links in `config.js`. |
-| `app/account/*`, `components/account/*` | Customer page, forms, authentication state and private enquiry history. |
+| `app/account/*`, `app/owner/*`, `components/account/*` | Customer enquiries, quotations, notifications, owner updates and separate private photo libraries. |
 | `lib/firebase.ts` | Browser-only initialization and public Firebase web configuration. |
-| `firestore.rules` | Firebase database permissions; deploy separately, never place in `public/`. |
-| `public/assets/` | Founder photo and downloadable résumé. |
+| `firestore.rules`, `storage.rules`, `backend/` | Separate backend permissions, optional email delivery and owner provisioning. Activation is documented separately; a frontend deployment does not activate these services. |
+| `public/assets/` | Downloadable résumé. Personal photos stay out of this folder. |
 
 Server Components provide the public text, cards, navigation and case studies. Browser-dependent animation and Firebase interaction stay in Client Components. The `ssr: false` dynamic import lives inside a `'use client'` wrapper rather than a server page; this follows [Next.js lazy-loading guidance](https://nextjs.org/docs/app/guides/lazy-loading).
 
@@ -60,7 +61,7 @@ The project routes enumerate all 15 IDs with `generateStaticParams`, await the N
 
 ## Edit content
 
-Edit `config.js` to change `siteConfig.founder.name`, `image`, `imageAlt` or `imagePosition`. Put a replacement photo under `public/assets/` and use a URL such as `/assets/founder-photo.jpg`. The image is a public asset. Changing the source requires rebuilding and redeploying; visitors cannot replace the hosted photo through the website.
+Edit `config.js` to change `siteConfig.founder.name` and public contact destinations. The founder image is deliberately `null`; the portfolio uses a technical 3D illustration. After private storage and owner access are provisioned, `/owner` has separate personal and business photo libraries. Uploading there does not publish an image. Do not put private photographs under `public/`.
 
 The same configuration centralizes `siteConfig.socials` and `siteConfig.contacts`. The icon row includes Instagram, LinkedIn, WhatsApp, GitHub, email and Reddit using the supplied destinations. There is no YouTube link because no channel was supplied. Updating a supported destination in the configuration updates its shared link; adding a new platform also requires its accessible icon support in `components/social-links.tsx`.
 
@@ -94,7 +95,7 @@ Do not add invented testimonials, BOM prices, completion claims or performance f
 
 The configured Firebase project is **`tech-customer-portal`**, with `tech-customer-portal.firebaseapp.com` as the authentication domain. Google and email/password authentication must be enabled in that project's console. Add every real sign-in hostname to **Authentication → Settings → Authorized domains**, including the new Vercel or custom hostname before launch. Do not replace `authDomain` with that hostname for the current popup implementation.
 
-Customers need a verified email address to create an enquiry. The supplied rules restrict reads to the signed-in user's `users/{uid}/requests` path and deny customer changes to workflow status. The owner uses Firebase Authentication's Users list to find a customer's UID, then opens the matching request in Firestore. Edit the string field `status` and, optionally, the string field `updateMessage` to share an update. There is no automatic owner inbox notification or customer update email in this version; review and follow-up are manual.
+Customers need a verified email address to create an enquiry. The rules restrict customers to their own records and reserve workflow updates for a verified account with an administrator-provisioned `owner` custom claim. `/owner` provides the enquiry inbox, quotations, updates and separate private personal/business photo libraries. Customers can accept or decline an unexpired quotation and read their own notifications. Uploads and optional customer email require separate service activation and default to disabled. Frontend buttons are not the security boundary: deploy the matching rules and validate the live configuration before launch.
 
 Read the included [customer-area owner guide](CUSTOMER-AREA-OWNER-GUIDE.md) for console procedures, privacy handling and live permission checks. The configuration is `lib/firebase.ts`, the customer/privacy routes are `/account` and `/privacy`, and public assets are under `public/`. Deployment follows [DEPLOYMENT.md](DEPLOYMENT.md).
 

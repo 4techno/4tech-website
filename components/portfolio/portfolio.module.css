@@ -1,0 +1,141 @@
+.page{--copper:#666666;--muted:#626262;color:#1a1a1a;background:transparent;overflow:clip;padding-top:100px}
+.page h1,.page h2,.page h3{font-weight:500;letter-spacing:-.035em;line-height:1.05}
+.page a,.page button,.page summary{-webkit-tap-highlight-color:transparent}
+.page a:focus-visible,.page button:focus-visible,.page summary:focus-visible{outline:2px solid #1a1a1a;outline-offset:6px}
+.hero{display:grid;grid-template-columns:1.08fr 1fr;align-items:center;min-height:590px;padding:20px 0 70px;gap:20px}
+.heroCopy{position:relative;z-index:1}
+.kicker{font:10px/1.7 'Geist Mono Variable',monospace;text-transform:uppercase;letter-spacing:.09em;color:#626262;margin:0 0 26px}
+.kicker span{color:#1a1a1a;margin-right:10px}
+.hero h1{font-size:clamp(64px,7.35vw,108px);margin:0 0 28px;line-height:.98;letter-spacing:-.045em}
+.hero h1>span{color:var(--copper)}
+.heroRole{font-size:21px;line-height:1.45;color:#444444;margin:0 0 20px}
+.heroDescription{font-size:14px;line-height:1.85;color:var(--muted);max-width:340px;margin:0}
+.heroActions{display:flex;flex-wrap:wrap;align-items:center;gap:28px;margin-top:32px}
+.textLink{font-size:12px;color:#1a1a1a;display:inline-flex;gap:24px;align-items:center;border-bottom:1px solid #1a1a1a44;padding-block:12px;white-space:nowrap;transition:color .2s,border-color .2s}
+.textLink:hover{color:#000000;border-color:#1a1a1a}
+.textLink span{color:#1a1a1a}
+.stage{position:relative;width:115%;margin-left:-8%;min-width:0}
+.stage::before{content:'';position:absolute;inset:12% 4% 16%;border-radius:50%;background:radial-gradient(ellipse,#00000008,transparent 67%);pointer-events:none}
+.stageCanvas{height:490px;position:relative;isolation:isolate}
+.stageCanvas canvas{touch-action:pan-y}
+.stageControls{position:relative;z-index:1;display:flex;justify-content:center;align-items:center;gap:18px;margin-top:-6px}
+.modeButtons{display:flex;gap:3px;background:#ededE7;border:1px solid #1a1a1a1c;padding:5px;border-radius:6px}
+.modeButtons button,.pauseButton{font:9px 'Geist Mono Variable',monospace;color:#606060;border:0;background:transparent;padding:11px 12px;border-radius:3px;cursor:pointer;transition:background .2s,color .2s}
+.modeButtons button[aria-pressed=true]{color:#ffffff;background:#1a1a1a}
+.modeButtons button:hover,.pauseButton:hover{color:#000000;background:#00000008}
+.pauseButton{padding:12px 6px}
+.stageCaption{text-align:center;font:10px/1.7 'Geist Mono Variable',monospace;color:#656565;margin:19px 0 0}
+.stageFallback{position:absolute;inset:10%;display:grid;place-items:center;perspective:800px}
+.stageFallback i{position:absolute;width:80%;height:80%;border:1px solid #aaaaaa66;border-radius:50%;transform:rotateY(50deg) rotateZ(-30deg)}
+.stageFallback i:nth-child(2){width:65%;height:65%;transform:rotateX(60deg) rotateZ(35deg);border-color:#ffffff99}
+.stageFallback i:nth-child(3){width:52%;height:52%;border-style:dashed;transform:rotateY(-30deg)}
+.stageFallback span{font:500 64px 'Geist Variable',sans-serif;letter-spacing:-.09em;color:#cccccc}
+.chapterNav{position:sticky;top:76px;z-index:20;border-block:1px solid #1a1a1a1c;background:#f5f5f0ee;backdrop-filter:blur(16px)}
+.chapterNav>div{display:flex;justify-content:space-between;gap:22px;padding-block:21px}
+.chapterNav a{font:10px 'Geist Mono Variable',monospace;color:#606060;display:flex;align-items:center;gap:13px;transition:color .2s}
+.chapterNav a span{font-size:8px;color:#777777}
+.chapterNav a[aria-current=location],.chapterNav a:hover{color:#1a1a1a}
+.chapterNav a[aria-current=location] span{color:#1a1a1a}
+.biography{padding-block:110px 120px}
+.manifesto{font-size:clamp(28px,3.5vw,48px);font-weight:400;letter-spacing:-.045em;line-height:1.3;max-width:1000px;margin:0 0 50px}
+.manifesto span{color:#737373}
+.bioColumns{display:grid;grid-template-columns:1.2fr 1fr;gap:12%}
+.bioColumns>p{font-size:14px;line-height:1.95;color:var(--muted);margin:0;max-width:580px}
+.bioColumns dl{margin:0}
+.bioColumns dl>div{display:grid;grid-template-columns:105px 1fr;gap:20px;padding:13px 0;border-bottom:1px solid #1a1a1a20}
+.bioColumns dt{font:9px/1.8 'Geist Mono Variable',monospace;text-transform:uppercase;color:#6b6b6b}
+.bioColumns dd{font-size:12px;color:#333333;margin:0;line-height:1.7}
+.chapter{padding-block:110px;border-top:1px solid #1a1a1a20;scroll-margin-top:80px}
+.chapter h2,.contact h2{font-size:clamp(43px,5.7vw,82px);margin:0 0 24px}
+.chapter h2>span,.contact h2>span{color:var(--copper)}
+.sectionDescription{font-size:14px;line-height:1.9;color:var(--muted);max-width:530px;margin:0}
+.workGrid{display:grid;grid-template-columns:1fr 1fr;gap:40px 28px;margin-top:50px}
+.workGrid>div{min-width:0;height:100%}
+.collectionFoot{display:flex;gap:25px;align-items:center;justify-content:space-between;margin-top:35px}
+.collectionFoot p{font-size:12px;color:var(--muted);max-width:370px;line-height:1.8}
+.skills{margin-top:60px}
+.skillRow{display:grid;grid-template-columns:65px 1.15fr 1fr;gap:30px;border-top:1px solid #1a1a1a20;padding:36px 0}
+.skillIndex{font:12px 'Geist Mono Variable',monospace;color:#6b6b6b;padding-top:7px}
+.skillRow h3{font-size:30px;margin:0 0 15px}
+.skillRow p{font-size:12px;color:var(--muted);margin:0;line-height:1.8}
+.skillRow ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-content:flex-start;gap:10px}
+.skillRow li{font:10px/1.5 'Geist Mono Variable',monospace;color:#555555;border:1px solid #1a1a1a24;border-radius:3px;padding:9px 11px}
+.skillProject{display:inline-block;margin-top:22px;font-size:11px;color:#1a1a1a}
+.education{display:grid;grid-template-columns:1.2fr 1fr;gap:14%;margin-top:55px;padding-top:55px;border-top:1px solid #1a1a1a20}
+.education h3{font-size:37px;line-height:1.12;margin:0 0 25px}
+.education p:not(.kicker){font-size:12px;color:var(--muted);line-height:1.95;max-width:400px}
+.certifications article{padding:0 0 25px;margin-bottom:25px;border-bottom:1px solid #1a1a1a20}
+.certifications h4{font-size:18px;font-weight:400;margin:0 0 7px;letter-spacing:-.02em}
+.certifications p{margin:0 0 7px}
+.certifications small{font:9px 'Geist Mono Variable',monospace;color:#6b6b6b}
+.method{display:grid;grid-template-columns:1fr 1.12fr;gap:11%}
+.methodHeading{align-self:start;position:sticky;top:115px}
+.methodHeading .sectionDescription{max-width:300px}
+.methodSteps details{border-top:1px solid #1a1a1a25}
+.methodSteps details:last-child{border-bottom:1px solid #1a1a1a25}
+.methodSteps summary{list-style:none;display:flex;align-items:center;gap:25px;padding:28px 0;cursor:pointer;font-size:23px;letter-spacing:-.03em}
+.methodSteps summary::-webkit-details-marker{display:none}
+.methodIndex{font:9px 'Geist Mono Variable',monospace;color:#626262}
+.methodToggle{position:relative;width:13px;height:13px;margin-left:auto}
+.methodToggle::before,.methodToggle::after{content:'';position:absolute;background:#333333;left:0;top:6px;width:13px;height:1px}
+.methodToggle::after{transform:rotate(90deg);transition:transform .2s}
+.methodSteps details[open] .methodToggle::after{transform:rotate(0)}
+.methodSteps details[open] summary{color:#1a1a1a}
+.methodDetail{padding:0 0 30px 42px}
+.methodDetail h3{font-size:22px;letter-spacing:-.03em;line-height:1.4;margin:0 0 13px}
+.methodDetail p{font-size:13px;line-height:1.95;color:var(--muted);margin:0}
+.methodDetail ul{list-style:none;display:flex;flex-wrap:wrap;gap:13px;margin:22px 0 0;padding:0;font:9px/1.8 'Geist Mono Variable',monospace;color:#555555}
+.methodDetail li::before{content:'—';margin-right:8px;color:#777777}
+.contact{padding-block:100px 70px;border-top:1px solid #1a1a1a20;scroll-margin-top:90px}
+.contact h2{font-size:clamp(47px,7vw,100px)}
+.contact>div>p:not(.kicker){font-size:14px;color:var(--muted);line-height:1.85;max-width:460px}
+.contactBottom{display:flex;align-items:center;justify-content:space-between;gap:30px;margin-top:40px}
+.contactActions{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.resumeBand{display:flex;align-items:center;justify-content:space-between;gap:30px;border-top:1px solid #1a1a1a20;margin-top:75px;padding-top:35px}
+.resumeBand span{font-size:14px;color:#333333}
+.resumeBand p{font-size:11px;color:#626262;margin:10px 0 0}
+@media(min-width:1500px){.hero{min-height:710px}.stageCanvas{height:590px}}
+@media(min-width:768px) and (max-height:800px){.hero{min-height:480px;padding-block:0 35px}.hero h1{font-size:clamp(64px,6.7vw,94px);margin-bottom:20px}.heroRole{font-size:18px;margin-bottom:16px}.heroDescription{font-size:13px}.heroActions{margin-top:24px}.stageCanvas{height:clamp(320px,calc(100dvh - 275px),490px)}.kicker{margin-bottom:20px}}
+@media(max-width:1100px){.hero h1{font-size:72px}.hero{grid-template-columns:1.05fr 1fr}.stage{width:110%;margin-left:-7%}.stageCanvas{height:410px}.stageControls{gap:8px}.modeButtons button{padding:10px 8px;font-size:8px}.skillRow{grid-template-columns:35px 1fr 1fr;gap:20px}.skillRow h3{font-size:25px}}
+@media(max-width:767px){.hero{display:flex;flex-direction:column;align-items:stretch;gap:15px;padding-block:28px 36px;min-height:0}.hero h1{font-size:clamp(56px,14.8vw,88px);line-height:1.02}.heroRole{font-size:18px}.heroDescription{font-size:13px;max-width:100%}.heroActions{gap:25px;margin-top:26px}.kicker{font-size:8px;margin-bottom:20px}.stage{width:calc(100% + 30px);margin-left:-15px}.stageCanvas{height:350px}.stageControls{gap:14px}.modeButtons button{padding:12px 10px;font-size:8px}.stageCaption{font-size:9px;margin-top:14px}.chapterNav>div{gap:16px;overflow:auto;padding-block:18px;scrollbar-width:none}.chapterNav a{font-size:9px;gap:0;min-height:16px;white-space:nowrap}.chapterNav a span{display:none}.biography{padding-block:65px 70px}.manifesto{font-size:29px;margin-bottom:30px}.bioColumns{grid-template-columns:1fr;gap:25px}.bioColumns>p{font-size:13px}.bioColumns dt{font-size:8px}.bioColumns dd{font-size:11px}.chapter{padding-block:70px;scroll-margin-top:65px}.chapter h2{font-size:45px}.sectionDescription{font-size:13px}.workGrid{grid-template-columns:1fr;gap:26px;margin-top:32px}.collectionFoot{display:block;margin-top:25px}.collectionFoot p{font-size:11px}.skills{margin-top:35px}.skillRow{grid-template-columns:20px 1fr;gap:15px;padding-block:28px}.skillRow h3{font-size:26px}.skillRow ul{grid-column:2;gap:7px}.skillRow li{font-size:9px;padding:8px 9px}.skillProject{margin-top:13px}.education{grid-template-columns:1fr;gap:35px;margin-top:25px;padding-top:40px}.education h3{font-size:33px}.certifications article{margin-bottom:20px;padding-bottom:20px}.method{grid-template-columns:1fr;gap:30px}.methodHeading{position:static}.methodHeading h2{font-size:48px}.methodHeading .sectionDescription{max-width:none}.methodSteps summary{padding-block:24px;font-size:23px;gap:18px}.methodDetail{padding-left:35px}.contact{padding-block:70px 45px}.contact h2{font-size:clamp(41px,11vw,72px)}.contact>div>p:not(.kicker){font-size:13px}.contactBottom{align-items:flex-start;flex-direction:column;gap:35px;margin-top:30px}.contactActions{gap:24px}.resumeBand{align-items:flex-start;flex-direction:column;gap:15px;margin-top:45px;padding-top:28px}.resumeBand p{font-size:11px;line-height:1.8}.textLink{font-size:11px;gap:15px}}
+@media(max-width:370px){.modeButtons button{padding:11px 7px}.stageControls{gap:8px}.heroActions{gap:18px}.hero h1{font-size:54px}}
+@media(prefers-reduced-motion:reduce){.page *{scroll-behavior:auto;transition:none!important;animation:none!important}}
+
+/* The portfolio uses the same paper, ink and serif language as the company page. */
+.page h1,.page h2,.page h3,.page h4,.manifesto { font-family:var(--font-display,'DM Serif Display',Georgia,serif); font-weight:400; }
+.hero h1>span { font-style:italic; color:#707070; }
+.kicker { font-family:var(--font-inter,'Inter',sans-serif); font-size:11px; font-weight:600; letter-spacing:.15em; }
+.heroDescription,.bioColumns>p,.sectionDescription,.skillRow p,.methodDetail p,.contact>div>p:not(.kicker) { font-size:15px; }
+.stage { width:100%; margin-left:0; }
+.stage::before { display:none; }
+.stageCanvas { background:#101010; border:1px solid #252525; border-radius:18px; overflow:hidden; filter:grayscale(1); }
+.stageControls { margin-top:20px; }
+.stageCaption { margin-top:14px; }
+.modeButtons { border-radius:100px; background:#edede7; }
+.modeButtons button { border-radius:100px; min-height:40px; }
+.modeButtons button[aria-pressed=true]:hover { color:#fff; background:#333; }
+.pauseButton { min-height:44px; color:#444; }
+.stageFallback span { color:#ddd; font-family:var(--font-display,'DM Serif Display',Georgia,serif); }
+.chapterNav { border-color:#dcdcd5; }
+.chapterNav a { min-height:28px; }
+.chapterNav a[aria-current=location] { text-decoration:underline; text-underline-offset:6px; text-decoration-thickness:1px; }
+.skillRow li { border-radius:100px; background:#ffffff80; }
+.methodSteps summary { font-family:var(--font-display,'DM Serif Display',Georgia,serif); }
+.textLink:hover { color:#000; }
+@media(max-width:767px) {
+  .page { padding-top:88px; }
+  .stage { width:100%; margin-left:0; }
+  .stageCanvas { height:340px; border-radius:16px; }
+  .chapterNav { top:68px; }
+  .chapterNav>div { padding-block:10px; }
+  .chapterNav a { min-height:32px; }
+  .heroDescription,.bioColumns>p,.sectionDescription,.skillRow p,.methodDetail p,.contact>div>p:not(.kicker) { font-size:14px; }
+  .modeButtons button { font-size:9px; padding:10px; min-height:44px; }
+}
+
+/* Mobile reading and touch targets. */
+@media(max-width:767px){
+ .chapterNav a{min-height:44px;font-size:11px}.chapterNav>div{padding-block:4px}
+ .textLink,.skillProject{font-size:13px;min-height:44px;display:inline-flex;align-items:center}
+ .bioColumns dt,.certifications small{font-size:11px}.bioColumns dd,.education p:not(.kicker){font-size:14px}
+}

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 type ProjectVisualProps = { art?: string; className?: string };
-const ink = '#090b0e', panel = '#14171c', edge = '#67717e', silver = '#c3cbd3', coral = '#f27976', red = '#c43842', faint = '#303741';
+const ink = '#0a0a0a', panel = '#171716', edge = '#77756f', silver = '#d4d0c7', coral = '#ed493b', red = '#ed493b', faint = '#34332f';
 const disciplines: Record<string, string> = {
   polar: 'Antenna systems', 'rf-spectrum': 'RF instrumentation', 'direction-finder': 'Radio direction finding', shielding: 'Electromagnetic compatibility', rescue: 'Field robotics', vision: 'Machine perception', 'ar-display': 'Optical systems', 'night-vision': 'Low-light imaging', kinematics: 'Robot kinematics', drone: 'Flight systems', 'wireless-power': 'Resonant power', 'wind-tunnel': 'Experimental aerodynamics', composite: 'Composite structures', magnetic: 'Electromagnetic systems', signals: 'Signal acquisition',
 };
@@ -185,9 +185,9 @@ const illustrations: Record<string, () => ReactNode> = {
 export function ProjectVisual({ art = 'signals', className = '' }: ProjectVisualProps) {
   const Illustration = illustrations[art] ?? Signals;
   return (
-    <div className={`relative isolate overflow-hidden bg-[#080a0d] ${className}`} aria-hidden="true" data-project-visual={art}>
+    <div className={`relative isolate overflow-hidden bg-[#10100f] ${className}`} aria-hidden="true" data-project-visual={art}>
       <div className="pointer-events-none absolute inset-0 opacity-[.23] [background-image:linear-gradient(#78879818_1px,transparent_1px),linear-gradient(90deg,#78879818_1px,transparent_1px)] [background-size:28px_28px]"/>
-      <div className="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_at_55%_46%,#2d172839,transparent_67%)]"/>
+      <div className="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_at_55%_46%,#34261d39,transparent_67%)]"/>
       <svg viewBox="0 0 600 320" fill="none" className="relative h-full min-h-48 w-full" focusable="false">
         <g strokeLinecap="round" strokeLinejoin="round"><Illustration/></g>
         <path d="M24 54V24h30M546 24h30v30M24 266v30h30M546 296h30v-30" stroke="#667381" strokeOpacity=".16" strokeWidth=".8"/><circle cx="35" cy="37" r="2" fill={red}/>

@@ -1,0 +1,905 @@
+{
+  "projectId": "demo-fourtech-portal-security",
+  "emulator": "127.0.0.1:8187",
+  "sourceRulesPath": "firestore.rules",
+  "rulesSha256": "5eb2a8627677d5b0339e823ecca095643b82ce927075b261ca92fce3d801bda9",
+  "sourceStorageRulesPath": "storage.rules",
+  "storageRulesSha256": "e311c61187493780fa8eaafa9397dcbf62c85fcb8fabd15c8aafbdcb8575b459",
+  "storageEmulator": "127.0.0.1:9197",
+  "startedAt": "2026-09-29T01:34:59.428Z",
+  "productionUsersCreated": false,
+  "emailSent": false,
+  "tests": [
+    {
+      "name": "Verified customer can create their enquiry",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can read their own enquiry",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can query their own enquiries",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Anonymous read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Anonymous creation denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer list denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer creation denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Unverified creation denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer broad enquiries query denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can query all enquiries",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "String-valued owner claim denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Unverified owner claim denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot forge initial status",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot add owner claim field to enquiry",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot choose creation timestamp",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Too short enquiry title denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Too long enquiry details denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Invalid enquiry field type denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot change project status",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot delete enquiry",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Unrelated collection read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot self-assign role document",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can save own verified profile",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer profile email must match token",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer profile cannot contain owner role",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer profile read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer profile write denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Verified owner can read customer profile",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can update project status and message",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot use unknown workflow status",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot rewrite customer enquiry details",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot use client selected update time",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can create immutable project timeline entry",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can read own project timeline",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer timeline read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer timeline creation denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner orphan timeline entry denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner timeline mutation denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner timeline deletion denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can create valid quote in integer paise",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Quote minimum amount accepted",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Quote maximum amount accepted",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Quote below minimum denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote negative amount denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote zero amount denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote fractional paise denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote string amount denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote amount above limit denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote non INR currency denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote cannot initially be accepted",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote cannot prepopulate response time",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Expired new quote denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote beyond maximum validity denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote invalid expiry type denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote fabricated creation timestamp denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Quote extra checkout URL field denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot quote missing enquiry",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot create quote",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner claim string cannot create quote",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Unverified owner cannot create quote",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can read own quote",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer quote read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can accept valid quote",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can decline valid quote",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot change quote amount during response",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot fabricate quote response time",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot accept expired quote",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot reverse accepted quote",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer first quote response succeeds",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer repeated quote acceptance denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer quote response denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot accept on customer behalf",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot rewrite sent quote amount",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot delete sent quote",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot invent paid status",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can create customer notification",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can read own notification",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer notification read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot create notification",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot notify nonexistent enquiry",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot notify already read",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot add email dispatch fields",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can mark notification read",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot alter notification body",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot mark notification unread",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer notification mutation denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot alter notification read state",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot read mail delivery log",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot write mail delivery log",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can opt in to email notifications",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can opt out of email notifications",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot opt in customer by client",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer preference mutation denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Unknown preference document denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Email preference string instead of boolean denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can attach PDF metadata to own enquiry",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can attach PDF metadata to customer enquiry",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer can attach image metadata to own enquiry",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Cross-customer file metadata creation denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "File metadata on missing enquiry denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "File metadata path cannot target other customer",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "File metadata remote URL denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Executable file metadata denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "SVG file metadata denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Oversize file metadata denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Empty file metadata denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Noninteger file size metadata denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "File metadata timestamps cannot be fabricated",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can save personal photo metadata",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can save business photo metadata separately",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can read personal photo metadata",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can list business photo metadata",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot see personal photo metadata",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Anonymous cannot see business photo metadata",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot create owner photo metadata",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "String owner claim cannot create photo metadata",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Unverified owner cannot create photo metadata",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot write another owner media folder",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot use uncategorized photo folder",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner media storage path must match category",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot save PDF as photo",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot save SVG as photo",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner oversized photo metadata denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner photo metadata arbitrary public URL denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner cannot mutate existing photo metadata",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Owner can delete own photo metadata",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Customer cannot delete owner photo metadata",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner can upload personal photo",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner can upload business photo separately",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner can read own personal photo",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner can list business photos",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage anonymous personal photo access denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer business photo access denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage another owner cannot read founder photos",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer cannot upload owner photo",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage string owner claim cannot upload photo",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage unverified owner cannot upload photo",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner cannot upload to another owner folder",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage unknown photo category denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner PDF photo upload denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner SVG photo upload denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner HTML photo upload denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner oversized photo upload denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner empty photo upload denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner cannot overwrite existing photo",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner cannot mutate photo metadata",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer cannot delete owner photo",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner can delete own personal photo",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer can upload own enquiry attachment",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner can upload customer deliverable",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer cannot forge owner uploader metadata",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage attachment without uploader metadata denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer can read own enquiry attachment",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner can read customer attachment",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer can list own attachments",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage cross-customer attachment read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage cross-customer attachment list denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage anonymous attachment read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage unverified customer attachment read denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage cross-customer attachment upload denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage unverified customer upload denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage attachment to missing enquiry denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner attachment to missing enquiry denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage executable attachment denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage SVG attachment denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage oversized attachment denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage empty attachment denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage existing attachment cannot be overwritten",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer cannot overwrite owner deliverable",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage attachment metadata mutation denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage cross-customer attachment delete denied",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer cannot delete owner deliverable",
+      "expectation": "deny",
+      "result": "passed"
+    },
+    {
+      "name": "Storage owner can delete enquiry attachment",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer can upload attachment for failure cleanup",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage customer can delete own failed upload",
+      "expectation": "allow",
+      "result": "passed"
+    },
+    {
+      "name": "Storage unrelated file upload denied",
+      "expectation": "deny",
+      "result": "passed"
+    }
+  ],
+  "sourceRulesUnchangedDuringTests": true,
+  "sourceStorageRulesUnchangedDuringTests": true,
+  "finishedAt": "2026-09-29T01:35:06.174Z",
+  "passed": 177,
+  "failed": 0,
+  "result": "passed"
+}

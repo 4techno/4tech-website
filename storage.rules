@@ -1,0 +1,29 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function verified() { return request.auth != null && request.auth.token.email_verified == true; }
+    function owner() { return verified() && request.auth.token.owner == true && request.auth.token.email == 'mohammedvashir75@gmail.com'; }
+    function participant(uid) { return verified() && (request.auth.uid == uid || owner()); }
+    function image() { return request.resource.contentType in ['image/jpeg', 'image/png', 'image/webp', 'image/avif']; }
+    function existsRequest(uid, rid) { return firestore.exists(/databases/(default)/documents/users/$(uid)/requests/$(rid)); }
+    match /owner-media/{uid}/{category}/{id} {
+      allow read: if owner() && request.auth.uid == uid && category in ['personal', 'business'];
+      allow create: if resource == null && owner() && request.auth.uid == uid && category in ['personal', 'business']
+        && image() && request.resource.size > 0 && request.resource.size <= 8 * 1024 * 1024;
+      allow delete: if owner() && request.auth.uid == uid && category in ['personal', 'business'];
+      allow update: if false;
+    }
+    match /request-files/{uid}/{rid}/{id} {
+      allow read: if participant(uid) && existsRequest(uid, rid);
+      allow create: if resource == null && participant(uid) && existsRequest(uid, rid)
+        && (image() || request.resource.contentType == 'application/pdf')
+        && request.resource.size > 0 && request.resource.size <= 10 * 1024 * 1024
+        && request.resource.metadata.uploadedBy == request.auth.uid;
+      // Customers may clean up their own failed uploads, never owner deliverables.
+      allow delete: if participant(uid) && existsRequest(uid, rid)
+        && (owner() || resource.metadata.uploadedBy == request.auth.uid);
+      allow update: if false;
+    }
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

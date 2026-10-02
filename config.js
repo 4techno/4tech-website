@@ -1,16 +1,15 @@
 /** Public, owner-maintained content. Edit source and redeploy; never put secrets here. */
 export const siteConfig = Object.freeze({
   name: '4tech',
-  description: 'Independent engineering R&D across robotics, embedded systems, RF and automation. Project development and practical training with Mohammed Vashir in Kalpakkam, India.',
+  description: '4TECH engineering across robotics, embedded systems, RF and automation. Explore completed projects and meet founder Mohammed Vashir and co-founder Sabeel Ahamed.',
   founder: Object.freeze({
     name: 'Mohammed Vashir',
-    image: '/assets/mohammed-vashir.jpg',
-    imageAlt: 'Mohammed Vashir at Crescent’s Mega Demo Day',
-    imagePosition: 'center 28%',
+    // Public portrait explicitly selected by the owner. Private uploads remain separate.
+    image: '/assets/team/mohammed-vashir.jpg',
   }),
   contacts: Object.freeze({
     email: 'mohammedvashir75@gmail.com', whatsapp: 'https://wa.me/919360108408',
-    phone: '+91 93601 08408', location: 'Kalpakkam, Tamil Nadu 603102 · India',
+    phone: '+91 93601 08408', location: 'Tamil Nadu, India',
   }),
   socials: Object.freeze([
     { name: 'GitHub', url: 'https://github.com/4techno' },

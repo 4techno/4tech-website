@@ -1,0 +1,6 @@
+node_modules/
+*-debug.log
+.firebase/
+portal-rules-test-report.json
+firestore.rules
+storage.rules

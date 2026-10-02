@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import SocialLinks from "@/components/social-links";
+import ProjectWorkspace from "./ProjectWorkspace";
+import NotificationCenter from "./NotificationCenter";
+import { useOwnerAccess } from "./use-portal-data";
 import { projects } from "@/lib/projects";
+import { portalCapabilities } from "@/lib/portal-config";
 import {
   requestCategories, useCustomerAccount, type CustomerRequest, type RequestInput,
 } from "./use-customer-account";
@@ -15,7 +19,7 @@ function ContactFallback() {
   return <div><p className="mb-4 text-sm leading-6 text-neutral-400">Prefer a direct conversation? Connect with 4tech.</p><SocialLinks label="Contact 4tech directly"/></div>;
 }
 
-function AuthPanel({ account }: { account: AccountController }) {
+export function AuthPanel({ account }: { account: AccountController }) {
   const [register, setRegister] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -43,7 +47,7 @@ function AuthPanel({ account }: { account: AccountController }) {
         {register && <div data-name-field><label className="field-label" htmlFor="account-name">Your name</label><input id="account-name" name="name" className="field-input" autoComplete="name" required maxLength={80} value={name} onChange={(event) => setName(event.target.value)} placeholder="How should we address you?"/></div>}
         <div><label className="field-label" htmlFor="account-email">Email address</label><input ref={emailRef} id="account-email" name="email" className="field-input" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com"/></div>
         <div><label className="field-label" htmlFor="account-password">Password</label><input id="account-password" name="password" className="field-input" type="password" autoComplete={register ? "new-password" : "current-password"} required minLength={register ? 12 : 1} value={password} onChange={(event) => setPassword(event.target.value)} placeholder={register ? "At least 12 characters" : "Your password"} aria-describedby={register ? "password-help" : undefined}/>{register && <p id="password-help" className="mt-2 text-xs leading-5 text-neutral-400">Use at least 12 characters. You’ll verify your email before submitting a request.</p>}</div>
-        <button type="submit" className="button-primary mt-2 w-full justify-center disabled:cursor-not-allowed disabled:opacity-40">{account.authBusy ? "Please wait…" : register ? "Create account" : "Sign in"}<span aria-hidden="true">↗</span></button>
+        <button type="submit" className="button-primary mt-2 w-full justify-center disabled:cursor-not-allowed disabled:opacity-40">{account.authBusy ? "Please wait…" : register ? "Create account" : "Sign in"}</button>
       </fieldset>
     </form>
     <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 text-sm">
@@ -61,13 +65,14 @@ function dateLabel(milliseconds: number | null) {
   catch { return "Date unavailable"; }
 }
 
-function RequestCard({ request }: { request: CustomerRequest }) {
-  return <article className="rounded-2xl border border-white/10 bg-white/[0.025] p-5 sm:p-6">
+function RequestCard({ request, uid }: { request: CustomerRequest; uid: string }) {
+  return <article id={`request-${request.id}`} className="scroll-mt-28 rounded-2xl border border-white/10 bg-white/[0.025] p-5 sm:p-6">
     <div className="mb-3 flex flex-wrap items-center gap-3"><span className="rounded-full border border-[#ff3b55]/25 bg-[#ff3b55]/10 px-3 py-1 text-xs text-[#ff8697]">{request.pending ? "Awaiting confirmation" : request.status}</span><span className="text-xs text-neutral-500">{request.pending ? "Saving securely…" : dateLabel(request.createdAt)}</span></div>
     <h4 className="break-words text-lg font-medium tracking-tight">{request.title}</h4>
     <p className="mt-1 text-xs leading-5 text-neutral-400">{request.category}{request.timeline ? ` · Timeline: ${request.timeline}` : ""}</p>
     <p className="mt-4 whitespace-pre-wrap break-words text-sm leading-6 text-neutral-300">{request.details}</p>
     {request.updateMessage.trim() && <div className="mt-5 rounded-xl border-l-2 border-[#ff3b55] bg-white/[0.03] px-4 py-3"><p className="mb-2 text-xs font-medium text-[#ff8697]">Update from 4tech{request.updatedAt !== null ? ` · ${dateLabel(request.updatedAt)}` : ""}</p><p className="whitespace-pre-wrap break-words text-sm leading-6 text-neutral-300">{request.updateMessage}</p></div>}
+    {portalCapabilities.workspace && !request.pending && <ProjectWorkspace uid={uid} requestId={request.id}/>}
   </article>;
 }
 
@@ -94,7 +99,7 @@ function RequestForm({ account, projectName }: { account: AccountController; pro
         <div><label className="field-label" htmlFor="request-category">What do you need?</label><select id="request-category" name="category" className="field-input" required value={category} onChange={(event) => setCategory(event.target.value)}>{requestCategories.map((value) => <option key={value} value={value}>{value}</option>)}</select></div>
         <div><label className="field-label" htmlFor="request-timeline">Timeline <span className="font-normal text-neutral-500">(optional)</span></label><input id="request-timeline" name="timeline" className="field-input" maxLength={100} value={timeline} onChange={(event) => setTimeline(event.target.value)} placeholder="Flexible, or an approximate date"/></div>
         <div><label className="field-label" htmlFor="request-details">Your idea</label><textarea id="request-details" name="details" className="field-input min-h-40 resize-y" required minLength={10} maxLength={6000} rows={6} value={details} onChange={(event) => setDetails(event.target.value)} placeholder={projectName ? `Tell us what you would like to build, inspired by ${projectName}.` : "What would you like to build, understand or improve?"} aria-describedby="request-data-note"/><p id="request-data-note" className="mt-2 text-xs leading-5 text-neutral-500">Please leave out passwords, payment details and sensitive personal information.</p></div>
-        <button type="submit" className="button-primary w-full justify-center disabled:cursor-not-allowed">{account.requestBusy ? "Waiting for confirmation…" : "Submit your request"}<span aria-hidden="true">↗</span></button>
+        <button type="submit" className="button-primary w-full justify-center disabled:cursor-not-allowed">{account.requestBusy ? "Waiting for confirmation…" : "Submit your request"}</button>
       </fieldset>
     </form>
     <p className="mt-4 text-xs leading-5 text-neutral-500">An enquiry starts a conversation. It does not create a paid order or confirm a delivery date.</p>
@@ -103,23 +108,25 @@ function RequestForm({ account, projectName }: { account: AccountController; pro
 
 function CustomerPanel({ account, projectName }: { account: AccountController; projectName?: string }) {
   const customer = account.customer!;
+  const { owner } = useOwnerAccess(customer.uid);
   return <section id="customer-panel" aria-labelledby="customer-heading">
     <div className="mb-8 flex flex-wrap items-start justify-between gap-5 border-b border-white/10 pb-7">
       <div><p className="section-kicker mb-3">Your customer space</p><h2 id="customer-heading" className="text-2xl font-medium tracking-tight sm:text-3xl">Welcome, <span id="customer-name" className="break-words">{customer.displayName || customer.email || "there"}</span>.</h2>{customer.displayName && <p className="mt-2 break-all text-sm text-neutral-500">{customer.email}</p>}</div>
-      <button id="signout" type="button" className="button-secondary shrink-0 disabled:opacity-40" disabled={account.authBusy} onClick={() => void account.signOut()}>Sign out <span aria-hidden="true">↗</span></button>
+      <div className="flex flex-wrap gap-3">{owner && <Link href="/owner" className="button-primary">Owner dashboard</Link>}<button id="signout" type="button" className="button-secondary shrink-0 disabled:opacity-40" disabled={account.authBusy} onClick={() => void account.signOut()}>Sign out </button></div>
     </div>
     {!customer.verified && <div id="verification-notice" className="mb-6 rounded-2xl border border-[#ff3b55]/25 bg-[#ff3b55]/[0.06] p-5 sm:p-6">
       <h3 className="text-lg font-medium">One step before we get started.</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-400">Verify your email before submitting a request. Send yourself a verification link, follow it, then return here to check.</p>
       <div className="mt-4 flex flex-wrap gap-3"><button id="send-verification" type="button" className="button-secondary text-sm disabled:opacity-40" disabled={account.verificationBusy || account.authBusy || account.verificationCoolingDown} onClick={() => void account.verifyEmail(false)}>{account.verificationCoolingDown ? "Verification email sent" : "Send verification email"}</button><button id="refresh-verification" type="button" className="button-secondary text-sm disabled:opacity-40" disabled={account.verificationBusy || account.authBusy} onClick={() => void account.verifyEmail(true)}>I’ve verified my email</button></div>
     </div>}
     <p id="request-status" role="status" aria-live="polite" className="mb-5 min-h-6 text-sm leading-6 text-neutral-300">{account.requestStatus}</p>
+    {portalCapabilities.workspace && <NotificationCenter key={customer.uid} uid={customer.uid} verified={customer.verified}/>}
     <div className="grid items-start gap-8 lg:grid-cols-[1.05fr_1fr]">
       <RequestForm key={`${customer.uid}:${projectName ?? ""}`} account={account} projectName={projectName}/>
       <section className="lg:pt-2" aria-labelledby="history-heading"><div className="mb-6 flex items-center justify-between"><h3 id="history-heading" className="text-xl font-medium tracking-tight">Your requests</h3>{account.historyState === "ready" && <span className="text-xs text-neutral-500">{account.requests.length} total</span>}</div>
         <div id="request-list" aria-live="polite" aria-busy={account.historyState === "loading"} className="space-y-4">
           {account.historyMessage && <p className="rounded-2xl border border-white/10 p-5 text-sm leading-6 text-neutral-400">{account.historyMessage}</p>}
-          {account.historyState === "ready" && account.requests.length === 0 && <div className="rounded-2xl border border-dashed border-white/15 px-6 py-12 text-center"><span className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-neutral-500" aria-hidden="true">↗</span><h4 className="text-lg font-medium">A fresh page.</h4><p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-neutral-400">You haven’t submitted any requests yet. Tell us about your first idea.</p></div>}
-          {account.requests.map((request) => <RequestCard key={request.id} request={request}/>)}
+          {account.historyState === "ready" && account.requests.length === 0 && <div className="rounded-2xl border border-dashed border-white/15 px-6 py-12 text-center"><h4 className="text-lg font-medium">A fresh page.</h4><p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-neutral-400">You haven’t submitted any requests yet. Tell us about your first idea.</p></div>}
+          {account.requests.map((request) => <RequestCard key={`${customer.uid}/${request.id}`} request={request} uid={customer.uid}/>)}
         </div>
         <div className="mt-6"><ContactFallback/></div>
       </section>

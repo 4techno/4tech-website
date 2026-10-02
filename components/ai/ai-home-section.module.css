@@ -1,0 +1,261 @@
+/* 4TECH AI Copilot Homepage Section Styles */
+
+.section {
+  padding: 6rem 0;
+  border-top: 1px solid #e0e0da;
+  position: relative;
+  background: #fbfbf9;
+}
+
+.shell {
+  width: min(1200px, calc(100% - 3rem));
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 780px;
+}
+
+.eyebrow {
+  font-family: var(--font-inter, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #737373;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.aiBadge {
+  background: #0a0a0a;
+  color: #f5f5f0;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.title {
+  font-family: var(--font-dm-serif, Georgia, serif);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.15;
+  font-weight: 400;
+  color: #0a0a0a;
+  margin: 0;
+}
+
+.title em {
+  font-style: italic;
+  font-family: var(--font-dm-serif, Georgia, serif);
+}
+
+.lead {
+  font-family: var(--font-inter, sans-serif);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #525252;
+  margin: 0;
+}
+
+/* Prompt Launcher Box */
+.launcherBox {
+  background: #ffffff;
+  border: 1px solid #d4d4ce;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.input {
+  flex: 1;
+  background: #f5f5f0;
+  border: 1px solid #d4d4ce;
+  border-radius: 8px;
+  padding: 0.85rem 1.15rem;
+  font-size: 0.95rem;
+  font-family: var(--font-inter, sans-serif);
+  color: #171717;
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #0a0a0a;
+  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.05);
+}
+
+.submitBtn {
+  background: #0a0a0a;
+  color: #f5f5f0;
+  border: none;
+  border-radius: 8px;
+  padding: 0.85rem 1.65rem;
+  font-family: var(--font-inter, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.submitBtn:hover {
+  background: #262626;
+  transform: translateY(-1px);
+}
+
+/* Architecture Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e0e0da;
+  border-radius: 8px;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  text-align: left;
+  font-family: inherit;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: #0a0a0a;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardCode {
+  font-family: var(--font-geist-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #15803d;
+  background: #f0fdf4;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.cardCore {
+  font-size: 0.72rem;
+  color: #737373;
+}
+
+.cardTitle {
+  font-family: var(--font-dm-serif, Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #0a0a0a;
+  margin: 0;
+}
+
+.cardDesc {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #525252;
+  margin: 0;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  border-top: 1px solid #f0f0eb;
+  padding-top: 0.75rem;
+}
+
+.cardArrow {
+  font-size: 0.9rem;
+  transition: transform 0.15s ease;
+}
+
+.card:hover .cardArrow {
+  transform: translateX(3px);
+}
+
+/* Bottom Actions */
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0da;
+}
+
+.disclaimer {
+  font-size: 0.78rem;
+  color: #737373;
+  margin: 0;
+}
+
+.ideaLink {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-bottom: 1px solid #0a0a0a;
+  padding-bottom: 0.15rem;
+  transition: opacity 0.15s ease;
+}
+
+.ideaLink:hover {
+  opacity: 0.75;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 0;
+  }
+
+  .form {
+    flex-direction: column;
+  }
+
+  .submitBtn {
+    justify-content: center;
+  }
+}

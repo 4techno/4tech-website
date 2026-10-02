@@ -1,0 +1,82 @@
+/* Phone refinements only. Desktop composition is intentionally preserved. */
+@media (max-width: 767px) {
+  html { scroll-padding-top: 88px; }
+  .ed-shell { width: calc(100% - 40px); }
+  .ed-site-header { padding: 12px 0; background: #f5f5f0ed; backdrop-filter: blur(16px); }
+  .ed-site-header.ed-scrolled { padding: 10px 0; }
+  .ed-navigation { height: 44px; gap: 12px; }
+  .ed-nav-actions { gap: 10px; }
+  .ed-site-header .ed-button { min-height: 44px; padding: 11px 17px; font-size: 12px; }
+  .ed-menu-toggle { width: 44px; height: 44px; border: 1px solid #d8d8d1; border-radius: 50%; }
+  .ed-menu-toggle span { width: 18px; }
+  .ed-hero { min-height: 740px; height: 94svh; max-height: 850px; padding-top: 115px; }
+  .ed-hero-copy { width: 100%; padding-inline: 20px; }
+  .ed-hero-copy .ed-eyebrow { max-width: 300px; margin: 0 auto 24px; font-size: 10px; line-height: 1.8; letter-spacing: 1.2px; }
+  .ed-hero h1 { font-size: clamp(39px, 10.7vw, 68px); line-height: 1.08; letter-spacing: -1.2px; }
+  .ed-hero-copy p:not(.ed-eyebrow) { font-size: 15px; line-height: 1.75; max-width: 340px; margin: 22px auto 24px; }
+  .ed-hero-cta { min-height: 48px; padding-inline: 30px; font-size: 14px; }
+  .ed-reference-art { width: max(700px, 140%); bottom: 38px; }
+  .ed-hero-caption { bottom: 18px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 12px; font-size: 8px; letter-spacing: 1px; }
+  .ed-hero-caption > span:last-child { text-align: right; }
+  .ed-hero-caption [data-intro-replay] { grid-row: 2; grid-column: 1 / -1; justify-self: center; min-height: 44px; font-size: 11px; }
+  .ed-tools-strip { padding-block: 32px 44px; }
+  .ed-tools-strip > p { margin-bottom: 24px; font-size: 14px; }
+  .ed-tools-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 12px; }
+  .ed-tools-row > span { justify-content: center; font-size: 16px; letter-spacing: -.5px; }
+  .ed-tools-row .ed-tool-kicad { font-size: 20px; }
+  .ed-tools-row .ed-tool-cad { font-size: 11px; }
+  .ed-tools-strip > small { font-size: 11px; }
+  .ed-section { padding-block: 64px; }
+  .ed-eyebrow { font-size: 11px; letter-spacing: 1.7px; }
+  .ed-section h2 { font-size: clamp(34px, 9vw, 50px); line-height: 1.14; letter-spacing: -.8px; }
+  .ed-service-card { padding: 26px 24px 16px; border-radius: 14px; }
+  .ed-service-top { margin-bottom: 22px; }
+  .ed-service-card p { font-size: 15px; line-height: 1.75; }
+  .ed-service-card .ed-service-lead { font-size: 13px; }
+  .ed-service-link { min-height: 52px; padding-block: 16px 8px; font-size: 13px; }
+  .ed-work-heading { gap: 18px; }
+  .ed-ghost-link { min-height: 44px; align-items: center; padding-bottom: 0; font-size: 14px; }
+  .ed-case-row { grid-template-columns: 1fr; gap: 14px; padding-block: 28px; }
+  .ed-case-index { padding: 0; font-size: 11px; }
+  .ed-case-row h3 { font-size: 29px; line-height: 1.2; letter-spacing: -.6px; }
+  .ed-case-row p:not(.ed-eyebrow) { font-size: 15px; line-height: 1.8; margin-top: 16px; }
+  .ed-case-tags { gap: 9px 16px; font-size: 11px; margin-top: 18px; }
+  .ed-case-open { grid-column: 1; margin-top: 0; width: fit-content; min-height: 44px; font-size: 14px; }
+  .ed-idea-invite { padding: 30px 24px; margin-bottom: 64px; border-radius: 14px; }
+  .ed-idea-invite h2 { font-size: 34px; line-height: 1.15; }
+  .ed-idea-invite .ed-button { width: 100%; min-height: 48px; padding-inline: 16px; font-size: 14px; }
+  .ed-principles-section { padding-top: 0; }
+  .ed-principle > p { font-size: 15px; line-height: 1.8; }
+  .ed-principle-bottom { font-size: 12px; }
+  .ed-contact-section { padding-bottom: 64px; }
+  .ed-contact-box { padding: 44px 22px; border-radius: 16px; }
+  .ed-contact-box h2 { font-size: clamp(32px, 9vw, 46px); }
+  .ed-contact-box > p:not(.ed-eyebrow) { font-size: 15px; }
+  .ed-contact-box .ed-eyebrow { font-size: 10px; line-height: 1.7; }
+  .ed-contact-actions { max-width: none; }
+  .ed-contact-work { min-height: 44px; font-size: 13px; margin-top: 16px; }
+  .ed-footer-grid { gap: 32px 22px; }
+  .ed-footer-grid h3 { font-size: 12px; margin-bottom: 14px; }
+  .ed-footer-grid > div > a:not(.ed-brand) { display: flex; align-items: center; min-height: 44px; margin-top: 0; font-size: 13px; }
+  .ed-footer-brand > p,.ed-footer-note { font-size: 14px; }
+  .ed-footer-location,.ed-footer-bottom > small { font-size: 11px; }
+  .ed-back-top { display: inline-flex; align-items: center; min-height: 44px; font-size: 11px; }
+  .ed-mobile-menu { height: 100dvh; padding: max(18px, env(safe-area-inset-top)) 24px max(22px, env(safe-area-inset-bottom)); overscroll-behavior: contain; }
+  .ed-menu-top { position: sticky; top: -1px; background: var(--bg-primary); padding-bottom: 16px; z-index: 1; }
+  .ed-mobile-menu > nav { min-height: 0; padding-block: 8px; justify-content: flex-start; }
+  .ed-mobile-menu > nav > a,.ed-mobile-menu > nav > a:last-child { min-height: 58px; font-size: 29px; line-height: 1.3; padding-block: 10px; gap: 18px; }
+  .ed-mobile-menu > nav > a > small { font-size: 11px; }
+  .ed-menu-location { max-width: 260px; font-size: 12px; line-height: 1.7; margin-top: 20px; }
+  .portal-field input,.portal-field select,.portal-field textarea,.field-input { font-size: 16px; }
+  .portal-space .portal-button,.portal-tabs button { min-height: 44px; }
+  .portal-space .portal-tabs { gap: 8px; }
+}
+@media (max-width: 374px) {
+  .ed-shell { width: calc(100% - 32px); }
+  .ed-site-header .ed-button { font-size: 11px; padding-inline: 13px; }
+  .ed-nav-actions { gap: 7px; }
+  .ed-hero-copy { padding-inline: 16px; }
+  .ed-hero h1 { font-size: 39px; }
+  .ed-case-row h3 { font-size: 27px; }
+  .ed-socials ul { gap: 9px; }
+}

@@ -1,0 +1,6 @@
+{
+  "firestore": { "rules": "firestore.rules", "indexes": "firestore.indexes.json" },
+  "storage": { "rules": "storage.rules" },
+  "functions": [{ "source": "backend/functions", "codebase": "portal", "ignore": ["node_modules", ".git", "*.local", ".env*"] }],
+  "emulators": { "firestore": { "port": 8187 }, "storage": { "port": 9299 }, "ui": { "enabled": false }, "singleProjectMode": true }
+}

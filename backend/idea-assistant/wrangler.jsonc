@@ -1,0 +1,16 @@
+{
+  "name": "4tech-idea-assistant",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-30",
+  "workers_dev": true,
+  "ai": { "binding": "AI" },
+  "durable_objects": { "bindings": [{ "name": "IDEA_BUDGET", "class_name": "IdeaBudget" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["IdeaBudget"] }],
+  "vars": {
+    "FIREBASE_PROJECT_ID": "tech-customer-portal",
+    "ALLOWED_ORIGINS": "https://4tech-9cy.pages.dev",
+    "IDEA_ENABLED": "false",
+    "ENGINEERING_ENABLED": "false"
+  },
+  "observability": { "enabled": false }
+}

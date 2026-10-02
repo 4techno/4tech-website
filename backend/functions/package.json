@@ -1,0 +1,14 @@
+{
+  "name": "fourtech-portal-functions",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "engines": { "node": "22" },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "check": "node --check src/index.js && node --check src/delivery.js && node --check src/firestore-ledger.js && node --check src/founder-summary.js && node --check src/founder-summary-schedule.js && node --check src/visitor-analytics.js && node --check src/visitor-model.js && node --check scripts/owner-access.js",
+    "owner:access": "node scripts/owner-access.js"
+  },
+  "dependencies": { "firebase-admin": "14.5.0", "firebase-functions": "7.4.0" }
+}
