@@ -17,7 +17,9 @@ export function useOwnerAccess(uid?: string) {
     let unsubscribe = () => {};
     try {
       const { auth } = getFirebaseClient();
-      unsubscribe = onIdTokenChanged(auth, user => { void guard.verify(user, uid, () => auth.currentUser); }, () => guard.lock());
+      // Each mounted check/manual retry gets one fresh token so a newly granted
+      // owner role does not remain hidden behind Firebase's cached token.
+      unsubscribe = onIdTokenChanged(auth, user => { void guard.verify(user, uid, () => auth.currentUser, true); }, () => guard.lock());
     } catch {
       setState({ identity: uid ?? "", ownerUid: null, checking: false, locked: locked.current, expiresAt: 0, error: "Owner services are unavailable. Please try again later." });
     }

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { doc, onSnapshot } from "firebase/firestore";
 import { getFirebaseClient } from "@/lib/firebase";
+import { FOUNDER_EMAIL } from "@/lib/owner-access";
 import { useEffect, useState, type FormEvent } from "react";
 import { AuthPanel } from "./AccountPortal";
 import { useCustomerAccount } from "./use-customer-account";
@@ -128,6 +129,8 @@ export default function OwnerPortal() {
   const { owner, checking, error, locked, retryVerification, lockOwnerAccess } = useOwnerAccess(account.customer?.uid);
   const [lockStatus, setLockStatus] = useState("");
   const [locking, setLocking] = useState(false);
+  const canRefreshAccess = !locked && account.customer?.verified === true
+    && account.customer.email.toLowerCase() === FOUNDER_EMAIL;
 
   const handleLock = async () => {
     if (locking) return;
@@ -162,7 +165,8 @@ export default function OwnerPortal() {
           Sign in with a verified account that has been assigned owner access. Customer accounts cannot open this workspace.
         </p>
         {lockStatus && <p className="portal-status" role="status">{lockStatus}</p>}
-        {error && <div className="portal-stack"><p className="portal-status" role="alert">{error}</p>{!locked && <button className="portal-button" onClick={retryVerification}>Retry verification</button>}</div>}
+        {error && <p className="portal-status" role="alert">{error}</p>}
+        {canRefreshAccess && <button className="portal-button" disabled={account.authBusy} onClick={retryVerification}>Refresh access</button>}
 
         {account.customer ? (
           <div className="portal-stack p-4 rounded-xl bg-white/[0.02] border border-white/10">

@@ -4,7 +4,7 @@ import { FOUNDER_EMAIL, hasVerifiedOwnerClaim, OwnerAccessGuard, type OwnerAcces
 
 const now = Date.parse("2026-10-02T06:00:00Z");
 const token = (claims: Record<string, unknown> = { owner: true, email_verified: true, email: FOUNDER_EMAIL }): OwnerToken => ({ claims, expirationTime: new Date(now + 60_000).toISOString() });
-const user = (read: () => Promise<OwnerToken> = async () => token(), uid = "owner-uid"): OwnerUser => ({ uid, emailVerified: true, email: FOUNDER_EMAIL, getIdTokenResult: read });
+const user = (read: (forceRefresh?: boolean) => Promise<OwnerToken> = async () => token(), uid = "owner-uid"): OwnerUser => ({ uid, emailVerified: true, email: FOUNDER_EMAIL, getIdTokenResult: read });
 function deferred<T>() {
   let resolve!: (value: T) => void;
   let reject!: (reason?: unknown) => void;
@@ -35,6 +35,48 @@ test("a matching email without the owner claim never grants access", async () =>
   await guard.verify(identity, identity.uid, () => identity);
   assert.equal(latest().ownerUid, null);
   assert.equal(latest().checking, false);
+});
+
+test("refreshing access replaces a cached missing claim with the server's new owner role", async () => {
+  const { guard, latest } = setup();
+  const reads: boolean[] = [];
+  const identity = user(async forceRefresh => {
+    reads.push(forceRefresh === true);
+    return forceRefresh ? token() : token({ email: FOUNDER_EMAIL, email_verified: true });
+  });
+  await guard.verify(identity, identity.uid, () => identity);
+  assert.equal(latest().ownerUid, null);
+  await guard.verify(identity, identity.uid, () => identity, true);
+  assert.equal(latest().ownerUid, identity.uid);
+  assert.deepEqual(reads, [false, true]);
+});
+
+test("a token-change event during a forced refresh does not refresh recursively", async () => {
+  const { guard, latest } = setup();
+  const reads: boolean[] = [];
+  let notification: Promise<void> | undefined;
+  const identity: OwnerUser = user(async forceRefresh => {
+    reads.push(forceRefresh === true);
+    if (forceRefresh) notification = guard.verify(identity, identity.uid, () => identity, true);
+    return token();
+  });
+  await guard.verify(identity, identity.uid, () => identity, true);
+  await notification;
+  assert.deepEqual(reads, [true, false]);
+  assert.equal(latest().ownerUid, identity.uid);
+});
+
+test("failed forced refresh denies access rather than accepting a cached owner token", async () => {
+  const { guard, latest } = setup();
+  const identity = user(async forceRefresh => {
+    if (forceRefresh) throw new Error("offline");
+    return token();
+  });
+  await guard.verify(identity, identity.uid, () => identity);
+  assert.equal(latest().ownerUid, identity.uid);
+  await guard.verify(identity, identity.uid, () => identity, true);
+  assert.equal(latest().ownerUid, null);
+  assert.match(latest().error, /could not be verified/);
 });
 
 test("unverified, absent or mismatched identities never request an owner token", async () => {
