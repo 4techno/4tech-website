@@ -8,7 +8,6 @@ import { openAiCopilot } from '@/components/ai/ai-copilot';
 const navigation = [
   { label: 'Services', href: '/#services' },
   { label: 'Project planner', href: '/#ai-copilot', action: 'copilot' },
-  { label: 'ASCII Lab', href: '/#ascii-lab' },
   { label: 'Team', href: '/team' },
   { label: 'Work', href: '/projects' },
   { label: 'Portfolio', href: '/portfolio' },

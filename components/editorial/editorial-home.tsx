@@ -2,13 +2,11 @@
 
 import { siteConfig } from '@/config';
 import { useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
 import { ServiceIcon } from './editorial-art';
 import TeamOverview from '@/components/team/team-overview';
 import { projects } from '@/lib/editorial';
 import { ReferenceHands } from './reference-hands';
 import AiHomeSection from '@/components/ai/ai-home-section';
-const AsciiMotionLab = dynamic(() => import('@/components/ascii/AsciiMotionLab'), { ssr: false });
 
 const services = [
   ['Embedded systems', 'Intelligence, built in.', 'Connect microcontrollers, sensors and control firmware into thoughtful, testable hardware.'],
@@ -162,8 +160,6 @@ export default function EditorialHome() {
         </section>
 
         <TeamOverview home />
-
-        <div id="ascii-lab" style={{ scrollMarginTop: 80 }}><AsciiMotionLab /></div>
 
         <section id="work" className="ed-section ed-shell ed-work-editorial" aria-labelledby="work-title">
           <div className="ed-work-heading">

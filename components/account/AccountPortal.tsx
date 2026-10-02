@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useRef, useState, type FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import SocialLinks from "@/components/social-links";
 import ProjectWorkspace from "./ProjectWorkspace";
 import NotificationCenter from "./NotificationCenter";
@@ -109,6 +109,11 @@ function RequestForm({ account, projectName }: { account: AccountController; pro
 function CustomerPanel({ account, projectName }: { account: AccountController; projectName?: string }) {
   const customer = account.customer!;
   const { owner } = useOwnerAccess(customer.uid);
+  const router = useRouter();
+  useEffect(() => {
+    if (owner) router.replace("/owner");
+  }, [owner, router]);
+  if (owner) return <p role="status" className="portal-muted">Opening your founder dashboard…</p>;
   return <section id="customer-panel" aria-labelledby="customer-heading">
     <div className="mb-8 flex flex-wrap items-start justify-between gap-5 border-b border-white/10 pb-7">
       <div><p className="section-kicker mb-3">Your customer space</p><h2 id="customer-heading" className="text-2xl font-medium tracking-tight sm:text-3xl">Welcome, <span id="customer-name" className="break-words">{customer.displayName || customer.email || "there"}</span>.</h2>{customer.displayName && <p className="mt-2 break-all text-sm text-neutral-500">{customer.email}</p>}</div>

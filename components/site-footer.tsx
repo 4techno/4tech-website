@@ -20,7 +20,6 @@ export default function SiteFooter() {
         <div>
           <h3>Explore</h3>
           <Link href="/#services">Services</Link>
-          <Link href="/#ascii-lab">ASCII Motion Lab</Link>
           <Link href="/founder">Founder (Mohammed Vashir)</Link>
           <Link href="/co-founder">Co-founder (Sabeel Ahamed)</Link>
           <Link href="/team">Leadership &amp; team</Link>
