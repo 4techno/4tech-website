@@ -7,6 +7,7 @@ import { openAiCopilot } from '@/components/ai/ai-copilot';
 
 const navigation = [
   { label: 'Services', href: '/#services' },
+  { label: 'Process', href: '/#roadmap' },
   { label: 'Project planner', href: '/#ai-copilot', action: 'copilot' },
   { label: 'Team', href: '/team' },
   { label: 'Work', href: '/projects' },
@@ -97,7 +98,7 @@ export default function EditorialNavigation() {
             <Link className="ed-login-link" href="/account">
               Login
             </Link>
-            <Link className="ed-button ed-button-small" href="/#contact">
+            <Link className="ed-button ed-button-small" href="/account">
               Start a project
             </Link>
             <button

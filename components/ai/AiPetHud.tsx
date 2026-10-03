@@ -1,7 +1,9 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { FormEvent, RefObject, useEffect, useRef, useState } from 'react';
 import { askEngineeringAssistant, isEngineeringAiConfigured, type EngineeringMessage, type EngineeringReply } from '@/lib/engineering-assistant';
+import { createPlannerBrief, draftFromEngineeringReply, plannerProjectTypes, savePlannerBrief } from '@/lib/planner-brief';
 import { ProbeAvatar, type CompanionState } from './AiPetAssistant';
 import styles from './AiPetHud.module.css';
 
@@ -41,7 +43,10 @@ export default function AiPetHud({ initialPrompt, onClose, onStateChange, launch
     };
   }, [onClose, launcherRef]);
 
-  useEffect(() => { bottom.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, [entries, busy]);
+  useEffect(() => {
+    const motionPaused = document.documentElement.dataset.motion === 'paused';
+    bottom.current?.scrollIntoView({ block: 'nearest', behavior: motionPaused ? 'instant' : 'smooth' });
+  }, [entries, busy]);
 
   async function send(event?: FormEvent, suggestion?: string) {
     event?.preventDefault();
@@ -96,7 +101,8 @@ export default function AiPetHud({ initialPrompt, onClose, onStateChange, launch
           <List title="Questions to resolve" values={entry.reply.questions}/>
           {!!entry.reply.sources.length && <div className={styles.group}><h3>Official references to check</h3><ul>{entry.reply.sources.map(source => <li key={source.id}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></li>)}</ul></div>}
           <p className={styles.caveat}>{entry.reply.disclaimer}</p>
-          <nav className={styles.links} aria-label="4TECH next steps">{entry.reply.links.map(link => <a key={link.href} href={link.href}>{link.label}</a>)}</nav>
+          <nav className={styles.links} aria-label="4TECH next steps">{entry.reply.links.filter(link => link.href !== '/account').map(link => <a key={link.href} href={link.href}>{link.label}</a>)}</nav>
+          <PlannerBriefForm question={entry.question} reply={entry.reply}/>
         </div>}
         {entry.error && <p className={styles.error} role="alert">{entry.error}</p>}
         {!entry.reply && !entry.error && <p className={styles.pending} role="status">Working through the engineering brief…</p>}
@@ -114,4 +120,38 @@ export default function AiPetHud({ initialPrompt, onClose, onStateChange, launch
 function List({ title, values, ordered = false }: { title: string; values: string[]; ordered?: boolean }) {
   if (!values.length) return null;
   return <div className={styles.group}><h3>{title}</h3>{ordered ? <ol>{values.map((item, index) => <li key={index}>{item}</li>)}</ol> : <ul>{values.map((item, index) => <li key={index}>{item}</li>)}</ul>}</div>;
+}
+
+function PlannerBriefForm({ question, reply }: { question: string; reply: EngineeringReply }) {
+  const router = useRouter();
+  const [fields, setFields] = useState(() => draftFromEngineeringReply(question, reply));
+  const [error, setError] = useState('');
+  function continueToEnquiry(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!event.currentTarget.reportValidity()) return;
+    try {
+      const brief = createPlannerBrief(fields);
+      if (!savePlannerBrief(brief)) throw new Error('Your browser could not keep this brief for the next page. Copy your notes before continuing.');
+      setError('');
+      router.push('/account');
+    } catch (cause) { setError(cause instanceof Error ? cause.message : 'Please review this brief and try again.'); }
+  }
+  return <details className={styles.brief} open={reply.source === 'local'}>
+    <summary>Turn this plan into a customer brief</summary>
+    <form onSubmit={continueToEnquiry} className={styles.briefForm}>
+      <p>Review the fields before continuing. Your draft stays in this browser tab for up to 24 hours. It is sent to 4TECH only after you submit the enquiry in your account.</p>
+      <label>Project type<select value={fields.projectType} onChange={event => setFields(current => ({ ...current, projectType: event.target.value }))}>{plannerProjectTypes.map(type => <option key={type} value={type}>{type}</option>)}</select></label>
+      <label>Project title<input required minLength={3} maxLength={120} value={fields.title} onChange={event => setFields(current => ({ ...current, title: event.target.value }))}/></label>
+      <label>Goal<textarea required minLength={10} maxLength={3000} rows={3} value={fields.goal} onChange={event => setFields(current => ({ ...current, goal: event.target.value }))}/></label>
+      <label>Equipment and constraints <span>(optional)</span><textarea maxLength={1300} rows={2} value={fields.constraints} onChange={event => setFields(current => ({ ...current, constraints: event.target.value }))} placeholder="Available parts, workspace, power limits, or requirements"/></label>
+      <div className={styles.briefPair}>
+        <label>Timeline <span>(optional)</span><input maxLength={100} value={fields.timeline} onChange={event => setFields(current => ({ ...current, timeline: event.target.value }))} placeholder="For example, 2–4 weeks"/></label>
+        <label>Budget range <span>(optional)</span><input maxLength={100} value={fields.budgetRange} onChange={event => setFields(current => ({ ...current, budgetRange: event.target.value }))} placeholder="For example, ₹5,000–₹15,000"/></label>
+      </div>
+      <label>Open questions <span>(editable)</span><textarea maxLength={800} rows={3} value={fields.openQuestions} onChange={event => setFields(current => ({ ...current, openQuestions: event.target.value }))}/></label>
+      <label>Planning notes <span>(unvalidated starting points)</span><textarea maxLength={400} rows={3} value={fields.planningNotes} onChange={event => setFields(current => ({ ...current, planningNotes: event.target.value }))}/></label>
+      {error && <p className={styles.error} role="alert">{error}</p>}
+      <button type="submit">Review in customer enquiry →</button>
+    </form>
+  </details>;
 }

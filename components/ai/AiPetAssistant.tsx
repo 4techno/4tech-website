@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useMotionPreferences } from '@/components/motion-preferences';
 import { OPEN_COPILOT_EVENT } from './ai-copilot-events';
 import styles from './AiPetAssistant.module.css';
 
@@ -36,6 +37,8 @@ export default function AiPetAssistant() {
   const [prefill, setPrefill] = useState('');
   const [state, setState] = useState<CompanionState>('idle');
   const [pageVisible, setPageVisible] = useState(true);
+  const { reduced, paused } = useMotionPreferences();
+  const motionPaused = !pageVisible || reduced || paused;
   const launcher = useRef<HTMLButtonElement>(null);
   const springNode = useRef<HTMLSpanElement>(null);
   const sleepTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -75,7 +78,7 @@ export default function AiPetAssistant() {
 
   useEffect(() => {
     const node = springNode.current;
-    if (!node || open || !pageVisible || state === 'sleep') return;
+    if (!node || open || motionPaused || state === 'sleep') return;
     const media = window.matchMedia('(prefers-reduced-motion: reduce), (pointer: coarse)');
     let frame = 0, x = 0, y = 0, vx = 0, vy = 0, targetX = 0, targetY = 0, lastTime = 0;
     let lastScroll = window.scrollY;
@@ -115,10 +118,10 @@ export default function AiPetAssistant() {
       document.removeEventListener('pointerleave', reset);
       media.removeEventListener('change', preference);
     };
-  }, [open, pageVisible, state]);
+  }, [open, motionPaused, state]);
 
   return (
-    <div className={styles.root} data-state={state} data-paused={!pageVisible || undefined}>
+    <div className={styles.root} data-state={state} data-paused={motionPaused || undefined}>
       <button ref={launcher} type="button" className={styles.launcher} hidden={open} onPointerEnter={wake} onFocus={wake}
         onClick={() => { wake(); setOpen(true); }} aria-label="Open 4TECH engineering companion" aria-haspopup="dialog" aria-expanded={open}>
         <span className={styles.launcherLabel}><strong>4TECH / PROBE</strong><span>{state === 'sleep' ? 'Tap to wake' : 'Engineering companion'}</span></span>

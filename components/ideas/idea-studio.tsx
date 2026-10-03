@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { User } from "firebase/auth";
 import { buildLocalBrief, formatIdeaBrief, ideaBudgets, ideaDomains, ideaSkills, ideaTimelines, validIdeaResult, type IdeaInput, type IdeaResult } from "@/lib/idea-contract";
 import { openAiCopilot } from "@/components/ai/ai-copilot";
+import { createPlannerBrief, draftFromIdea, savePlannerBrief } from "@/lib/planner-brief";
 import styles from "./idea-studio.module.css";
 
 const configuredEndpoint = process.env.NEXT_PUBLIC_IDEA_API_URL?.trim() || "";
@@ -72,6 +74,7 @@ const quickPrompts = [
 ];
 
 export default function IdeaStudio() {
+  const router = useRouter();
   const [input, setInput] = useState<IdeaInput>(initialInput);
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(!endpoint);
@@ -79,6 +82,7 @@ export default function IdeaStudio() {
   const [submittedInput, setSubmittedInput] = useState<IdeaInput>(initialInput);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [handoffMessage, setHandoffMessage] = useState("");
   const [copied, setCopied] = useState<number | null>(null);
   const requestRef = useRef<AbortController | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -95,7 +99,7 @@ export default function IdeaStudio() {
 
   function update<K extends keyof IdeaInput>(key: K, value: IdeaInput[K]) { setInput((previous) => ({ ...previous, [key]: value })); }
   function showResult(next: IdeaResult, snapshot: IdeaInput) {
-    setResult(next); setSubmittedInput(snapshot); setCopied(null);
+    setResult(next); setSubmittedInput(snapshot); setCopied(null); setHandoffMessage("");
     requestAnimationFrame(() => resultRef.current?.focus({ preventScroll: false }));
   }
   function localBrief() {
@@ -151,6 +155,15 @@ export default function IdeaStudio() {
     if (!result) return;
     const url = URL.createObjectURL(new Blob([formatIdeaBrief(submittedInput, result.ideas[index], result.source)], { type: "text/plain;charset=utf-8" }));
     const link = document.createElement("a"); link.href = url; link.download = "4TECH-project-brief.txt"; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  function continueWithBrief(index: number) {
+    if (!result) return;
+    try {
+      const brief = createPlannerBrief(draftFromIdea(submittedInput, result.ideas[index], result.source));
+      if (!savePlannerBrief(brief)) throw new Error("Your browser could not keep this brief for the next page. Download it before continuing.");
+      setHandoffMessage("");
+      router.push("/account");
+    } catch (error) { setHandoffMessage(error instanceof Error ? error.message : "Please try again."); }
   }
 
   return <div className={styles.studio}>
@@ -211,7 +224,7 @@ export default function IdeaStudio() {
       <noscript><p>This guided form needs JavaScript. You can still <a href="/projects">explore our engineering projects</a> or <a href="/#contact">contact 4TECH</a> with your requirements.</p></noscript>
     </form>
     <div ref={resultRef} tabIndex={-1} className={styles.results} aria-label="Your project directions">
-      {result ? <><div className={styles.resultIntro}><span className={styles.kicker}>{result.source === "ai" ? "AI-GENERATED CONCEPTS" : "LOCAL PLANNING WORKSHEET"}</span><h2>A direction to explore.</h2><p>{result.introduction}</p></div>{result.ideas.map((idea, index) => <article className={styles.idea} key={`${index}-${idea.title}`}><div className={styles.ideaIndex}>{String(index + 1).padStart(2, "0")} / CONCEPT</div><h3>{idea.title}</h3><p>{idea.summary}</p><ul className={styles.tags} aria-label="Suggested technologies">{idea.technologies.map((tag, i) => <li key={`${i}-${tag}`}>{tag}</li>)}</ul><details open><summary>System architecture</summary><ol>{idea.architecture.map((step, i) => <li key={i}>{step}</li>)}</ol></details><details><summary>Development milestones</summary><ol>{idea.milestones.map((step, i) => <li key={i}>{step}</li>)}</ol></details><details><summary>Feasibility & open questions</summary><p>{idea.feasibility}</p><ul>{idea.questions.map((question, i) => <li key={i}>{question}</li>)}</ul></details><div className={styles.actions}><button type="button" className={styles.secondary} onClick={() => void copyBrief(index)}>{copied === index ? "Brief copied ✓" : "Copy brief"}</button><button type="button" className={styles.textButton} onClick={() => downloadBrief(index)}>Download brief ↓</button></div><div className={styles.commissionBox}><div><strong>Commission this build with 4TECH</strong><p>Mohammed Vashir and Sabeel Ahamed will evaluate your brief and formulate a complete fabrication proposal.</p></div><Link href="/account#request-heading" className={styles.primary}>Start Project Enquiry →</Link></div></article>)}</> : <div className={styles.empty}><div className={styles.orbit} aria-hidden="true"><span>?</span></div><span className={styles.kicker}>ROOM FOR POSSIBILITY</span><h2>Start with the problem.<br/>Build towards the answer.</h2><p>Your direction will include an architecture, milestones, suggested technologies and the questions worth resolving first.</p><Link href="/projects">Explore completed engineering work</Link></div>}
+      {result ? <><div className={styles.resultIntro}><span className={styles.kicker}>{result.source === "ai" ? "AI-GENERATED CONCEPTS" : "LOCAL PLANNING WORKSHEET"}</span><h2>A direction to explore.</h2><p>{result.introduction}</p></div>{result.ideas.map((idea, index) => <article className={styles.idea} key={`${index}-${idea.title}`}><div className={styles.ideaIndex}>{String(index + 1).padStart(2, "0")} / CONCEPT</div><h3>{idea.title}</h3><p>{idea.summary}</p><ul className={styles.tags} aria-label="Suggested technologies">{idea.technologies.map((tag, i) => <li key={`${i}-${tag}`}>{tag}</li>)}</ul><details open><summary>System architecture</summary><ol>{idea.architecture.map((step, i) => <li key={i}>{step}</li>)}</ol></details><details><summary>Development milestones</summary><ol>{idea.milestones.map((step, i) => <li key={i}>{step}</li>)}</ol></details><details><summary>Feasibility & open questions</summary><p>{idea.feasibility}</p><ul>{idea.questions.map((question, i) => <li key={i}>{question}</li>)}</ul></details><div className={styles.actions}><button type="button" className={styles.secondary} onClick={() => void copyBrief(index)}>{copied === index ? "Brief copied ✓" : "Copy brief"}</button><button type="button" className={styles.textButton} onClick={() => downloadBrief(index)}>Download brief ↓</button></div><div className={styles.commissionBox}><div><strong>Bring this direction to 4TECH</strong><p>Review the brief in your customer account, then submit it for a scope discussion. The plan and budget still need review.</p>{handoffMessage && <p role="alert">{handoffMessage}</p>}</div><button type="button" onClick={() => continueWithBrief(index)} className={styles.primary}>Review enquiry brief →</button></div></article>)}</> : <div className={styles.empty}><div className={styles.orbit} aria-hidden="true"><span>?</span></div><span className={styles.kicker}>ROOM FOR POSSIBILITY</span><h2>Start with the problem.<br/>Build towards the answer.</h2><p>Your direction will include an architecture, milestones, suggested technologies and the questions worth resolving first.</p><Link href="/projects">Explore completed engineering work</Link></div>}
     </div>
   </div>;
 }

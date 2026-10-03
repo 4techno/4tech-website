@@ -30,7 +30,7 @@ const sections = [
   },
   {
     title: "Storage on your device",
-    text: "The authentication service stores session information in your browser so you can stay signed in. Use Sign out on shared devices. Optional visitor analytics stays off until you allow it. Your privacy choice is saved for 180 days and a session identifier lasts for the current tab. Customer and owner workspace pages are excluded from analytics.",
+    text: "The authentication service stores session information in your browser so you can stay signed in. Use Sign out on shared devices. If you choose to review a Project Planner result as an enquiry, that draft stays in this browser tab for up to 24 hours and is not sent to 4TECH until you submit the customer form. Optional visitor analytics stays off until you allow it. Your privacy choice is saved for 180 days and a session identifier lasts for the current tab. Customer and owner workspace pages are excluded from analytics.",
   },
   {
     title: "Your choices",
@@ -40,7 +40,7 @@ const sections = [
 
 export default function PrivacyPage() {
   return <main id="main" className="container-shell pb-24 pt-32 sm:pb-32 sm:pt-40">
-    <div className="mx-auto max-w-3xl"><Link href="/" className="text-sm text-neutral-400 transition-colors hover:text-white"><span aria-hidden="true">← </span>Back to 4tech</Link><p className="section-kicker mb-5 mt-10">A clear approach to your information</p><h1 className="text-4xl font-medium tracking-tight sm:text-6xl">Customer privacy.</h1><p className="mt-6 max-w-xl text-lg leading-8 text-neutral-400">The information behind your account, and the choices you have.</p><p className="mt-4 text-xs text-neutral-500">Last updated 2 October 2026</p>
+    <div className="mx-auto max-w-3xl"><Link href="/" className="text-sm text-neutral-400 transition-colors hover:text-white"><span aria-hidden="true">← </span>Back to 4tech</Link><p className="section-kicker mb-5 mt-10">A clear approach to your information</p><h1 className="text-4xl font-medium tracking-tight sm:text-6xl">Customer privacy.</h1><p className="mt-6 max-w-xl text-lg leading-8 text-neutral-400">The information behind your account, and the choices you have.</p><p className="mt-4 text-xs text-neutral-500">Last updated 3 October 2026</p>
       <div className="mt-12 space-y-9 border-t border-white/10 pt-10">{sections.map((section, index) => <section key={section.title} aria-labelledby={`privacy-${index}`}><h2 id={`privacy-${index}`} className="text-xl font-medium tracking-tight">{section.title}</h2><p className="mt-3 text-base leading-8 text-neutral-400">{section.text}</p></section>)}
         <section aria-labelledby="privacy-contact"><h2 id="privacy-contact" className="text-xl font-medium tracking-tight">Contact</h2><p className="mt-3 text-base leading-8 text-neutral-400">Mohammed Vashir · 4tech<br/>{siteConfig.contacts.location}</p><div className="mt-5 flex flex-wrap gap-3"><a className="button-secondary" href={`mailto:${siteConfig.contacts.email}`}>Email 4tech </a><a className="button-secondary" href={siteConfig.contacts.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp </a></div></section>
       </div>

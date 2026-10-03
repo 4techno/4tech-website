@@ -11,12 +11,11 @@ import {
 } from "firebase/firestore";
 import { getFirebaseClient, type FirebaseClient } from "@/lib/firebase";
 import { recordConsentedSignIn } from "@/lib/visitor-client";
+import type { RequestInput } from "@/lib/customer-request";
+import { requestCategories } from "@/lib/customer-request";
 
-export const requestCategories = [
-  "College project support", "School project support", "Startup prototyping",
-  "Technical training", "Something else",
-] as const;
-export type RequestInput = { title: string; category: string; timeline: string; details: string };
+export { requestCategories };
+export type { RequestInput };
 export type Customer = { uid: string; displayName: string; email: string; verified: boolean };
 export type CustomerRequest = RequestInput & {
   id: string; status: string; createdAt: number | null; pending: boolean;

@@ -1,12 +1,11 @@
-'use client';
-
 import { siteConfig } from '@/config';
-import { useEffect, useRef } from 'react';
 import { ServiceIcon } from './editorial-art';
 import TeamOverview from '@/components/team/team-overview';
 import { projects } from '@/lib/editorial';
 import { ReferenceHands } from './reference-hands';
 import AiHomeSection from '@/components/ai/ai-home-section';
+import DeliveryRoadmap from './delivery-roadmap';
+import EditorialMotion from './editorial-motion';
 
 const services = [
   ['Embedded systems', 'Intelligence, built in.', 'Connect microcontrollers, sensors and control firmware into thoughtful, testable hardware.'],
@@ -25,59 +24,11 @@ const principles = [
 ];
 
 export default function EditorialHome() {
-  const hero = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const animations: Animation[] = [];
-    const frames = new Set<number>();
-    const observer = new IntersectionObserver((entries) => entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target as HTMLElement;
-      if (!reduce.matches) {
-        animations.push(el.animate([{ opacity: 0, transform: 'translateY(40px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 800, delay: Number(el.dataset.delay || 0), easing: 'cubic-bezier(.4,0,.2,1)', fill: 'backwards' }));
-        const number = el.querySelector<HTMLElement>('[data-count]');
-        if (number) {
-          const target = Number(number.dataset.count), start = performance.now();
-          const tick = (now: number) => {
-            const t = Math.min((now - start) / 1500, 1);
-            number.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
-            if (t < 1) frames.add(requestAnimationFrame(tick));
-          };
-          frames.add(requestAnimationFrame(tick));
-        }
-      }
-      observer.unobserve(el);
-    }), { threshold: .15, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.ed-reveal').forEach(el => observer.observe(el));
-    const section = hero.current;
-    const move = (e: PointerEvent) => {
-      if (reduce.matches || e.pointerType !== 'mouse' || !section) return;
-      const r = section.getBoundingClientRect();
-      section.style.setProperty('--reach-x', ((e.clientX - r.left) / r.width - .5) * 12 + 'px');
-      section.style.setProperty('--reach-y', ((e.clientY - r.top) / r.height - .5) * 7 + 'px');
-    };
-    const reset = () => {
-      section?.style.setProperty('--reach-x', '0px');
-      section?.style.setProperty('--reach-y', '0px');
-    };
-    section?.addEventListener('pointermove', move, { passive: true });
-    section?.addEventListener('pointerleave', reset);
-
-    return () => {
-      observer.disconnect();
-      animations.forEach(a => a.cancel());
-      frames.forEach(cancelAnimationFrame);
-      section?.removeEventListener('pointermove', move);
-      section?.removeEventListener('pointerleave', reset);
-    };
-  }, []);
-
   return (
     <>
       <main id="main" className="ed-editorial-home">
-        <section id="home" ref={hero} className="ed-hero" aria-labelledby="hero-title">
+        <EditorialMotion />
+        <section id="home" className="ed-hero" aria-labelledby="hero-title">
           <div className="ed-hero-wash" aria-hidden="true" />
           <div className="ed-hero-copy">
             <p className="ed-eyebrow">
@@ -90,8 +41,8 @@ export default function EditorialHome() {
             <p>
               We develop embedded systems, robotics and RF prototypes, bringing hardware, software and practical engineering together.
             </p>
-            <a href="#contact" className="ed-button ed-hero-cta">
-              Get Started
+            <a href="/account" className="ed-button ed-hero-cta">
+              Start a project brief
             </a>
           </div>
 
@@ -159,6 +110,8 @@ export default function EditorialHome() {
           </div>
         </section>
 
+        <DeliveryRoadmap />
+
         <TeamOverview home />
 
         <section id="work" className="ed-section ed-shell ed-work-editorial" aria-labelledby="work-title">
@@ -186,7 +139,7 @@ export default function EditorialHome() {
                   <p>{project.summary}</p>
                   <div className="ed-case-tags">
                     <span>{project.difficulty}</span>
-                    <span>Completed</span>
+                    <span>{project.stage}</span>
                     <span>Mohammed Vashir</span>
                   </div>
                 </div>
@@ -232,17 +185,18 @@ export default function EditorialHome() {
               <em>extraordinary?</em>
             </h2>
             <p>
-              Bring the question, the sketch or the ambitious idea.<br className="ed-desktop-break" />
-              Let’s work out what comes next.
+              Tell us what you want to build, what it needs to do, and when you need it.
+              We review each brief and follow up with questions or next steps.
             </p>
             <div className="ed-contact-actions">
-              <a className="ed-button ed-button-white" href={'mailto:' + siteConfig.contacts.email + '?subject=Let%27s%20build%20with%204TECH'}>
-                Get In Touch
+              <a className="ed-button ed-button-white" href="/account">
+                Submit a project brief
               </a>
               <a className="ed-button ed-button-outline-white" href={siteConfig.contacts.whatsapp} target="_blank" rel="noopener noreferrer">
-                WhatsApp
+                Discuss on WhatsApp
               </a>
             </div>
+            <p className="ed-contact-note">An account keeps your enquiry and updates together. Prefer email? <a href={'mailto:' + siteConfig.contacts.email + '?subject=Project%20enquiry%20for%204TECH'}>Write to us directly.</a></p>
             <a href="#work" className="ed-contact-work">
               Or explore our work ↓
             </a>

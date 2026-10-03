@@ -28,14 +28,15 @@ export default function MemberPortrait({
         <img
           src={src}
           alt={name}
-          width={960}
-          height={1280}
+          width={768}
+          height={1024}
           loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : undefined}
           decoding="async"
           style={{ objectPosition: position }}
         />
       </button>
-      <figcaption>Hover or tap to reveal colour</figcaption>
+      <figcaption>Hover, focus or tap to reveal colour</figcaption>
     </figure>
   );
 }

@@ -210,3 +210,33 @@
  .caseMeta dt{font-size:11px}.caseMeta dd{font-size:14px}.caseBlock p{font-size:15px;line-height:1.85}
  .resultCount{font-size:11px}.resultCount button{min-height:44px}
 }
+
+/* Flagship case studies distinguish descriptive work from available validation. */
+.caseFigure { margin:2.5rem 0 0; }
+.caseFigure .caseVisual { height:clamp(18rem,40vw,34rem); margin:0; border-radius:16px 16px 0 0; border-bottom:0; }
+.caseCaption { display:grid; grid-template-columns:10rem minmax(0,1fr); gap:1.5rem; padding:1.1rem 1.5rem; border:1px solid #1a1a1a22; border-radius:0 0 16px 16px; background:#fff; }
+.caseCaption strong { color:#222; font:.65rem/1.6 'Geist Mono Variable',monospace; font-weight:600; text-transform:uppercase; letter-spacing:.08em; }
+.caseCaption span { max-width:55rem; color:#626262; font-size:.78rem; line-height:1.7; }
+.evidenceSection .recordKicker { margin-bottom:.75rem; color:#777; font:.65rem/1.5 'Geist Mono Variable',monospace; text-transform:uppercase; letter-spacing:.13em; }
+.evidenceList { list-style:none; margin-top:2rem; border-top:1px solid #1a1a1a24; }
+.evidenceList li { padding:1.5rem 0; border-bottom:1px solid #1a1a1a1c; }
+.evidenceHeading { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:.6rem 1.5rem; margin-bottom:.55rem; }
+.evidenceHeading h3 { font-family:var(--font-inter,'Inter',sans-serif); font-size:1rem; font-weight:600; line-height:1.4; }
+.evidenceState { flex:none; padding:.35rem .55rem; border:1px solid #1a1a1a25; border-radius:100px; color:#454545; background:#f7f7f3; font:.6rem/1.4 'Geist Mono Variable',monospace; white-space:nowrap; }
+.evidenceState[data-state='Not verified'] { border-color:#8f6b543f; background:#f8f3ee; color:#654937; }
+.evidenceState[data-state='Review finding'] { border-color:#83634050; background:#f7f1e8; color:#624628; }
+.evidenceList p { font-size:.88rem; line-height:1.8; }
+.nextChecks { margin-top:1.6rem; padding-top:1.5rem; border-top:1px solid #1a1a1a24; }
+.nextChecks h3 { font-family:var(--font-inter,'Inter',sans-serif); font-size:.84rem; font-weight:600; line-height:1.4; margin-bottom:1rem; }
+.nextChecks ol { list-style:none; counter-reset:check; display:grid; gap:.75rem; }
+.nextChecks li { counter-increment:check; display:grid; grid-template-columns:2rem minmax(0,1fr); gap:.75rem; color:#555; font-size:.83rem; line-height:1.7; }
+.nextChecks li::before { content:counter(check, decimal-leading-zero); color:#777; font:.65rem/2.2 'Geist Mono Variable',monospace; }
+@media(max-width:767px) {
+  .caseFigure { margin-top:2rem; }
+  .caseFigure .caseVisual { height:clamp(14rem,60vw,25rem); }
+  .caseCaption { grid-template-columns:1fr; gap:.4rem; padding:1rem 1.2rem; }
+  .caseCaption span { font-size:.75rem; }
+  .evidenceHeading { align-items:flex-start; }
+  .evidenceList li { padding:1.25rem 0; }
+  .evidenceList p { font-size:.88rem; }
+}

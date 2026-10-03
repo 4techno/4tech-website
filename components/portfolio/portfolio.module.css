@@ -133,9 +133,32 @@
   .modeButtons button { font-size:9px; padding:10px; min-height:44px; }
 }
 
-/* Mobile reading and touch targets. */
+/* Keep anchored chapter headings clear of the site header and sticky chapter bar. */
+.chapter,.contact{scroll-margin-top:160px}
+.chapterNav a:focus-visible{position:relative;outline-offset:2px}
+
+/* The page-wide motion control also applies to CSS transitions. */
+:global(html[data-motion='paused']) .page *,
+:global(html[data-motion='paused']) .page *::before,
+:global(html[data-motion='paused']) .page *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+@media(prefers-reduced-motion:reduce){
+ .page *::before,.page *::after{animation:none!important;transition:none!important}
+}
+
+/* Mobile reading, chapter navigation and touch targets. */
 @media(max-width:767px){
- .chapterNav a{min-height:44px;font-size:11px}.chapterNav>div{padding-block:4px}
- .textLink,.skillProject{font-size:13px;min-height:44px;display:inline-flex;align-items:center}
- .bioColumns dt,.certifications small{font-size:11px}.bioColumns dd,.education p:not(.kicker){font-size:14px}
+ .kicker{font-size:12px;line-height:1.5;letter-spacing:.1em}
+ .heroDescription,.bioColumns>p,.sectionDescription,.skillRow p,.methodDetail p,.contact>div>p:not(.kicker){font-size:15px;line-height:1.75}
+ .chapterNav{background:#f5f5f0;backdrop-filter:none}
+ .chapterNav>div{justify-content:flex-start;gap:8px;padding-block:7px;scrollbar-width:thin;scroll-color:#b6b6b1 transparent;scroll-padding-inline:12px}
+ .chapterNav a{flex:none;min-height:44px;padding-inline:8px;font-size:12px}
+ .chapter,.contact{scroll-margin-top:138px}
+ .stageControls{flex-wrap:wrap;gap:4px 12px}
+ .modeButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:min(100%,420px)}
+ .modeButtons button{min-height:44px;padding:10px 4px;font-size:11px}
+ .pauseButton,.stageCaption{font-size:12px}
+ .textLink,.skillProject{display:inline-flex;align-items:center;min-height:44px;font-size:14px}
+ .bioColumns dt,.certifications small,.methodIndex,.methodDetail ul{font-size:12px}
+ .bioColumns dd,.education p:not(.kicker),.collectionFoot p,.resumeBand p{font-size:14px;line-height:1.75}
+ .skillRow li{font-size:12px;line-height:1.5;padding:8px 10px}
 }
