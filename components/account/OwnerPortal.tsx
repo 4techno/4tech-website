@@ -3,6 +3,7 @@ import Link from "next/link";
 import { doc, onSnapshot } from "firebase/firestore";
 import { getFirebaseClient } from "@/lib/firebase";
 import { FOUNDER_EMAIL } from "@/lib/owner-access";
+import { portalCapabilities } from "@/lib/portal-config";
 import { useEffect, useState, type FormEvent } from "react";
 import { AuthPanel } from "./AccountPortal";
 import { useCustomerAccount } from "./use-customer-account";
@@ -52,7 +53,7 @@ function PhotoLibrary({ uid, category }: { uid: string; category: MediaCategory 
 }
 
 function OwnerWorkspace({ uid }: { uid: string }) {
-  const [tab, setTab] = useState<"analytics" | "projects" | "orders" | MediaCategory>("analytics"), [selection, setSelection] = useState(""), [filter, setFilter] = useState("");
+  const [tab, setTab] = useState<"analytics" | "projects" | "orders" | MediaCategory>(portalCapabilities.visitorAnalytics ? "analytics" : "projects"), [selection, setSelection] = useState(""), [filter, setFilter] = useState("");
   const [stage, setStage] = useState<ProjectStatus | "All">("All");
   const { rows, loading, error } = usePortalRows("requests", true, requestMapper, true);
   const [opened, setOpened] = useState<{ key: string; request: OwnerRequest | null; error: string }>({ key: "", request: null, error: "" });
