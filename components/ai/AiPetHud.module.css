@@ -25,9 +25,24 @@
 .group li { margin: 6px 0; }
 .group a { color: #fff; text-underline-offset: 3px; }
 .calculation { border-left: 2px solid #aaa; padding-left: 10px; margin: 10px 0; }
+.copyBtn { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; margin-bottom: 6px; padding: 8px 14px; background: #181818; border: 1px solid #484848; border-radius: 7px; color: #f0f0f0; font: 700 11px ui-monospace, Consolas, monospace; cursor: pointer; letter-spacing: .06em; transition: background .15s ease, border-color .15s ease, color .15s ease; }
+.copyBtn:hover { background: #252525; border-color: #999; color: #fff; }
+.copyBtnSuccess { background: #222; border-color: #fff; color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.15); }
 .caveat { padding-top: 13px; border-top: 1px solid #333; }
 .links { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
 .links a { padding: 7px 9px; font-size: 11px; }
+.brief { margin-top: 18px; border-top: 1px solid #3b3b3b; padding-top: 15px; }
+.brief > summary { cursor: pointer; font: 700 12px/1.5 ui-monospace, Consolas, monospace; letter-spacing: .03em; }
+.briefForm { display: grid; gap: 11px; margin-top: 12px; }
+.briefForm p { margin: 0; color: #c8c8c8; font-size: 12px; line-height: 1.55; }
+.briefForm label { display: grid; gap: 5px; color: #e5e5e5; font-size: 11px; font-weight: 650; }
+.briefForm label span { color: #aaa; font-weight: 400; }
+.briefForm input, .briefForm select, .briefForm textarea { width: 100%; min-width: 0; padding: 9px; border: 1px solid #555; border-radius: 7px; background: #080808; color: #fff; font: 12px/1.5 inherit; }
+.briefForm textarea { resize: vertical; }
+.briefForm input:focus-visible, .briefForm select:focus-visible, .briefForm textarea:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.briefPair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.briefForm button { width: 100%; padding: 11px 12px; border: 0; border-radius: 7px; background: #f5f5f0; color: #0a0a0a; cursor: pointer; font: 700 11px ui-monospace, Consolas, monospace; }
+.briefForm button:hover { background: #fff; }
 .error, .pending { font-size: 13px; line-height: 1.5; color: #ddd; }
 .error { border-left: 2px solid #f5d293; padding-left: 10px; }
 .composer { padding: 13px 16px 15px; background: #101010; border-top: 1px solid #333; }
@@ -38,5 +53,15 @@
 .formFoot span { color: #aaa; font-size: 10px; }
 .formFoot button { flex: none; color: #000; background: #f5f5f0; border: none; border-radius: 7px; padding: 10px 13px; font: 700 11px ui-monospace, Consolas, monospace; cursor: pointer; }
 .formFoot button:disabled { opacity: .45; cursor: not-allowed; }
-@media (max-width: 600px) { .hud { inset: auto 8px 8px 8px; width: auto; height: min(760px, calc(100dvh - 16px)); border-radius: 15px; } .transcript { padding: 15px; } }
+@media (max-width: 600px) {
+  .hud { inset: auto max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); width: auto; height: min(760px, calc(100dvh - 16px - env(safe-area-inset-bottom))); border-radius: 15px; }
+  .transcript { padding: 15px; }
+  .briefPair { grid-template-columns: 1fr; }
+  .close { width: 44px; height: 44px; flex: none; }
+  .suggestions button,.links a,.brief > summary,.briefForm button,.formFoot button { min-height: 44px; }
+  .links a,.brief > summary { display: inline-flex; align-items: center; }
+  .composer textarea,.briefForm input,.briefForm select,.briefForm textarea { font: 400 16px/1.5 Inter,sans-serif; }
+  .composer label,.briefForm label { font-size: 12px; }
+  .formFoot span { font-size: 11px; }
+}
 @media (prefers-reduced-motion: reduce) { .hud *, .hud *::before { scroll-behavior: auto !important; animation: none !important; transition: none !important; } }

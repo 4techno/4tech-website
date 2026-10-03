@@ -210,3 +210,88 @@
  .caseMeta dt{font-size:11px}.caseMeta dd{font-size:14px}.caseBlock p{font-size:15px;line-height:1.85}
  .resultCount{font-size:11px}.resultCount button{min-height:44px}
 }
+
+/* Flagship case studies distinguish descriptive work from available validation. */
+.caseFigure { margin:2.5rem 0 0; }
+.caseFigure .caseVisual { height:clamp(18rem,40vw,34rem); margin:0; border-radius:16px 16px 0 0; border-bottom:0; }
+.caseCaption { display:grid; grid-template-columns:10rem minmax(0,1fr); gap:1.5rem; padding:1.1rem 1.5rem; border:1px solid #1a1a1a22; border-radius:0 0 16px 16px; background:#fff; }
+.caseCaption strong { color:#222; font:.65rem/1.6 'Geist Mono Variable',monospace; font-weight:600; text-transform:uppercase; letter-spacing:.08em; }
+.caseCaption span { max-width:55rem; color:#626262; font-size:.78rem; line-height:1.7; }
+.evidenceSection .recordKicker { margin-bottom:.75rem; color:#777; font:.65rem/1.5 'Geist Mono Variable',monospace; text-transform:uppercase; letter-spacing:.13em; }
+.evidenceList { list-style:none; margin-top:2rem; border-top:1px solid #1a1a1a24; }
+.evidenceList li { padding:1.5rem 0; border-bottom:1px solid #1a1a1a1c; }
+.evidenceHeading { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:.6rem 1.5rem; margin-bottom:.55rem; }
+.evidenceHeading h3 { font-family:var(--font-inter,'Inter',sans-serif); font-size:1rem; font-weight:600; line-height:1.4; }
+.evidenceState { flex:none; padding:.35rem .55rem; border:1px solid #1a1a1a25; border-radius:100px; color:#454545; background:#f7f7f3; font:.6rem/1.4 'Geist Mono Variable',monospace; white-space:nowrap; }
+.evidenceState[data-state='Not verified'] { border-color:#8f6b543f; background:#f8f3ee; color:#654937; }
+.evidenceState[data-state='Review finding'] { border-color:#83634050; background:#f7f1e8; color:#624628; }
+.evidenceList p { font-size:.88rem; line-height:1.8; }
+.nextChecks { margin-top:1.6rem; padding-top:1.5rem; border-top:1px solid #1a1a1a24; }
+.nextChecks h3 { font-family:var(--font-inter,'Inter',sans-serif); font-size:.84rem; font-weight:600; line-height:1.4; margin-bottom:1rem; }
+.nextChecks ol { list-style:none; counter-reset:check; display:grid; gap:.75rem; }
+.nextChecks li { counter-increment:check; display:grid; grid-template-columns:2rem minmax(0,1fr); gap:.75rem; color:#555; font-size:.83rem; line-height:1.7; }
+.nextChecks li::before { content:counter(check, decimal-leading-zero); color:#777; font:.65rem/2.2 'Geist Mono Variable',monospace; }
+@media(max-width:767px) {
+  .caseFigure { margin-top:2rem; }
+  .caseFigure .caseVisual { height:clamp(14rem,60vw,25rem); }
+  .caseCaption { grid-template-columns:1fr; gap:.4rem; padding:1rem 1.2rem; }
+  .caseCaption span { font-size:.75rem; }
+  .evidenceHeading { align-items:flex-start; }
+  .evidenceList li { padding:1.25rem 0; }
+  .evidenceList p { font-size:.88rem; }
+}
+
+/* Shared project, portfolio and résumé surfaces on the ember theme. */
+.page {
+  --work-accent:#fc6b2f;
+  --work-ink:#ededed;
+  --work-muted:#b5b5b5;
+  --work-line:#383840;
+  color:var(--work-ink);
+  background:#09090c;
+}
+.page :is(.eyebrow,.accent,.skillNumber,.disciplineLine span::before) { color:var(--work-accent); }
+.page :is(.muted,.back,.lede,.disciplineLine,.stageNote,.resultCount,.levelHeading p,.invite p,.profileIntro,.sectionLede,.skillRow p,.educationBody p,.certification time,.certification small,.resumeTop p,.resumeAside p,.resumeSection p,.resumeSection .small,.resumeSkills dd,.caseIntro,.caseMeta dt,.caseNav,.caseBlock p,.nextProject span) { color:var(--work-muted); }
+.page :is(.stageNote strong,.resumeAside strong,.resumeSkills dt,.caseMeta dd,.nextProject strong) { color:var(--work-ink); }
+.page :is(.stageNote,.controls,.invite,.profileSection,.skillRow,.certification,.resumeAside,.resumeDocument,.resumeSection,.caseMeta,.caseBlock,.nextProject,.evidenceList,.evidenceList li,.nextChecks) { border-color:var(--work-line); }
+.page :is(.back,.textLink,.skillRow a,.resumeAside a,.caseNav a,.nextProject) { color:#e5e5e8; }
+.page :is(.back,.textLink,.skillRow a,.resumeAside a,.caseNav a,.nextProject):hover { color:#ffae8c; }
+
+.card,.empty,.focusLab { color:#ededed; background:#111116; border-color:#383840; box-shadow:none; }
+.card:hover,.card:focus-within { color:#ededed; background:#181820; border-color:#fc6b2f88; box-shadow:none; }
+.card h3,.card h3 a,.viewLink,.viewLink span[aria-hidden=true],.empty h2,.labCaption a { color:#ededed; }
+.card h3 a:hover,.viewLink:hover,.labCaption a:hover { color:#ffae8c; }
+.card :is(.summary,.stage,.domain),.empty p,.labCaption span { color:#b5b5b5; }
+.cardVisual,.projectGrid>div:first-child .cardVisual,.viewLink,.labTabs,.labCaption { border-color:#383840; }
+.badge,.badge[data-level='Research Level'] { color:#ffd0bd; background:#fc6b2f18; border-color:#fc6b2f70; }
+.tags li,.caseTech li,.skillRow li { color:#d5d5d9; background:#1b1b23; border-color:#42424a; }
+.empty { border-color:#383840; }
+
+.filterTabs button { color:#d0d0d4; background:#111116; border-color:#383840; }
+.filterTabs button:hover { color:#ededed; background:#181820; border-color:#fc6b2f88; }
+.filterTabs button[aria-pressed=true],.labTabs button[aria-pressed=true] { color:#09090c; background:#fc6b2f; border-color:#fc6b2f; }
+.searchField label,.resultCount { color:#b5b5b5; }
+.searchField input { color:#ededed; background:#111116; border-color:#44444c; }
+.searchField input::placeholder { color:#9999a2; }
+.searchField input:focus { border-color:#fc6b2f; box-shadow:0 0 0 3px #fc6b2f24; }
+.resultCount button { color:#ffae8c; }
+.labTabs button { color:#c0c0c6; }
+.labTabs button:not([aria-pressed=true]):hover { color:#ffae8c; background:#181820; }
+.labCaption { background:#111116; }
+
+.caseCaption { color:#ededed; background:#111116; border-color:#383840; }
+.caseCaption strong,.evidenceHeading h3,.validation h2,.nextChecks h3 { color:#ededed; }
+.caseCaption span,.evidenceList p,.validation p,.nextChecks li { color:#b5b5b5; }
+.caseMeta dd .badge { color:#ffd0bd; }
+.caseFigure .caseVisual { border-color:#383840; }
+.evidenceSection .recordKicker,.nextChecks li::before { color:#ffae8c; }
+.evidenceState { color:#dedee2; background:#1b1b23; border-color:#45454d; }
+.evidenceState[data-state='Not verified'],.evidenceState[data-state='Review finding'] { color:#ffd0bd; background:#fc6b2f18; border-color:#fc6b2f66; }
+.validation { color:#ededed; background:#181820; border-color:#fc6b2f; }
+
+@media print {
+  .page { --work-accent:#111; --work-ink:#111; --work-muted:#333; --work-line:#ccc; color:#111; background:#fff; }
+  .resumeDocument,.resumeSection { color:#111; background:#fff; border-color:#ccc; }
+  .printIdentity :is(h2,p),.resumeSection :is(h2,h3,p,strong,a,dt,dd),.resumeSection .small { color:#111; }
+  .printIdentity p,.resumeSection p,.resumeSkills dd { color:#333; }
+}

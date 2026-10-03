@@ -12,3 +12,12 @@
  .hero h1{font-size:clamp(43px,11vw,68px);line-height:1.08}.hero p:not(.role){font-size:16px}
  .teamIntro h1{font-size:clamp(44px,12vw,68px)}.teamIntro>p:last-child{font-size:16px}
 }
+
+.portrait picture{display:block;width:100%;height:100%}
+.back{display:inline-flex;align-items:center;min-height:44px}
+.split[id]{scroll-margin-top:100px}
+@media(max-width:767px){
+ .project .meta,.facts dt,.tags li,.leadership small{font-size:12px}
+ .project p,.focus{font-size:15px}
+ .portraitFigure figcaption{font-size:12px;line-height:1.5}
+}

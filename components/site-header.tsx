@@ -1,5 +1,5 @@
-import EditorialNavigation from './editorial/editorial-navigation';
+import StaggeredMenu from './jm/staggered-menu';
 
 export default function SiteHeader() {
-  return <EditorialNavigation />;
+  return <StaggeredMenu />;
 }

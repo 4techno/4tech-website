@@ -5,6 +5,7 @@ import { siteUrl } from '@/config';
 import { getProjectBySlug, projects } from '@/lib/projects';
 import Reveal from '@/components/reveal';
 import TextReveal from '@/components/text-reveal';
+import { ProjectVisual } from '@/components/projects/ProjectVisual';
 import styles from '@/components/projects/secondary.module.css';
 
 type ProjectPageProps = { params: Promise<{ slug: string }> };
@@ -30,6 +31,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();
+  const caseStudy = project.caseStudy;
   const index = projects.findIndex(entry => entry.id === project.id);
   const next = projects[(index + 1) % projects.length];
   return <main id="main" className={styles.page}>
@@ -45,14 +47,27 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <div><dt>Difficulty</dt><dd><span className={styles.badge} data-level={project.difficulty}>{project.difficulty}</span></dd></div>
         </dl>
       </header>
+      {caseStudy && <figure className={styles.caseFigure}>
+        <ProjectVisual art={caseStudy.visual} className={styles.caseVisual} />
+        <figcaption className={styles.caseCaption}><strong>Illustrative diagram</strong><span>{caseStudy.media}</span></figcaption>
+      </figure>}
       <div className={styles.caseLayout}>
-        <nav className={styles.caseNav} aria-label="Project sections"><a href="#problem">01 / The problem</a><a href="#approach">02 / The approach</a><a href="#technologies">03 / Technologies</a><a href="#contribution">04 / Contribution</a><a href="#validation">05 / Development record</a></nav>
+        <nav className={styles.caseNav} aria-label="Project sections"><a href="#problem">01 / The problem</a><a href="#approach">02 / The approach</a><a href="#technologies">03 / Technologies</a><a href="#contribution">04 / Contribution</a>{caseStudy && <a href="#evidence">05 / Evidence record</a>}<a href="#validation">{caseStudy ? '06' : '05'} / Validation</a></nav>
         <div className={styles.caseContent}>
           <section id="problem" className={styles.caseBlock}><Reveal><h2>The problem.</h2><p>{project.problem}</p></Reveal></section>
           <section id="approach" className={styles.caseBlock}><Reveal><h2>The engineering approach.</h2><p>{project.solution}</p><p>{project.body}</p></Reveal></section>
           <section id="technologies" className={styles.caseBlock}><Reveal><h2>The toolkit.</h2><ul className={styles.caseTech}>{project.tech.map(technology => <li key={technology}>{technology}</li>)}</ul></Reveal></section>
           <section id="contribution" className={styles.caseBlock}><Reveal><h2>Engineering contribution.</h2><p>{project.impact}</p></Reveal></section>
-          <section id="validation" className={styles.validation} aria-labelledby="validation-heading"><h2 id="validation-heading">Technical scope</h2><p>{project.validation}</p></section>
+          {caseStudy && <section id="evidence" className={`${styles.caseBlock} ${styles.evidenceSection}`} aria-labelledby="evidence-heading">
+            <p className={styles.recordKicker}>Project documentation</p>
+            <h2 id="evidence-heading">What the record supports.</h2>
+            <p>{caseStudy.basis}</p>
+            <ol className={styles.evidenceList}>{caseStudy.evidence.map(item => <li key={item.subject}>
+              <div className={styles.evidenceHeading}><h3>{item.subject}</h3><span className={styles.evidenceState} data-state={item.state}>{item.state}</span></div>
+              <p>{item.detail}</p>
+            </li>)}</ol>
+          </section>}
+          <section id="validation" className={styles.validation} aria-labelledby="validation-heading"><h2 id="validation-heading">Technical scope &amp; validation</h2><p>{project.validation}</p>{caseStudy && <div className={styles.nextChecks}><h3>What would verify performance</h3><ol>{caseStudy.nextChecks.map(check => <li key={check}>{check}</li>)}</ol></div>}</section>
         </div>
       </div>
       <section className={styles.invite}><div><h2>Have a related <span className={styles.accent}>challenge?</span></h2><p>Start with your goal. We will work through the possibilities.</p></div><Link href={`/account?project=${project.id}`} className="button-primary">Discuss a similar project</Link></section>

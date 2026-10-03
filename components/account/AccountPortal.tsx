@@ -9,6 +9,7 @@ import NotificationCenter from "./NotificationCenter";
 import { useOwnerAccess } from "./use-portal-data";
 import { projects } from "@/lib/projects";
 import { portalCapabilities } from "@/lib/portal-config";
+import { clearPlannerBrief, formatPlannerRequest, readPlannerBrief, type PlannerBrief } from "@/lib/planner-brief";
 import {
   requestCategories, useCustomerAccount, type CustomerRequest, type RequestInput,
 } from "./use-customer-account";
@@ -76,22 +77,24 @@ function RequestCard({ request, uid }: { request: CustomerRequest; uid: string }
   </article>;
 }
 
-function RequestForm({ account, projectName }: { account: AccountController; projectName?: string }) {
-  const [title, setTitle] = useState(projectName ? `Enquiry: ${projectName}`.slice(0, 120) : "");
-  const [category, setCategory] = useState<string>(requestCategories[0]);
-  const [timeline, setTimeline] = useState("");
-  const [details, setDetails] = useState("");
+function RequestForm({ account, projectName, brief, onClearBrief }: { account: AccountController; projectName?: string; brief: PlannerBrief | null; onClearBrief: () => void }) {
+  const initial = brief ? formatPlannerRequest(brief) : null;
+  const [title, setTitle] = useState(initial?.title ?? (projectName ? `Enquiry: ${projectName}`.slice(0, 120) : ""));
+  const [category, setCategory] = useState<string>(initial?.category ?? requestCategories[0]);
+  const [timeline, setTimeline] = useState(initial?.timeline ?? "");
+  const [details, setDetails] = useState(initial?.details ?? "");
   const connected = account.historyState === "ready";
   const disabled = !account.customer?.verified || account.requestBusy || account.authBusy || account.unavailable || !connected;
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!event.currentTarget.reportValidity()) return;
     const input: RequestInput = { title, category, timeline, details };
-    if (await account.submitRequest(input)) { setTitle(""); setCategory(requestCategories[0]); setTimeline(""); setDetails(""); }
+    if (await account.submitRequest(input)) { setTitle(""); setCategory(requestCategories[0]); setTimeline(""); setDetails(""); if (brief) onClearBrief(); }
   }
   return <section className="panel p-6 sm:p-8" aria-labelledby="request-heading">
     <p className="section-kicker mb-3">Start something</p><h3 id="request-heading" className="text-2xl font-medium tracking-tight">Tell us what you have in mind.</h3>
     <p className="mt-3 text-sm leading-6 text-neutral-400">A starting point, a question, or a project that needs a second pair of eyes.</p>
+    {brief && <div className="mt-4 rounded-xl border border-[#ff3b55]/30 bg-[#ff3b55]/[0.06] p-4"><p className="text-sm font-medium text-neutral-100">Your {brief.source === "direct" ? "enquiry draft" : "planning brief"} is ready to review.</p><p className="mt-1 text-xs leading-5 text-neutral-400">Edit any field below before submitting. The draft stays in this tab until you submit it, remove it, or close the tab.{brief.source !== "direct" && " Planning notes are starting points, not verified engineering advice."}</p><button type="button" className="mt-3 text-xs text-[#ff8697] underline underline-offset-4" onClick={onClearBrief}>Remove this draft</button></div>}
     {!connected && account.customer?.verified && <p className="mt-4 rounded-xl bg-white/5 p-3 text-sm leading-6 text-neutral-400">{account.historyState === "error" ? "Requests are temporarily unavailable. You can reach us through WhatsApp or email." : "Connecting to your account before accepting a new request…"}</p>}
     <form id="request-form" className="mt-6" onSubmit={submit} aria-busy={account.requestBusy}>
       <fieldset className="space-y-5 disabled:opacity-50" disabled={disabled}>
@@ -106,7 +109,7 @@ function RequestForm({ account, projectName }: { account: AccountController; pro
   </section>;
 }
 
-function CustomerPanel({ account, projectName }: { account: AccountController; projectName?: string }) {
+function CustomerPanel({ account, projectName, brief, onClearBrief }: { account: AccountController; projectName?: string; brief: PlannerBrief | null; onClearBrief: () => void }) {
   const customer = account.customer!;
   const { owner } = useOwnerAccess(customer.uid);
   const router = useRouter();
@@ -126,7 +129,7 @@ function CustomerPanel({ account, projectName }: { account: AccountController; p
     <p id="request-status" role="status" aria-live="polite" className="mb-5 min-h-6 text-sm leading-6 text-neutral-300">{account.requestStatus}</p>
     {portalCapabilities.workspace && <NotificationCenter key={customer.uid} uid={customer.uid} verified={customer.verified}/>}
     <div className="grid items-start gap-8 lg:grid-cols-[1.05fr_1fr]">
-      <RequestForm key={`${customer.uid}:${projectName ?? ""}`} account={account} projectName={projectName}/>
+      <RequestForm key={`${customer.uid}:${projectName ?? ""}:${brief?.createdAt ?? ""}`} account={account} projectName={projectName} brief={brief} onClearBrief={onClearBrief}/>
       <section className="lg:pt-2" aria-labelledby="history-heading"><div className="mb-6 flex items-center justify-between"><h3 id="history-heading" className="text-xl font-medium tracking-tight">Your requests</h3>{account.historyState === "ready" && <span className="text-xs text-neutral-500">{account.requests.length} total</span>}</div>
         <div id="request-list" aria-live="polite" aria-busy={account.historyState === "loading"} className="space-y-4">
           {account.historyMessage && <p className="rounded-2xl border border-white/10 p-5 text-sm leading-6 text-neutral-400">{account.historyMessage}</p>}
@@ -143,10 +146,14 @@ export default function AccountPortal() {
   const search = useSearchParams();
   const project = projects.find((item) => item.id === search.get("project"));
   const account = useCustomerAccount();
-  if (account.customer && !account.unavailable) return <CustomerPanel account={account} projectName={project?.name}/>;
+  const [brief, setBrief] = useState<PlannerBrief | null>(null);
+  useEffect(() => { setBrief(readPlannerBrief()); }, []);
+  function clearBrief() { clearPlannerBrief(); setBrief(null); }
+  if (account.customer && !account.unavailable) return <CustomerPanel account={account} projectName={project?.name} brief={brief} onClearBrief={clearBrief}/>;
   return <div className="grid items-start gap-10 lg:grid-cols-[1fr_1fr] lg:gap-20">
     <div className="max-w-lg lg:pt-9"><p className="section-kicker mb-5">A direct line to 4tech</p><h2 className="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">A place for your<br/><span className="text-neutral-500">next possibility.</span></h2><p className="mt-6 text-base leading-7 text-neutral-400">Share what you’re working on, keep your enquiries in one place, and follow updates as the conversation develops.</p>
       {project && <div className="mt-7 rounded-xl border-l-2 border-[#ff3b55] bg-white/[0.03] px-5 py-4"><p className="text-xs text-neutral-500">You’re enquiring about</p><p className="mt-1 text-sm text-neutral-200">{project.name}</p><p className="mt-2 text-xs leading-5 text-neutral-500">Your request title will be filled in after sign-in.</p></div>}
+      {brief && <div className="mt-7 rounded-xl border-l-2 border-[#ff3b55] bg-white/[0.03] px-5 py-4"><p className="text-xs text-neutral-500">Your {brief.source === "direct" ? "enquiry draft" : "planning brief"} is ready</p><p className="mt-1 break-words text-sm text-neutral-200">{brief.title}</p><p className="mt-2 text-xs leading-5 text-neutral-500">Sign in to review and submit it. It remains in this browser tab until you submit, remove it, or close the tab.</p><button type="button" className="mt-3 text-xs text-[#ff8697] underline underline-offset-4" onClick={clearBrief}>Remove this draft</button></div>}
       <ol className="my-8 space-y-4 border-y border-white/10 py-7 text-sm text-neutral-300"><li className="flex gap-4"><span className="font-mono text-xs text-[#ff3b55]">01</span>Sign in, or create your account.</li><li className="flex gap-4"><span className="font-mono text-xs text-[#ff3b55]">02</span>Tell us about your project.</li><li className="flex gap-4"><span className="font-mono text-xs text-[#ff3b55]">03</span>Find your requests and updates here.</li></ol><ContactFallback/>
     </div>
     <AuthPanel account={account}/>

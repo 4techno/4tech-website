@@ -15,6 +15,9 @@ test('AI assistant generates structured drone engineering advice', async () => {
   assert.equal(result.briefData?.domain, 'Robotics & Autonomous Systems');
   assert.ok(result.briefData?.hardwareBOM.length >= 4);
   assert.ok(result.briefData?.architecture.length >= 3);
+  assert.match(result.briefData?.estimatedBudgetINR || '', /pending scoped quotation/i);
+  assert.ok(result.briefData?.hardwareBOM.every(item => /unpriced/i.test(item.estimatedCostINR)));
+  assert.doesNotMatch(result.content, /18,500|500Hz|65°|10\.5V|under 2ms/);
 });
 
 test('AI assistant generates structured robotic arm engineering advice', async () => {
@@ -23,6 +26,8 @@ test('AI assistant generates structured robotic arm engineering advice', async (
   assert.ok(result.briefData);
   assert.equal(result.briefData?.domain, 'Robotics & Mechanisms');
   assert.ok(result.briefData?.estimatedBudgetINR.includes('₹'));
+  assert.match(result.briefData?.suggestedTimeline || '', /to be agreed/i);
+  assert.doesNotMatch(result.content, /1:10|sub-millimeter|under 2ms/);
 });
 
 test('AI assistant generates resonant wireless power transfer blueprint', async () => {

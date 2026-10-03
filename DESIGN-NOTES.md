@@ -1,38 +1,35 @@
-# 4tech design and integration notes
+# 4TECH design and integration notes
 
-The September 2026 design uses charcoal, warm white, red and a restrained copper accent. It presents 4tech as an engineering practice, with a separate personal portfolio and an evidence-aware project collection. The original user-supplied portfolio ZIP is preserved outside the application.
+The current source uses the Ember direction: near-black surfaces, warm orange accents, large editorial type, soft glow and technical illustration. The homepage leads through the studio message, engineering focus, an expanding philosophy image, selected projects, capabilities, a delivery roadmap, the team and a customer enquiry draft. This describes the working tree; the existing Cloudflare URL needs a new static upload and live check before it represents this redesign.
 
 ## Reference and adaptation
 
-- [Anime.js](https://animejs.com/) informs the relationship between interactive geometry, bold typography and small purposeful controls. Anime.js is used for signal traces and scroll-responsive geometry.
-- The supplied `portfolio_full_project.zip` contributes its five-chapter narrative, cinematic 3D direction, discipline exploration and process structure. Its Vite application is adapted into Next.js `/portfolio`, rather than nested as a second app.
-- Earlier Next.js, React Bits, Framer and Origin Kit references informed spacing, text reveals and subtle pointer feedback. This release uses the existing brand identity and original code-native engineering visuals.
+- The supplied `portfolio_full_project.zip` informed the separate `/portfolio` chapter structure. Its Vite application was adapted into Next.js rather than nested as another app. The personal portfolio retains its own lazy-loaded 3D presentation; the homepage now uses the Ember components in `components/jm/` and `components/editorial/`.
+- The uploaded `ChapterMethod.jsx` imports a missing `MethodScene.jsx`; this app supplies its own scene components. The uploaded contact form used a process-memory Express endpoint that cannot serve the static Cloudflare export. The current homepage form saves an editable, tab-scoped draft and opens `/account`; only the verified customer's explicit submission writes a Firebase enquiry.
+- The uploaded résumé's unsupported claims about production-grade systems and measured performance were not imported. `lib/profile.ts`, `lib/team.ts` and `lib/projects.ts` own the displayed biographies and project descriptions.
 
-## Errors addressed during integration
+## Portraits and project evidence
 
-The uploaded `ChapterMethod.jsx` imports `MethodScene.jsx`, which is absent from the archive. The integrated portfolio supplies its own complete scene components. Its contact form also calls a local Express endpoint that cannot run on static Cloudflare Pages; the uploaded server stores enquiries in process memory. Enquiries now lead to the existing authenticated Firebase customer area, where persisted requests are protected by rules.
+Mohammed Vashir's and Sabeel Ahamed's approved public portraits are in `public/assets/team/` as JPG and responsive WebP files. `lib/team.ts` selects them for the team and profile pages; `config.js` also names Mohammed's public portrait. Hover, focus or tap reveals colour. These static files are available to every visitor after deployment. The `/owner` personal and business photo libraries use private Firebase Storage when activated. An owner-library upload does not replace or publish a portrait.
 
-The uploaded résumé's unsupported claims about production-grade systems and measured performance were not imported. `lib/profile.ts` and `lib/projects.ts` remain the content sources, with development stages visible. The current résumé PDF remains linked. No personal portrait or unrelated Venus model is included in the public build.
+All 15 catalogue records currently show the owner-reported stage **Completed**. The four featured case studies have explicit evidence states and missing checks. Project diagrams remain labeled as illustrations; they are not test photographs, verified CAD outputs or measured plots. Completion does not imply quantified performance, manufacturing release, flight readiness or safety certification. Keep those distinctions in copy and captions.
 
-## Motion and performance
+## Motion and access
 
-- `components/engine/` isolates the homepage React Three Fiber renderer behind a client-side dynamic import. It contains an interactive engineering instrument and cursor-repulsion particles using the tested damped spring simulation.
-- The instrument's 96 tick marks share an instanced draw call. Particle count and pixel density are reduced for compact or coarse-pointer devices.
-- The portfolio's heavy 3D presentation is separately lazy loaded. Chapter text, headings, résumé links and project navigation remain available without WebGL.
-- `components/engineering-lab.tsx` draws conceptual signal paths using scoped Anime.js animations. `components/scroll-assembly.tsx` responds to native scroll progress. Both clean up their animation scope.
-- `components/motion-preferences.tsx` provides a shared pause setting and respects reduced-motion preferences. Continuous scenes stop when offscreen or the browser tab is hidden.
-- No scroll hijacking, forced intro, autoplay audio, custom cursor or hover-only essential information is required to explore the site.
-- Integrated Systems service content remains stationary. The hero's 3D object is intentionally interactive.
+- `components/jm/` contains the homepage hero, scroll expansion, selected work, experience timeline and contact presentation. GSAP motion is scoped to those client components; the rest of the site also has a shared pause/reduced-motion preference.
+- The separate personal portfolio loads its heavier 3D scene in the browser. Public text, navigation and project descriptions remain available through server-rendered content.
+- The global command palette and idea assistant help visitors navigate or prepare a brief. A planning suggestion still requires review before an enquiry is submitted.
+- Check keyboard focus, reduced motion, a phone-width viewport and the browser without WebGL when changing these interactions. Do not infer an accessibility or performance certification from the implementation alone.
 
 ## Editing map
 
 | File | Purpose |
 | --- | --- |
-| `app/page.tsx` | Business landing page, services, founder text and contact |
-| `app/engineering.css` | Current brand, homepage layout and responsive styling |
-| `app/portfolio/page.tsx`, `components/portfolio/` | Personal portfolio chapters and isolated presentation |
-| `components/projects/secondary.module.css` | Résumé, catalogue and case-study styling |
-| `lib/profile.ts`, `lib/projects.ts` | Profile and curated engineering evidence |
-| `config.js` | Public destinations and founder name; public image is disabled |
+| `components/editorial/editorial-home.tsx`, `components/jm/`, `app/jm-*.css`, `app/ember-secondary.css` | Homepage structure and Ember presentation |
+| `app/portfolio/page.tsx`, `components/portfolio/` | Mohammed's personal portfolio and chapter presentation |
+| `lib/team.ts`, `components/team/`, `public/assets/team/` | Public founder and co-founder profiles and portraits |
+| `lib/projects.ts`, `components/projects/` | Project statuses, evidence, catalogue and case studies |
+| `lib/planner-brief.ts`, `components/jm/contact-section.tsx`, `components/account/AccountPortal.tsx` | Draft handoff and explicit customer submission |
+| `config.js` | Public contact destinations, canonical origin helper and selected founder portrait |
 
-Keep descriptions factual, mark illustrations and concepts, and test at desktop and phone widths when changing content. Private owner-library uploads do not become public images automatically.
+Keep descriptions factual, retain evidence and illustration labels, and check desktop and phone layouts after content changes. A source change reaches the public site only after the static Cloudflare export is uploaded and verified.

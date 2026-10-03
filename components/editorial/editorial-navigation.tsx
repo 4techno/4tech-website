@@ -1,12 +1,14 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { openAiCopilot } from '@/components/ai/ai-copilot';
+import { openCommandPalette } from '@/components/command-palette';
 
 const navigation = [
   { label: 'Services', href: '/#services' },
+  { label: 'Roadmap', href: '/#roadmap' },
   { label: 'Project planner', href: '/#ai-copilot', action: 'copilot' },
   { label: 'Team', href: '/team' },
   { label: 'Work', href: '/projects' },
@@ -62,7 +64,7 @@ export default function EditorialNavigation() {
       <header ref={header} className="ed-site-header">
         <nav className="ed-navigation ed-shell" aria-label="Main navigation">
           <Link className="ed-brand" href="/" aria-label="4TECH home">
-            4TECH<span className="ed-brand-mark" aria-hidden="true">✳</span>
+            4TECH<span className="ed-brand-mark" aria-hidden="true">.</span>
           </Link>
           <div className="ed-desktop-links">
             {navigation.map((item) =>
@@ -94,10 +96,24 @@ export default function EditorialNavigation() {
             )}
           </div>
           <div className="ed-nav-actions">
+            <button
+              type="button"
+              className="ed-cmd-trigger ed-desktop-only"
+              onClick={() => openCommandPalette()}
+              aria-label="Open global search (Cmd+K / Ctrl+K)"
+              title="Search projects, capabilities, team (Cmd+K / Ctrl+K)"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <span>Search</span>
+              <kbd className="ed-cmd-kbd">Ctrl+K</kbd>
+            </button>
             <Link className="ed-login-link" href="/account">
               Login
             </Link>
-            <Link className="ed-button ed-button-small" href="/#contact">
+            <Link className="ed-button ed-button-small" href="/account">
               Start a project
             </Link>
             <button
@@ -141,6 +157,26 @@ export default function EditorialNavigation() {
             aria-label="Close navigation"
           >
             ×
+          </button>
+        </div>
+        <div style={{ padding: '0 0 1rem 0', borderBottom: '1px solid #e0e0dc', marginBottom: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+          <button
+            type="button"
+            className="ed-cmd-trigger"
+            onClick={() => {
+              closeMenu();
+              openCommandPalette();
+            }}
+            style={{ width: '100%', justifyContent: 'space-between', padding: '9px 14px', borderRadius: '12px' }}
+          >
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <span>Global Command Palette</span>
+            </span>
+            <kbd className="ed-cmd-kbd">Ctrl+K</kbd>
           </button>
         </div>
         <nav aria-label="Mobile navigation">

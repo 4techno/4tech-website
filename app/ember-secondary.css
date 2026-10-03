@@ -1,0 +1,119 @@
+/* The public pages and private workspaces share one restrained studio palette. */
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) {
+  --work-accent: #fc6b2f;
+  --work-ink: #ededed;
+  --work-muted: #b5b5b5;
+  --copper: #fc6b2f;
+  --muted: #b5b5b5;
+  color: #ededed;
+  background: #09090c;
+}
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(h1,h2,h3,h4) {
+  color: #ededed;
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-weight: 600;
+}
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(p,li,dt,dd,small) { color: #b5b5b5; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(a,button,summary) { -webkit-tap-highlight-color: transparent; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(a,button,input,select,textarea,summary):focus-visible {
+  outline: 2px solid #fc6b2f;
+  outline-offset: 4px;
+}
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .section-kicker,
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='_kicker_'],
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='_eyebrow_'] { color: #fc6b2f; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='_muted_'],
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='_lede_'],
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='_subtitle_'] { color: #b5b5b5; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(.panel,.portal-panel),
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='secondary_card_'],
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='idea-studio_form_'] {
+  color: #ededed;
+  background: #111116;
+  border-color: #34343d;
+  box-shadow: none;
+}
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='bg-white/'] {
+  background-color: #181820;
+}
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='secondary_card_']:hover,
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='secondary_card_']:focus-within {
+  background: #181820;
+  border-color: #fc6b2f88;
+}
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='secondary_card_'] :is(h2,h3),
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='secondary_card_'] [class*='_viewLink_'] { color: #ededed; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(input,select,textarea),
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .field-input,
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='_searchField_'] input {
+  color: #ededed;
+  background: #101015;
+  border-color: #44444c;
+}
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(input,textarea)::placeholder { color: #91919a; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(.button-primary,.portal-button-primary),
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='idea-studio_primary_'] {
+  color: #111116;
+  background: #fc6b2f;
+  border-color: #fc6b2f;
+}
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(.button-primary,.portal-button-primary):hover,
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='idea-studio_primary_']:hover { background: #ff7a3d; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .button-secondary,
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-button { color: #ededed; background: #181820; border-color: #464650; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(.portal-space,.portal-panel) { --portal-accent: #fc6b2f; color: #ededed; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-muted,
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-empty { color: #b5b5b5; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-tag[data-accent=true] { color: #ffae8c; background: #fc6b2f18; border-color: #fc6b2f77; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-tabs button { color: #b5b5b5; background: #111116; border-color: #383840; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-tabs button[aria-pressed=true] { color: #09090c; background: #fc6b2f; border-color: #fc6b2f; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-detail,
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-notification,
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-row { border-color: #34343d; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-status { color: #ffd0bd; background: #fc6b2f12; border-color: #fc6b2f44; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='portfolio_chapterNav_'] { background: #111116ee; border-color: #383840; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='portfolio_chapterNav_'] a { color: #b5b5b5; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='portfolio_chapterNav_'] a:hover { color: #fc6b2f; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='secondary_searchField_'] input,
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='secondary_filterTabs_'] button { color: #ededed; background: #111116; border-color: #383840; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='secondary_filterTabs_'] button[aria-pressed=true] { color: #09090c; background: #fc6b2f; border-color: #fc6b2f; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='team_portrait_'] { border-color: #45454d; background: #17171d; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='idea-studio_chip_'] { color: #ededed; background: #181820; border-color: #383840; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='idea-studio_chip_']:hover { color: #09090c; background: #fc6b2f; }
+body.jm-body .owner-page > div:first-child a { color: #d6d6da; border-color: #555560; }
+body.jm-body .owner-page > div:first-child a:hover { color: #fc6b2f; border-color: #fc6b2f; }
+body.jm-body .owner-page .portal-panel { color: #ededed; background: #111116; border-color: #383840; }
+body.jm-body .owner-page .portal-panel .portal-tag { color: #ffae8c; border-color: #fc6b2f77; background: #fc6b2f18; }
+body.jm-body .owner-page .portal-panel .portal-muted { color: #b5b5b5; }
+body.jm-body .owner-page #auth-panel { background: #181820; color: #ededed; }
+body.jm-body .owner-page #auth-panel .section-kicker { color: #fc6b2f; }
+body.jm-body main #auth-panel :is(label,a) { color: #d8d5d2; }
+body.jm-body main #auth-panel a:hover { color: #fc6b2f; }
+body.jm-body main #auth-panel button:not(.button-primary):not(.button-secondary) { color: #d8d5d2; }
+body.jm-body main #auth-panel button:not(.button-primary):not(.button-secondary):hover { color: #fc6b2f; }
+body.jm-body main[class*='idea-studio-module'] [class$='__form'],
+body.jm-body main[class*='idea-studio-module'] [class$='__commissionBox'] {
+  color: #ededed;
+  background: #111116;
+  border-color: #383840;
+}
+body.jm-body main[class*='idea-studio-module'] [class$='__chip'] {
+  color: #ededed;
+  background: #181820;
+  border-color: #42424a;
+}
+body.jm-body main[class*='idea-studio-module'] [class$='__chip']:hover { color: #09090c; background: #fc6b2f; }
+body.jm-body main[class*='idea-studio-module'] :is([class$='__formTitle'],[class$='__resultIntro'],[class$='__idea'],[class$='__explainer']) :is(p,span) { color: #b5b5b5; }
+body.jm-body main[class*='idea-studio-module'] [class$='__commissionBox'] strong { color: #ededed; }
+body.jm-body main[class*='idea-studio-module'] :is([class$='__form'],[class$='__results']) :is(label,summary,a) { color: #dedbd8; }
+body.jm-body main[class*='idea-studio-module'] :is([class$='__form'],[class$='__results']) :is(label span,li) { color: #b5b5b5; }
+body.jm-body main[class*='idea-studio-module'] [class$='__primary'] { color: #111116; background: #fc6b2f; border-color: #fc6b2f; }
+body.jm-body main[class*='idea-studio-module'] [class$='__secondary'] { color: #ededed; background: #181820; border-color: #484850; }
+@media (max-width: 767px) {
+  body.jm-body main:not(.jm-home):not(.ed-editorial-home) { overflow-x: clip; }
+  body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(input,select,textarea) { font-size: 16px; }
+}
+@media print {
+  body.jm-body main:not(.jm-home):not(.ed-editorial-home) { color: #111; background: #fff; }
+  body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(h1,h2,h3,h4,p,li,dt,dd,small) { color: #111; }
+}

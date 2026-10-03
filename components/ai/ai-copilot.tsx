@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import styles from './AiPetAssistant.module.css';
 
 export { OPEN_COPILOT_EVENT, openAiCopilot } from './ai-copilot-events';
 
@@ -8,5 +9,5 @@ export { OPEN_COPILOT_EVENT, openAiCopilot } from './ai-copilot-events';
 const AiPetAssistant = dynamic(() => import('./AiPetAssistant'), { ssr: false });
 
 export default function AiCopilotFloating() {
-  return <AiPetAssistant />;
+  return <><div className={styles.footerClearance} aria-hidden="true" /><AiPetAssistant /></>;
 }

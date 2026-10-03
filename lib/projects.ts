@@ -1,7 +1,19 @@
 /** Project completion updated from the owner’s statement on 30 September 2026. */
 export const difficultyLevels = ['Research Level', 'Advanced', 'Intermediate'] as const;
 export type ProjectDifficulty = (typeof difficultyLevels)[number];
-export type Project = { readonly id: string; readonly name: string; readonly category: string; readonly stage: string; readonly difficulty: ProjectDifficulty; readonly rank: number; readonly short: string; readonly body: string; readonly tech: readonly string[]; readonly status: string; readonly problem: string; readonly solution: string; readonly impact: string; readonly validation: string; readonly developedBy: string; readonly featured: boolean; readonly art: string; };
+export type ProjectEvidence = {
+  readonly subject: string;
+  readonly state: 'Described work' | 'Reported observation' | 'Review finding' | 'Not verified';
+  readonly detail: string;
+};
+export type ProjectCaseStudy = {
+  readonly visual: 'polar' | 'kinematics' | 'drone' | 'signals';
+  readonly basis: string;
+  readonly evidence: readonly ProjectEvidence[];
+  readonly media: string;
+  readonly nextChecks: readonly string[];
+};
+export type Project = { readonly id: string; readonly name: string; readonly category: string; readonly stage: string; readonly difficulty: ProjectDifficulty; readonly rank: number; readonly short: string; readonly body: string; readonly tech: readonly string[]; readonly status: string; readonly problem: string; readonly solution: string; readonly impact: string; readonly validation: string; readonly developedBy: string; readonly featured: boolean; readonly art: string; readonly caseStudy?: ProjectCaseStudy; };
 const projectRecords: Project[] = [
   {
     "id": "antenna",
@@ -27,7 +39,22 @@ const projectRecords: Project[] = [
     "status": "Completed by Mohammed Vashir.",
     "developedBy": "Mohammed Vashir",
     "featured": true,
-    "art": "antenna"
+    "art": "antenna",
+    "caseStudy": {
+      "visual": "polar",
+      "basis": "This record draws on the owner's project description, résumé and earlier development notes. It describes the engineering scope without treating an unshared dataset as a measured result.",
+      "evidence": [
+        { "subject": "Motorized positioning", "state": "Reported observation", "detail": "The motor setup was reported working during prototype development. No angular repeatability log is included." },
+        { "subject": "RF acquisition workflow", "state": "Described work", "detail": "The ESP32, AD8317 detector, NEMA17/A4988 drive and nRF24L01+ link are described alongside display, visualization and CSV-export work." },
+        { "subject": "Radiation-pattern result", "state": "Not verified", "detail": "A calibrated angular dataset, reference setup and repeatability analysis have not been supplied for publication." }
+      ],
+      "media": "No project-specific setup photograph, sweep plot or measurement file is included in this public portfolio. The image above is an illustration.",
+      "nextChecks": [
+        "Record the angle reference, step size, RF source, detector calibration and measurement environment.",
+        "Export raw sweep data and repeat the scan under the same conditions to establish repeatability.",
+        "Publish the setup photograph, CSV and plotted pattern together so the result can be checked."
+      ]
+    }
   },
   {
     "id": "robot-arm",
@@ -52,7 +79,22 @@ const projectRecords: Project[] = [
     "status": "Completed by Mohammed Vashir.",
     "developedBy": "Mohammed Vashir",
     "featured": true,
-    "art": "robot-arm"
+    "art": "robot-arm",
+    "caseStudy": {
+      "visual": "kinematics",
+      "basis": "The available portfolio record describes a five-degree-of-freedom SOLIDWORKS assembly and separate computational kinematics studies. The models are distinct from a validated physical arm.",
+      "evidence": [
+        { "subject": "Mechanical assembly", "state": "Described work", "detail": "A five-degree-of-freedom arm assembly with articulated links, joints and gripper integration is described. The native CAD file is not in this public package." },
+        { "subject": "Kinematics research", "state": "Described work", "detail": "Analytical three- and four-degree-of-freedom inverse-kinematics models and neural-network approximation are described as separate studies." },
+        { "subject": "Motion performance", "state": "Not verified", "detail": "No physical build, payload test, positioning-tolerance measurement or solver benchmark is provided here." }
+      ],
+      "media": "No project-specific CAD render, assembly photograph or solver output is included in this public portfolio. The image above is an illustration.",
+      "nextChecks": [
+        "Publish the CAD assembly or an export showing link dimensions, joint axes and travel limits.",
+        "Test the analytical and learned solutions against a defined set of reachable and unreachable targets.",
+        "If a physical arm is built, record joint motion, end-effector error and payload under stated conditions."
+      ]
+    }
   },
   {
     "id": "drone",
@@ -78,7 +120,22 @@ const projectRecords: Project[] = [
     "status": "Completed by Mohammed Vashir.",
     "developedBy": "Mohammed Vashir",
     "featured": true,
-    "art": "drone"
+    "art": "drone",
+    "caseStudy": {
+      "visual": "drone",
+      "basis": "The owner describes a completed PCB design effort. The last available native board audit did not pass, so fabrication and flight performance remain outside the verified record.",
+      "evidence": [
+        { "subject": "Controller architecture", "state": "Described work", "detail": "The KiCad design combines ESP32-S3 control, a 1S battery system, brushed-motor drive, sensing, USB and power distribution." },
+        { "subject": "Native PCB audit", "state": "Review finding", "detail": "The last recorded KiCad design-rule audit did not pass. No later zero-error, zero-unconnected release check is included." },
+        { "subject": "Fabrication and flight", "state": "Not verified", "detail": "No fabricated-board bring-up record, motor test or flight log is included in the available portfolio evidence." }
+      ],
+      "media": "No native board files, board photograph or flight-test media are included in this public portfolio. The image above is an illustration.",
+      "nextChecks": [
+        "Run native KiCad design-rule checks on the exact release revision until there are zero errors and zero unconnected items.",
+        "Inspect power rails, USB, sensor communication and each motor channel on a fabricated board before fitting propellers.",
+        "Record controlled bench and flight tests with the board revision and test conditions identified."
+      ]
+    }
   },
   {
     "id": "sewersense",
@@ -103,7 +160,22 @@ const projectRecords: Project[] = [
     "status": "Completed by Mohammed Vashir.",
     "developedBy": "Mohammed Vashir",
     "featured": true,
-    "art": "sewersense"
+    "art": "sewersense",
+    "caseStudy": {
+      "visual": "signals",
+      "basis": "The available development record includes firmware builds and dashboard checks. Sensor calibration and alarm behavior still need physical verification before any operational claim.",
+      "evidence": [
+        { "subject": "Firmware and dashboard", "state": "Described work", "detail": "ESP32 firmware, multi-sensor integration and a live web dashboard are described, with build and interface checks recorded during development." },
+        { "subject": "Sensor and alarm integration", "state": "Review finding", "detail": "Hardware troubleshooting covered sensor detection, data updates and alarm control. Pulse readings and buzzer wiring remained unresolved in the last available test notes." },
+        { "subject": "Safety performance", "state": "Not verified", "detail": "Gas sensor calibration, exposure thresholds and reliable alarm behavior have not been established. The system does not demonstrate confined-space safety." }
+      ],
+      "media": "No project-specific field photograph, calibration record or end-to-end alarm test log is included in this public portfolio. The image above is an illustration.",
+      "nextChecks": [
+        "Confirm each sensor's power, interface and calibration against its exact module documentation.",
+        "Test missing, stale and warming readings so the interface never presents them as a safe condition.",
+        "Verify the alarm circuit and an end-to-end test record before making any field-use claim."
+      ]
+    }
   },
   {
     "id": "power",

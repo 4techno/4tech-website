@@ -15,6 +15,7 @@ export default function MemberPortrait({
   priority?: boolean;
 }) {
   const [colour, setColour] = useState(false);
+  const imageBase = src.replace(/\.jpe?g$/i, '');
 
   return (
     <figure className={styles.portraitFigure}>
@@ -25,17 +26,25 @@ export default function MemberPortrait({
         aria-pressed={colour}
         onClick={() => setColour((v) => !v)}
       >
-        <img
-          src={src}
-          alt={name}
-          width={960}
-          height={1280}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding="async"
-          style={{ objectPosition: position }}
-        />
+        <picture>
+          <source
+            type="image/webp"
+            srcSet={`${imageBase}-384.webp 384w, ${imageBase}-768.webp 768w`}
+            sizes="(max-width: 767px) 300px, 400px"
+          />
+          <img
+            src={src}
+            alt={name}
+            width={768}
+            height={1024}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : undefined}
+            decoding="async"
+            style={{ objectPosition: position }}
+          />
+        </picture>
       </button>
-      <figcaption>Hover or tap to reveal colour</figcaption>
+      <figcaption>Hover, focus or tap to reveal colour</figcaption>
     </figure>
   );
 }

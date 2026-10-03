@@ -35,3 +35,79 @@ main:not(.ed-editorial-home) svg[role=img]{filter:grayscale(1)}
 main:not(.ed-editorial-home) input:focus-visible,main:not(.ed-editorial-home) button:focus-visible,main:not(.ed-editorial-home) select:focus-visible{outline:2px solid #222;outline-offset:4px}
 @media(max-width:767px){.ed-socials li,.ed-socials li>a{width:44px;height:44px}.ed-socials ul{gap:12px}.ed-footer-bottom .ed-socials{width:100%}main.container-shell>div>h1{font-size:clamp(38px,10vw,52px)}}
 @media print{.ed-site-header,.ed-site-footer,.reading-progress{display:none!important}body::before{display:none}main{padding-top:0!important}.button-primary,.button-secondary{box-shadow:none}}
+
+/* Studio Status Badge & Command Palette Trigger */
+.ed-studio-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.035);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #2b2b2b;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.ed-studio-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+  animation: edStudioPulse 2.4s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+@keyframes edStudioPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+.ed-cmd-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  background: rgba(0, 0, 0, 0.035);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ed-cmd-trigger:hover {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+  transform: translateY(-1px);
+}
+.ed-cmd-kbd {
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  background: rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  color: inherit;
+}
+.ed-cmd-trigger:hover .ed-cmd-kbd {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+@media (max-width: 1024px) {
+  .ed-studio-status-pill.ed-desktop-only {
+    display: none;
+  }
+}
+@media (max-width: 860px) {
+  .ed-cmd-trigger.ed-desktop-only span:not(.ed-cmd-kbd) {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .ed-cmd-trigger.ed-desktop-only { display: none; }
+}

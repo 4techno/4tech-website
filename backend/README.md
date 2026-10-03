@@ -4,7 +4,7 @@ The frontend is a static Next.js export. Firebase Authentication and Firestore s
 
 ## Current release boundary
 
-The public frontend is deployed at `https://4tech-9cy.pages.dev/`, but the owner role and private backend upgrades are not activated. Do not interpret a local test, exported owner page or successful public deployment as production backend activation. Uploads, cloud AI and email default to disabled. This release has not upgraded billing, granted an owner role, sent a real notification or created a real customer on your behalf.
+The public frontend is deployed at `https://4tech-9cy.pages.dev/`. On 3 October 2026, the signed-in founder account opened `/owner` and its live enquiry inbox, and the Firebase console showed current Firestore rules plus the request and quotation index definitions. This confirms effective founder access for that session and basic enquiry reading, not an independent Admin SDK inspection of the claim or a full rules diff. Google and email sign-in are enabled. The expanded quotation workspace, visitor analytics, private photo uploads, email delivery and cloud AI are not yet active on the published frontend. A successful static build or visible dashboard tab does not activate those services.
 
 ## 1. Firestore and owner access
 

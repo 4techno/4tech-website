@@ -30,7 +30,7 @@ const sections = [
   },
   {
     title: "Storage on your device",
-    text: "The authentication service stores session information in your browser so you can stay signed in. Use Sign out on shared devices. Optional visitor analytics stays off until you allow it. Your privacy choice is saved for 180 days and a session identifier lasts for the current tab. Customer and owner workspace pages are excluded from analytics.",
+    text: "The authentication service stores session information in your browser so you can stay signed in. Use Sign out on shared devices. A Project Planner result or homepage contact form creates an editable enquiry draft that stays in this browser tab for up to 24 hours. It is not sent to 4TECH until you sign in and submit the customer form. Optional visitor analytics stays off until you allow it. Your privacy choice is saved for 180 days and a session identifier lasts for the current tab. Customer and owner workspace pages are excluded from analytics.",
   },
   {
     title: "Your choices",
