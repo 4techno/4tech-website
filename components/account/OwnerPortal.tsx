@@ -153,13 +153,13 @@ export default function OwnerPortal() {
 
   if (!owner || !account.customer?.verified) {
     return (
-      <section className="portal-panel portal-stack max-w-xl mx-auto my-6 p-6 sm:p-8 rounded-2xl border border-white/10 bg-black/60 backdrop-blur-xl">
-        <div className="portal-row border-b border-white/10 pb-4">
+      <section className="portal-space portal-panel portal-stack max-w-xl mx-auto my-6 p-6 sm:p-8 rounded-2xl border border-neutral-300 bg-white">
+        <div className="portal-row border-b border-neutral-300 pb-4">
           <div>
-            <h2 className="!text-2xl font-bold tracking-tight text-white">Owner Access Restricted</h2>
+            <h2 className="!text-2xl font-bold tracking-tight text-neutral-900">Owner Access Restricted</h2>
             <p className="portal-muted text-xs mt-1">4TECH founder workspace</p>
           </div>
-          <span className="portal-tag border border-white/20 text-neutral-300">Restricted</span>
+          <span className="portal-tag border border-neutral-300 text-neutral-700">Restricted</span>
         </div>
 
         <p className="portal-muted text-sm leading-relaxed">
@@ -170,11 +170,11 @@ export default function OwnerPortal() {
         {canRefreshAccess && <button className="portal-button" disabled={account.authBusy} onClick={retryVerification}>Refresh access</button>}
 
         {account.customer ? (
-          <div className="portal-stack p-4 rounded-xl bg-white/[0.02] border border-white/10">
-            <p className="text-sm text-neutral-300">
-              Signed in as: <strong className="text-white">{account.customer.email}</strong>
+          <div className="portal-stack p-4 rounded-xl bg-neutral-50 border border-neutral-200">
+            <p className="text-sm text-neutral-700">
+              Signed in as: <strong className="text-neutral-900">{account.customer.email}</strong>
             </p>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-neutral-600">
               {locked ? "This workspace is locked. Sign out before signing in again." : account.customer.verified ? "Owner access has not been verified for this account." : "Verify your email in your customer account before requesting owner access."}
             </p>
             <div className="portal-row mt-2">
@@ -185,8 +185,8 @@ export default function OwnerPortal() {
             </div>
           </div>
         ) : (
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
-            <p className="text-xs text-neutral-400 mb-3">
+          <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-200">
+            <p className="text-xs text-neutral-600 mb-3">
               Sign in to verify your workspace access.
             </p>
             <AuthPanel account={account} />
@@ -200,20 +200,20 @@ export default function OwnerPortal() {
   const uid = account.customer.uid;
 
   return (
-    <>
-      <div className="portal-row border-b border-white/10 pb-6 mb-6">
+    <div className="portal-space">
+      <div className="portal-row border-b border-neutral-300 pb-6 mb-6">
         <div>
           <div className="flex items-center gap-3">
-            <h2 className="text-xl font-bold tracking-tight text-white">4TECH Founder Dashboard</h2>
+            <h2 className="text-xl font-bold tracking-tight text-neutral-900">4TECH Founder Dashboard</h2>
             <span className="portal-tag" data-accent="true">Verified owner</span>
           </div>
           <p className="portal-muted text-xs mt-1">
-            Authorized for <strong className="text-white">{displayName}</strong> · Private workspace
+            Authorized for <strong className="text-neutral-900">{displayName}</strong> · Private workspace
           </p>
         </div>
         <div className="flex items-center gap-3">
           <button
-            className="portal-button border border-white/20 hover:border-white/50 text-xs"
+            className="portal-button border border-neutral-300 hover:border-neutral-600 text-xs"
             onClick={() => void handleLock()}
             disabled={locking}
             title="Lock founder dashboard session"
@@ -223,6 +223,6 @@ export default function OwnerPortal() {
         </div>
       </div>
       <OwnerWorkspace key={uid} uid={uid} />
-    </>
+    </div>
   );
 }

@@ -14,17 +14,17 @@ export default function OwnerPage() {
     <main id="main" className="container-shell pb-24 pt-32 sm:pb-32 sm:pt-40">
       <div className="mb-10 flex flex-wrap items-baseline justify-between gap-4">
         <div>
-          <Link href="/" className="text-sm text-neutral-400 hover:text-white">← Back to 4TECH</Link>
+          <Link href="/" className="text-sm text-neutral-600 hover:text-neutral-900">← Back to 4TECH</Link>
           <h1 className="mt-8 text-4xl font-medium tracking-tight sm:text-6xl font-serif">Command centre.</h1>
-          <p className="mt-4 max-w-2xl text-neutral-400">
+          <p className="mt-4 max-w-2xl text-neutral-600">
             Manage enquiries, accepted quotations, project progress and consented visitor records in your private workspace.
           </p>
         </div>
         <div className="flex gap-3">
-          <Link href="/founder" className="text-xs px-3 py-1.5 border border-white/20 rounded-full text-neutral-300 hover:text-white hover:border-white">
+          <Link href="/founder" className="text-xs px-3 py-1.5 border border-neutral-300 rounded-full text-neutral-700 hover:text-neutral-900 hover:border-neutral-700">
             Founder Profile →
           </Link>
-          <Link href="/co-founder" className="text-xs px-3 py-1.5 border border-white/20 rounded-full text-neutral-300 hover:text-white hover:border-white">
+          <Link href="/co-founder" className="text-xs px-3 py-1.5 border border-neutral-300 rounded-full text-neutral-700 hover:text-neutral-900 hover:border-neutral-700">
             Co-Founder Profile →
           </Link>
         </div>
