@@ -5,9 +5,11 @@ import {
   createPlannerBrief,
   draftFromContact,
   formatPlannerRequest,
+  plannerBriefChangedEvent,
   plannerBriefStorageKey,
   readPlannerBrief,
   savePlannerBrief,
+  type PlannerBrief,
 } from '../lib/planner-brief';
 
 function tabStorage() {
@@ -53,6 +55,46 @@ test('expired or altered planner drafts cannot be carried into the customer form
   storage.setItem(plannerBriefStorageKey, JSON.stringify({ ...brief, extra: 'unexpected' }));
   assert.equal(readPlannerBrief(storage, now), null);
   assert.equal(storage.getItem(plannerBriefStorageKey), null);
+});
+
+test('blocked browser storage does not crash the account or planner handoff', () => {
+  const originalWindow = Object.getOwnPropertyDescriptor(globalThis, 'window');
+  const blockedWindow = Object.defineProperty(new EventTarget(), 'sessionStorage', {
+    get() { throw new DOMException('Storage access is blocked', 'SecurityError'); },
+  });
+  let changes = 0;
+  blockedWindow.addEventListener(plannerBriefChangedEvent, () => { changes += 1; });
+  Object.defineProperty(globalThis, 'window', { configurable: true, value: blockedWindow });
+  try {
+    const brief = createPlannerBrief(fields, now);
+    assert.equal(savePlannerBrief(brief), false);
+    assert.equal(readPlannerBrief(undefined, now), null);
+    assert.doesNotThrow(() => clearPlannerBrief());
+    assert.equal(changes, 0);
+  } finally {
+    if (originalWindow) Object.defineProperty(globalThis, 'window', originalWindow);
+    else Reflect.deleteProperty(globalThis, 'window');
+  }
+});
+
+test('saving and removing a planner brief refreshes an already open account', () => {
+  const originalWindow = Object.getOwnPropertyDescriptor(globalThis, 'window');
+  const browserWindow = Object.defineProperty(new EventTarget(), 'sessionStorage', { value: tabStorage() });
+  Object.defineProperty(globalThis, 'window', { configurable: true, value: browserWindow });
+  const received: Array<PlannerBrief | null> = [];
+  browserWindow.addEventListener(plannerBriefChangedEvent, () => {
+    received.push(readPlannerBrief(undefined, now));
+  });
+  try {
+    const brief = createPlannerBrief(fields, now);
+    assert.equal(savePlannerBrief(brief), true);
+    assert.deepEqual(received, [brief]);
+    clearPlannerBrief();
+    assert.deepEqual(received, [brief, null]);
+  } finally {
+    if (originalWindow) Object.defineProperty(globalThis, 'window', originalWindow);
+    else Reflect.deleteProperty(globalThis, 'window');
+  }
 });
 
 test('oversized or empty project goals are rejected before handoff', () => {

@@ -4,6 +4,7 @@ import type { RequestInput } from "./customer-request";
 
 export const plannerProjectTypes = [...ideaDomains, "To be scoped"] as const;
 export const plannerBriefStorageKey = "4tech:pending-project-brief:v1";
+export const plannerBriefChangedEvent = "4tech:planner-brief-changed";
 const briefLifetime = 24 * 60 * 60 * 1000;
 
 export type PlannerBrief = {
@@ -115,24 +116,29 @@ export function formatPlannerRequest(brief: PlannerBrief): RequestInput {
   return { title: brief.title, category: "Something else", timeline: brief.timeline, details: sections.join("\n\n") };
 }
 
-export function savePlannerBrief(brief: PlannerBrief, storage: BriefStorage = window.sessionStorage): boolean {
-  try { storage.setItem(plannerBriefStorageKey, JSON.stringify(brief)); return true; }
+export function savePlannerBrief(brief: PlannerBrief, storage?: BriefStorage): boolean {
+  try { (storage ?? window.sessionStorage).setItem(plannerBriefStorageKey, JSON.stringify(brief)); }
   catch { return false; }
+  if (typeof window !== "undefined") window.dispatchEvent(new Event(plannerBriefChangedEvent));
+  return true;
 }
 
-export function readPlannerBrief(storage: BriefStorage = window.sessionStorage, now = Date.now()): PlannerBrief | null {
+export function readPlannerBrief(storage?: BriefStorage, now = Date.now()): PlannerBrief | null {
   try {
-    const raw = storage.getItem(plannerBriefStorageKey);
+    const target = storage ?? window.sessionStorage;
+    const raw = target.getItem(plannerBriefStorageKey);
     if (!raw) return null;
     const value: unknown = JSON.parse(raw);
     if (!validBrief(value) || value.createdAt > now || now - value.createdAt > briefLifetime || formatPlannerRequest(value).details.length > 6000) {
-      storage.removeItem(plannerBriefStorageKey);
+      target.removeItem(plannerBriefStorageKey);
       return null;
     }
     return value;
   } catch { return null; }
 }
 
-export function clearPlannerBrief(storage: BriefStorage = window.sessionStorage): void {
-  try { storage.removeItem(plannerBriefStorageKey); } catch { /* Storage may be unavailable. */ }
+export function clearPlannerBrief(storage?: BriefStorage): void {
+  try { (storage ?? window.sessionStorage).removeItem(plannerBriefStorageKey); }
+  catch { return; /* Storage may be unavailable. */ }
+  if (typeof window !== "undefined") window.dispatchEvent(new Event(plannerBriefChangedEvent));
 }

@@ -188,7 +188,7 @@ body.jm-body :is(a, button, input, select, textarea):focus-visible { outline: 2p
   .jm-home .jm-hero-title { top: 35%; padding-inline: 18px; }
   .jm-home .jm-pressure-title { font-size: clamp(5rem, 19vw, 9rem); letter-spacing: 0; }
   .jm-home .jm-hero-title p { font-size: 11px !important; letter-spacing: .12em; line-height: 1.55; }
-  .jm-home .jm-hero-summary { left: 20px; right: auto; bottom: 120px; max-width: 320px; }
+  .jm-home .jm-hero-summary { left: 20px; right: 20px; bottom: 245px; max-width: 360px; }
   .jm-home .jm-hero-summary p { font-size: 12px; }
   .jm-home .jm-hero-actions { left: auto; right: 20px; bottom: 105px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
   .jm-home .jm-hero-actions a { min-height: 42px; padding: 9px 18px; font-size: 12px; }
@@ -216,7 +216,7 @@ body.jm-body :is(a, button, input, select, textarea):focus-visible { outline: 2p
   .jm-home .jm-pressure-title { font-size: clamp(4.2rem, 19vw, 6rem); letter-spacing: 0; }
   .jm-home .jm-hero-title p { font-size: 10px !important; max-width: 310px; }
   .jm-home .jm-hero-summary { bottom: 245px; }
-  .jm-home .jm-hero-actions a { font-size: 10px; }
+  .jm-home .jm-hero-actions a { font-size: 12px; }
   .jm-work-header h2, .jm-capabilities-header h2, .jm-trajectory-intro h2 { font-size: clamp(2.5rem, 11vw, 3.6rem); }
   .jm-work-meta { font-size: 9px; }
   .jm-work-tags span { font-size: 9px; }
@@ -241,3 +241,7 @@ body.jm-body :is(a, button, input, select, textarea):focus-visible { outline: 2p
   .jm-home *, .jm-home *::before, .jm-home *::after, .staggered-menu-wrapper *, .staggered-menu-wrapper *::before, .staggered-menu-wrapper *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   .jm-home .jm-work-card:hover .jm-work-visual-art .ed-project-art { transform: none; }
 }
+
+/* Keep hero actions above the fixed companion and readable in landscape. */
+@media (min-width: 761px) { .jm-home .jm-hero-actions { bottom: max(126px, 14%); } }
+@media (max-width: 1023px) and (max-height: 600px) { .jm-home .jm-hero { min-height: 700px; height: 700px; } }

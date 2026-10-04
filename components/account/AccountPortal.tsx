@@ -9,7 +9,7 @@ import NotificationCenter from "./NotificationCenter";
 import { useOwnerAccess } from "./use-portal-data";
 import { projects } from "@/lib/projects";
 import { portalCapabilities } from "@/lib/portal-config";
-import { clearPlannerBrief, formatPlannerRequest, readPlannerBrief, type PlannerBrief } from "@/lib/planner-brief";
+import { clearPlannerBrief, formatPlannerRequest, plannerBriefChangedEvent, readPlannerBrief, type PlannerBrief } from "@/lib/planner-brief";
 import {
   requestCategories, useCustomerAccount, type CustomerRequest, type RequestInput,
 } from "./use-customer-account";
@@ -147,7 +147,12 @@ export default function AccountPortal() {
   const project = projects.find((item) => item.id === search.get("project"));
   const account = useCustomerAccount();
   const [brief, setBrief] = useState<PlannerBrief | null>(null);
-  useEffect(() => { setBrief(readPlannerBrief()); }, []);
+  useEffect(() => {
+    const refreshBrief = () => setBrief(readPlannerBrief());
+    refreshBrief();
+    window.addEventListener(plannerBriefChangedEvent, refreshBrief);
+    return () => window.removeEventListener(plannerBriefChangedEvent, refreshBrief);
+  }, []);
   function clearBrief() { clearPlannerBrief(); setBrief(null); }
   if (account.customer && !account.unavailable) return <CustomerPanel account={account} projectName={project?.name} brief={brief} onClearBrief={clearBrief}/>;
   return <div className="grid items-start gap-10 lg:grid-cols-[1fr_1fr] lg:gap-20">

@@ -27,6 +27,7 @@ const archive = ['antenna', 'drone', 'robot-arm', 'power', 'sewersense', 'rescue
 export default function IsometricPortfolio() {
   const [active, setActive] = useState(0); // Starts at Card 01
   const sectionRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<ScrollTrigger | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number } | null>(null);
   const moved = useRef(false);
@@ -35,7 +36,18 @@ export default function IsometricPortfolio() {
   const current = archive[active] || archive[0];
 
   const select = useCallback((index: number) => {
-    setActive(Math.max(0, Math.min(archive.length - 1, index)));
+    const next = Math.max(0, Math.min(archive.length - 1, index));
+    const pin = pinRef.current;
+    // User selection and scrolling share one position, so the next wheel event
+    // cannot undo a card selected with a keyboard, button or swipe.
+    if (pin) {
+      window.scrollTo({
+        top: pin.start + ((next + 0.5) / archive.length) * (pin.end - pin.start),
+        behavior: 'instant',
+      });
+      ScrollTrigger.update();
+    }
+    setActive(next);
   }, []);
 
   // Pinned Horizontal Scroll with GSAP ScrollTrigger:
@@ -44,61 +56,26 @@ export default function IsometricPortfolio() {
   useEffect(() => {
     if (staticMotion || !sectionRef.current) return;
 
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
+    const media = gsap.matchMedia();
+    media.add('(min-width: 1024px) and (min-height: 1000px) and (pointer: fine)', () => {
+      const pin = ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: 'top top',
+        start: 'top 88px',
         end: () => `+=${archive.length * 360}`,
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
-        scrub: 0.35,
         onUpdate: (self) => {
           const idx = Math.min(archive.length - 1, Math.floor(self.progress * archive.length));
-          setActive(idx);
+          setActive((prev) => (prev === idx ? prev : idx));
         },
       });
-    }, sectionRef);
+      pinRef.current = pin;
+      return () => { pinRef.current = null; pin.kill(); };
+    });
 
-    return () => ctx.revert();
+    return () => media.revert();
   }, [staticMotion]);
-
-  // Fallback direct Mouse Roller / Wheel sliding support
-  useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return;
-
-    let wheelCooldown = false;
-    let accumulatedDelta = 0;
-
-    const onWheel = (e: WheelEvent) => {
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) < 3) return;
-
-      const goingNext = delta > 0;
-      const goingPrev = delta < 0;
-
-      if ((goingNext && active < archive.length - 1) || (goingPrev && active > 0)) {
-        accumulatedDelta += delta;
-
-        if (!wheelCooldown && Math.abs(accumulatedDelta) >= 14) {
-          wheelCooldown = true;
-          if (accumulatedDelta > 0) {
-            select(active + 1);
-          } else {
-            select(active - 1);
-          }
-          accumulatedDelta = 0;
-          setTimeout(() => {
-            wheelCooldown = false;
-          }, 180);
-        }
-      }
-    };
-
-    stage.addEventListener('wheel', onWheel, { passive: true });
-    return () => stage.removeEventListener('wheel', onWheel);
-  }, [active, select]);
 
   return (
     <section id="projects" ref={sectionRef} className={styles.section} aria-labelledby="archive-title">
@@ -120,7 +97,8 @@ export default function IsometricPortfolio() {
       <div
         ref={stageRef}
         className={styles.stage}
-        aria-label="Engineering project gallery - scroll with mouse roller or drag"
+        role="group"
+        aria-label="Engineering project gallery. Use arrow keys, swipe, or the previous and next buttons."
         onPointerDown={event => {
           drag.current = { x: event.clientX, y: event.clientY };
           moved.current = false;
@@ -156,7 +134,7 @@ export default function IsometricPortfolio() {
         <div
           className={styles.track}
           style={{
-            transform: `translateX(calc(50vw - 97px - ${active * 195}px))`,
+            transform: `translateX(calc(50% - 97.5px - ${active * 195}px))`,
             transitionDuration: staticMotion ? '0s' : undefined,
           }}
         >
@@ -211,6 +189,11 @@ export default function IsometricPortfolio() {
 
       {/* Selected Project Technical Detail Summary */}
       <div className={styles.footer}>
+        <div className={styles.controls} aria-label="Project gallery controls">
+          <button type="button" disabled={active === 0} onClick={() => select(active - 1)} aria-label="Previous project">← Previous</button>
+          <a href="#case-studies">Continue to case studies</a>
+          <button type="button" disabled={active === archive.length - 1} onClick={() => select(active + 1)} aria-label="Next project">Next →</button>
+        </div>
         <div className={styles.detail}>
           <div aria-live="polite">
             <p className="jm-kicker">{current.category}</p>

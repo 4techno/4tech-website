@@ -2,9 +2,8 @@
   position: relative;
   overflow: clip;
   background: #111111;
-  padding: clamp(40px, 5vh, 75px) 0;
-  min-height: 100vh;
-  min-height: 100svh;
+  padding: 48px 0;
+  min-height: min(860px, calc(100svh - 88px));
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -54,13 +53,13 @@
 
 .stage {
   position: relative;
-  min-height: 430px;
+  min-height: 370px;
   display: flex;
   align-items: center;
   overflow: clip;
   touch-action: pan-y;
   user-select: none;
-  padding-block: 65px 24px;
+  padding-block: 46px 16px;
   perspective: 1200px;
   cursor: grab;
 }
@@ -108,8 +107,8 @@
 }
 
 .card[aria-pressed='true'] {
-  border: 2px solid #FC6B2F !important;
-  box-shadow: 0 0 28px rgba(252, 107, 47, 0.45), -15px 23px 38px rgba(0, 0, 0, 0.9) !important;
+  border: 2px solid var(--ember-text, #ec756a);
+  box-shadow: 0 0 28px rgba(160, 42, 34, 0.45), -15px 23px 38px rgba(0, 0, 0, 0.9);
 }
 
 .card img {
@@ -177,6 +176,13 @@
   border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
 
+.controls { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin: 10px 0 22px; }
+.controls button, .controls a { min-height: 44px; padding: 10px 14px; font: 12px/1.4 var(--font-body); color: #e8e8ea; }
+.controls button { border: 1px solid #ffffff40; border-radius: 100px; }
+.controls button:disabled { opacity: .35; cursor: default; }
+.controls a { color: #b9b9bf; text-align: center; }
+.controls :focus-visible { outline: 2px solid #ec756a; outline-offset: 3px; }
+
 .detail h3 {
   font-size: clamp(21px, 2.5vw, 32px);
   letter-spacing: -0.035em;
@@ -221,6 +227,10 @@
 }
 
 @media (max-width: 767px) {
+  .section { min-height: 0; padding-block: 65px; }
+  .controls { gap: 6px; }
+  .controls button { white-space: nowrap; padding-inline: 12px; }
+  .controls a { font-size: 11px; padding-inline: 5px; }
   .stage {
     min-height: 385px;
     padding-block: 55px 16px;
