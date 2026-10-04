@@ -3,7 +3,6 @@ import { ServiceIcon } from './editorial-art';
 import TeamOverview from '@/components/team/team-overview';
 import AiHomeSection from '@/components/ai/ai-home-section';
 import DeliveryRoadmap from './delivery-roadmap';
-import StudioMetricsStrip from './studio-metrics';
 import HeroSection from '@/components/jm/hero-section';
 import ScrollExpandSection from '@/components/jm/scroll-expand';
 import IsometricPortfolio from '@/components/jm/isometric-portfolio';
@@ -26,7 +25,6 @@ export default function EditorialHome() {
     <main id="main" className="jm-home">
       <LoadingScreen />
       <HeroSection />
-      <StudioMetricsStrip />
       <ScrollExpandSection />
       <IsometricPortfolio />
       <SelectedProjects />
