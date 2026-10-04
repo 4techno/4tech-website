@@ -189,8 +189,7 @@ export default function IsometricPortfolio() {
         <div className={styles.controls} aria-label="Project gallery controls">
           <button
             type="button"
-            disabled={active === 0}
-            onClick={() => select(active - 1)}
+            onClick={() => select((active - 1 + archive.length) % archive.length)}
             aria-label="Previous project"
           >
             ←
@@ -213,8 +212,7 @@ export default function IsometricPortfolio() {
 
           <button
             type="button"
-            disabled={active === archive.length - 1}
-            onClick={() => select(active + 1)}
+            onClick={() => select((active + 1) % archive.length)}
             aria-label="Next project"
           >
             →

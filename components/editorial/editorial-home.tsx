@@ -8,8 +8,6 @@ import HeroSection from '@/components/jm/hero-section';
 import ScrollExpandSection from '@/components/jm/scroll-expand';
 import IsometricPortfolio from '@/components/jm/isometric-portfolio';
 import SelectedProjects from '@/components/jm/selected-projects';
-import SkillsEducation from '@/components/jm/skills-education';
-import AnalogCamera3D from '@/components/jm/analog-camera-3d';
 import ExperienceTimeline from '@/components/jm/experience-timeline';
 import ContactSection from '@/components/jm/contact-section';
 import LoadingScreen from '@/components/jm/loading-screen';
@@ -32,8 +30,6 @@ export default function EditorialHome() {
       <ScrollExpandSection />
       <IsometricPortfolio />
       <SelectedProjects />
-      <SkillsEducation />
-      <AnalogCamera3D />
 
       <section id="services" className="jm-capabilities" aria-labelledby="jm-capabilities-title">
         <span id="expertise" className="jm-anchor" aria-hidden="true" />

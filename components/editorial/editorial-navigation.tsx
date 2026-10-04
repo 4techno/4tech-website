@@ -8,7 +8,6 @@ import { openCommandPalette } from '@/components/command-palette';
 
 const navigation = [
   { label: 'Services', href: '/#services' },
-  { label: 'Skills', href: '/#skills-education' },
   { label: 'Roadmap', href: '/#roadmap' },
   { label: 'Project planner', href: '/#ai-copilot', action: 'copilot' },
   { label: 'Team', href: '/team' },
