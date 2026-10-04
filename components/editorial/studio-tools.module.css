@@ -739,6 +739,41 @@
 }
 
 /* =========================================================================
+   MAGNETIC CURSOR FOLLOWER BADGE ("Check it out")
+   ========================================================================= */
+
+.cursorFollower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 96px;
+  height: 96px;
+  margin: -48px 0 0 -48px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #08080b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font: 700 13px / 1.15 var(--font-body, 'Inter', sans-serif);
+  padding: 12px;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  z-index: 9999;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+.cursorBadgeText {
+  pointer-events: none;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  text-align: center;
+  color: #08080b;
+}
+
+/* =========================================================================
    RESPONSIVE DESIGN
    ========================================================================= */
 
@@ -756,47 +791,179 @@
   }
 }
 
-@media (max-width: 600px) {
-  .sheet {
-    padding: 26px 14px;
-    border-radius: 20px;
+@media (max-width: 640px) {
+  .section {
+    padding: clamp(16px, 2.5vh, 28px) 0 20px;
+    min-height: 100svh;
+  }
+  .section[data-layout='pinned'] {
+    min-height: 100svh;
+    padding-block: 16px;
+  }
+  .shell {
+    width: min(100% - 16px, 1240px);
+  }
+  .previewIntro {
+    margin-bottom: 12px;
+  }
+  .previewIntro h2 {
+    font-size: 15px;
+  }
+  .previewIntro p {
+    font-size: 11px;
+    display: none;
+  }
+  .topTabs {
+    margin-bottom: clamp(10px, 1.8vh, 16px);
+    padding: 3px 5px;
+    gap: 4px;
   }
   .topTab {
-    padding-inline: 12px;
+    padding: 6px 12px;
+    min-height: 36px;
     font-size: 10px;
     letter-spacing: 0;
   }
+  .section[data-layout='pinned'] .stage,
+  .stage {
+    height: clamp(460px, calc(100svh - 170px), 540px);
+    perspective: 1000px;
+  }
+  .sheet {
+    padding: 16px 12px;
+    border-radius: 18px;
+    max-height: 100%;
+    overflow: hidden;
+  }
   .sheetHeader {
-    margin-bottom: 20px;
+    margin: 0 auto 10px;
+    gap: 4px;
+  }
+  .sheetTitle {
+    font-size: clamp(22px, 6.5vw, 28px);
+    margin: 0;
+  }
+  .sheetSubtitle {
+    font-size: 10.5px;
+    line-height: 1.35;
+    max-width: 320px;
+  }
+  .accountLink {
+    min-height: 34px;
+    padding: 6px 12px;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  .mockWindow {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
   .windowBar {
-    padding: 10px;
-    gap: 8px;
-    flex-wrap: wrap;
+    padding: 8px 10px;
+    gap: 6px;
   }
   .windowDots {
     display: none;
   }
-  .observeMain {
-    padding: 16px 10px;
+  .windowTitle {
+    font-size: 9px;
   }
-  .observeMainHeader {
-    flex-direction: column;
-    align-items: flex-start;
+  .windowTab {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+  .observeBody {
+    flex: 1;
+    min-height: 0;
+  }
+  .observeMain {
+    padding: 10px;
+    gap: 8px;
+    flex: 1;
+    justify-content: space-between;
+  }
+  .observeErrorTitle {
+    font-size: 14px;
+  }
+  .observeErrorSubtitle {
+    font-size: 10px;
+  }
+  .metricBig {
+    font-size: 16px;
+  }
+  .metricChange {
+    font-size: 10px;
   }
   .metricSubCounts {
-    flex-wrap: wrap;
+    font-size: 9.5px;
     gap: 8px;
+    flex-wrap: wrap;
+  }
+  .histogramBox {
+    min-height: 65px;
+    gap: 4px;
   }
   .histogramBars {
+    height: 65px;
     gap: 2px;
+    padding-top: 4px;
   }
   .histogramLabels {
     font-size: 8px;
     gap: 4px;
   }
+  .graphCanvas {
+    padding: 12px 8px;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .nodeBox {
+    padding: 6px 12px;
+    font-size: 9px;
+    text-align: center;
+  }
+  .nodeLine {
+    width: 2px;
+    height: 14px;
+    background: linear-gradient(180deg, #FC6B2F, #06b6d4);
+  }
+  .nodeLine::after {
+    top: auto;
+    bottom: -3px;
+    left: -3px;
+    right: auto;
+  }
   .deployBody {
-    padding: 10px;
-    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    gap: 8px;
+    overflow-y: auto;
+  }
+  .chartCard {
+    padding: 8px 10px;
+    border-radius: 8px;
+  }
+  .chartTop {
+    font-size: 10px;
+    margin-bottom: 4px;
+  }
+  .chartSvg {
+    height: 52px;
+  }
+  .chartLegend {
+    font-size: 8px;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .cursorFollower {
+    width: 76px;
+    height: 76px;
+    margin: -38px 0 0 -38px;
+    font-size: 11px;
+    padding: 8px;
   }
 }

@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback, type KeyboardEvent } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useMotionPreferences } from '@/components/motion-preferences';
@@ -29,6 +31,7 @@ const ERROR_BARS = [
 ];
 
 export default function StudioToolsSuite() {
+  const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const slide0Ref = useRef<HTMLDivElement>(null);
@@ -37,40 +40,137 @@ export default function StudioToolsSuite() {
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const activeIdxRef = useRef<number>(0);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [largeScreen, setLargeScreen] = useState(false);
   const { reduced, paused } = useMotionPreferences();
-  const pinned = largeScreen && !reduced && !paused;
+  const pinned = !reduced && !paused;
 
-  useEffect(() => {
-    const media = window.matchMedia('(min-width: 1024px) and (min-height: 850px) and (pointer: fine)');
-    const sync = () => setLargeScreen(media.matches);
-    sync();
-    media.addEventListener('change', sync);
-    return () => media.removeEventListener('change', sync);
-  }, []);
+  // Magnetic cursor follower spring setup
+  const mouseX = useMotionValue(-500);
+  const mouseY = useMotionValue(-500);
+  const springX = useSpring(mouseX, { stiffness: 450, damping: 28, mass: 0.4 });
+  const springY = useSpring(mouseY, { stiffness: 450, damping: 28, mass: 0.4 });
+  const badgeScale = useSpring(0, { stiffness: 400, damping: 26 });
+  const badgeOpacity = useSpring(0, { stiffness: 400, damping: 26 });
+  const touchFadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isInteractingRef = useRef(false);
+
+  // Handle pointer tracking inside the section (mouse & stylus)
+  const handlePointerEnter = useCallback((e: React.PointerEvent<HTMLElement>) => {
+    isInteractingRef.current = true;
+    mouseX.jump(e.clientX);
+    mouseY.jump(e.clientY);
+    badgeScale.set(1);
+    badgeOpacity.set(1);
+  }, [mouseX, mouseY, badgeScale, badgeOpacity]);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLElement>) => {
+    mouseX.set(e.clientX);
+    mouseY.set(e.clientY);
+    if (!isInteractingRef.current) {
+      isInteractingRef.current = true;
+      badgeScale.set(1);
+      badgeOpacity.set(1);
+    }
+  }, [mouseX, mouseY, badgeScale, badgeOpacity]);
+
+  const handlePointerLeave = useCallback(() => {
+    isInteractingRef.current = false;
+    badgeScale.set(0);
+    badgeOpacity.set(0);
+  }, [badgeScale, badgeOpacity]);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLElement>) => {
+    if (touchFadeTimerRef.current) clearTimeout(touchFadeTimerRef.current);
+    mouseX.set(e.clientX);
+    mouseY.set(e.clientY);
+    isInteractingRef.current = true;
+    badgeScale.set(0.88);
+    badgeOpacity.set(1);
+  }, [mouseX, mouseY, badgeScale, badgeOpacity]);
+
+  const handlePointerUp = useCallback((e: React.PointerEvent<HTMLElement>) => {
+    badgeScale.set(1);
+    if (e.pointerType === 'touch') {
+      if (touchFadeTimerRef.current) clearTimeout(touchFadeTimerRef.current);
+      touchFadeTimerRef.current = setTimeout(() => {
+        isInteractingRef.current = false;
+        badgeScale.set(0);
+        badgeOpacity.set(0);
+      }, 700);
+    }
+  }, [badgeScale, badgeOpacity]);
+
+  // Touch fallback for seamless mobile touch tracking
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLElement>) => {
+    if (touchFadeTimerRef.current) clearTimeout(touchFadeTimerRef.current);
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      mouseX.jump(touch.clientX);
+      mouseY.jump(touch.clientY);
+      isInteractingRef.current = true;
+      badgeScale.set(0.88);
+      badgeOpacity.set(1);
+    }
+  }, [mouseX, mouseY, badgeScale, badgeOpacity]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLElement>) => {
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      mouseX.set(touch.clientX);
+      mouseY.set(touch.clientY);
+      if (!isInteractingRef.current) {
+        isInteractingRef.current = true;
+        badgeScale.set(1);
+        badgeOpacity.set(1);
+      }
+    }
+  }, [mouseX, mouseY, badgeScale, badgeOpacity]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (touchFadeTimerRef.current) clearTimeout(touchFadeTimerRef.current);
+    touchFadeTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+      badgeScale.set(0);
+      badgeOpacity.set(0);
+    }, 700);
+  }, [badgeScale, badgeOpacity]);
+
+  // Clicking cards navigates to account
+  const handleCardClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('a') || target.closest('button') || target.closest('[role="tab"]')) {
+      return;
+    }
+    router.push('/account');
+  };
 
   // Direct GPU-accelerated DOM transforms (zero React state overhead during scroll)
   const updateSlidesDOM = useCallback((progress: number) => {
     // progress goes 0 to 1 across the pin duration
     // Let p go from 0 to 2
     const p = Math.max(0, Math.min(2, progress * 2));
+    const stageHeight = stageRef.current?.clientHeight ?? 600;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 640;
 
-    const travel = (stageRef.current?.clientHeight ?? 600) * 0.9;
+    // Responsive peek offset: next card header peeks at bottom of viewport
+    const headerPeek = isMobile ? 85 : 135;
+    const peekY = Math.max(260, stageHeight - headerPeek);
+    const stackRecede = isMobile ? 22 : 32;
 
-    // Cards stay partly visible behind the active preview on tall desktop screens.
+    // Slide 0: Observe
     if (slide0Ref.current) {
-      const y0 = p <= 1 ? p * -35 : -35 - (p - 1) * 25;
+      const y0 = p <= 1 ? -p * stackRecede : -stackRecede - (p - 1) * (stackRecede * 0.75);
       const s0 = p <= 1 ? 1 - p * 0.05 : 0.95 - (p - 1) * 0.04;
-      const o0 = p <= 1 ? 1 - p * 0.15 : Math.max(0.3, 0.85 - (p - 1) * 0.4);
+      const o0 = p <= 1 ? 1 - p * 0.15 : Math.max(0.25, 0.85 - (p - 1) * 0.4);
       slide0Ref.current.style.transform = `translate3d(0, ${y0.toFixed(2)}px, 0) scale(${s0.toFixed(4)})`;
       slide0Ref.current.style.opacity = o0.toFixed(3);
       slide0Ref.current.style.zIndex = '10';
       slide0Ref.current.style.pointerEvents = p < 0.6 ? 'auto' : 'none';
     }
 
+    // Slide 1: Devtools
     if (slide1Ref.current) {
-      const y1 = p <= 1 ? (1 - p) * travel : -(p - 1) * 30;
-      const s1 = p <= 1 ? 0.96 + p * 0.04 : 1.0 - (p - 1) * 0.04;
+      const y1 = p <= 1 ? (1 - p) * peekY : -(p - 1) * stackRecede;
+      const s1 = p <= 1 ? 0.96 + p * 0.04 : 1.0 - (p - 1) * 0.05;
       const o1 = p <= 1 ? 1 : 1 - (p - 1) * 0.15;
       slide1Ref.current.style.transform = `translate3d(0, ${y1.toFixed(2)}px, 0) scale(${s1.toFixed(4)})`;
       slide1Ref.current.style.opacity = o1.toFixed(3);
@@ -78,8 +178,9 @@ export default function StudioToolsSuite() {
       slide1Ref.current.style.pointerEvents = p >= 0.5 && p < 1.5 ? 'auto' : 'none';
     }
 
+    // Slide 2: Fleet (Deploy, mau!)
     if (slide2Ref.current) {
-      const y2 = p <= 1 ? travel + (1 - p) * travel * 0.4 : (2 - p) * travel;
+      const y2 = p <= 1 ? peekY + (1 - p) * (isMobile ? 60 : 100) : (2 - p) * peekY;
       const s2 = p <= 1 ? 0.92 + p * 0.04 : 0.96 + (p - 1) * 0.04;
       slide2Ref.current.style.transform = `translate3d(0, ${y2.toFixed(2)}px, 0) scale(${s2.toFixed(4)})`;
       slide2Ref.current.style.opacity = '1';
@@ -106,15 +207,16 @@ export default function StudioToolsSuite() {
         id: 'tools-pin',
         trigger: sectionRef.current,
         start: 'top top',
-        end: '+=2200',
+        end: () => (window.innerWidth <= 640 ? '+=1600' : '+=2200'),
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
+        scrub: 0.5,
         onRefresh: self => updateSlidesDOM(self.progress),
         onUpdate: (self) => {
           updateSlidesDOM(self.progress);
 
-          const idx = Math.round(self.progress * 2);
+          const idx = self.progress < 0.33 ? 0 : self.progress < 0.67 ? 1 : 2;
           if (idx !== activeIdxRef.current) {
             activeIdxRef.current = idx;
             setActiveIndex(idx);
@@ -123,7 +225,16 @@ export default function StudioToolsSuite() {
       });
     }, sectionRef);
 
+    const handleResize = () => {
+      const trigger = ScrollTrigger.getById('tools-pin');
+      if (trigger) {
+        updateSlidesDOM(trigger.progress);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+
     return () => {
+      window.removeEventListener('resize', handleResize);
       ctx.revert();
       clearSlideStyles();
     };
@@ -160,8 +271,33 @@ export default function StudioToolsSuite() {
       className={styles.section}
       data-layout={pinned ? 'pinned' : 'manual'}
       aria-labelledby="tools-preview-title"
+      onPointerEnter={handlePointerEnter}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
     >
       <div className={styles.ambientGlow} aria-hidden="true" />
+
+      {/* Floating Magnetic Cursor Follower ("Check it out") */}
+      {!reduced && (
+        <motion.div
+          className={styles.cursorFollower}
+          style={{
+            x: springX,
+            y: springY,
+            scale: badgeScale,
+            opacity: badgeOpacity,
+          }}
+          aria-hidden="true"
+        >
+          <span className={styles.cursorBadgeText}>Check it out</span>
+        </motion.div>
+      )}
 
       <div className={styles.shell}>
         <div className={styles.previewIntro}>
@@ -204,6 +340,8 @@ export default function StudioToolsSuite() {
             aria-hidden={activeIndex !== 0}
             inert={activeIndex !== 0}
             tabIndex={activeIndex === 0 ? 0 : -1}
+            onClick={handleCardClick}
+            style={{ cursor: 'pointer' }}
           >
             <div className={styles.sheetHeader}>
               <h3 className={styles.sheetTitle}>Observe</h3>
@@ -310,6 +448,8 @@ export default function StudioToolsSuite() {
             aria-hidden={activeIndex !== 1}
             inert={activeIndex !== 1}
             tabIndex={activeIndex === 1 ? 0 : -1}
+            onClick={handleCardClick}
+            style={{ cursor: 'pointer' }}
           >
             <div className={styles.sheetHeader}>
               <h3 className={styles.sheetTitle}>Devtools</h3>
@@ -390,6 +530,8 @@ export default function StudioToolsSuite() {
             aria-hidden={activeIndex !== 2}
             inert={activeIndex !== 2}
             tabIndex={activeIndex === 2 ? 0 : -1}
+            onClick={handleCardClick}
+            style={{ cursor: 'pointer' }}
           >
             <div className={styles.sheetHeader}>
               <h3 className={styles.sheetTitle}>Fleet</h3>

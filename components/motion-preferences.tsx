@@ -10,7 +10,7 @@ export function MotionPreferences({ children }: { children: ReactNode }) {
   const [paused, setPaused] = useState(false);
   const [ready, setReady] = useState(false);
   const preference = useReducedMotion();
-  const reduced = !ready || preference !== false;
+  const reduced = ready && preference === true;
   useEffect(() => setReady(true), []);
   useEffect(() => {
     document.documentElement.dataset.motion = paused || reduced ? 'paused' : 'running';
