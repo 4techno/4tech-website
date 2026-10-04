@@ -3,17 +3,15 @@
 import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
-import DustParticles from './dust-particles';
+import ReactiveBackground from '@/components/reactbits/reactive-background';
 import TextPressure from './text-pressure';
 import MagneticButton from './magnetic-button';
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const dustRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,66 +29,43 @@ export default function HeroSection() {
           0.06);
       }
 
-      // 1. Center radial glow
-      if (glowRef.current) {
-        tl.fromTo(
-          glowRef.current,
-          { opacity: 0, scale: 0.7 },
-          { opacity: 1, scale: 1, duration: 2, ease: 'expo.out' },
-          0
-        );
-      }
-
-      // 2. Top-left status badge
+      // 1. Top-left status badge
       if (badgeRef.current) {
         tl.fromTo(
           badgeRef.current,
           { opacity: 0, x: -15 },
           { opacity: 1, x: 0, duration: 0.8, ease: 'expo.out' },
-          0.8
+          0.5
         );
       }
 
-      // 4. Bottom-left summary paragraph
+      // 2. Bottom-left summary paragraph
       if (summaryRef.current) {
         tl.fromTo(
           summaryRef.current,
           { opacity: 0, y: 20 },
           { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' },
-          1.1
+          0.7
         );
       }
 
-      // 5. Bottom-right CTAs
+      // 3. Bottom-right CTAs
       if (ctaRef.current) {
         tl.fromTo(
           ctaRef.current,
           { opacity: 0, scale: 0.85, y: 15 },
           { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: 'back.out(1.7)' },
-          1.3
+          0.9
         );
       }
 
-      // 6. Dust particles
-      if (dustRef.current) {
-        const dusts = dustRef.current.querySelectorAll('.dust');
-        if (dusts.length) {
-          tl.fromTo(
-            dusts,
-            { opacity: 0 },
-            { opacity: 1, duration: 2, stagger: 0.06, ease: 'power2.out' },
-            1.0
-          );
-        }
-      }
-
-      // 7. Scroll indicator
+      // 4. Scroll indicator
       if (scrollRef.current) {
         tl.fromTo(
           scrollRef.current,
           { opacity: 0 },
           { opacity: 1, duration: 1, ease: 'power2.out' },
-          1.5
+          1.1
         );
       }
     }, sectionRef);
@@ -102,35 +77,12 @@ export default function HeroSection() {
     <section
       id="hero"
       ref={sectionRef}
-      className="jm-hero relative h-screen h-[100svh] min-h-[100svh] overflow-hidden select-none touch-pan-y bg-[#111111]"
+      className="jm-hero relative h-screen h-[100svh] min-h-[100svh] overflow-hidden select-none touch-pan-y bg-[#060608]"
     >
-      {/* Background Radial Vignette */}
-      <div
-        className="absolute inset-0 pointer-events-none z-[4]"
-        style={{
-          background: 'radial-gradient(ellipse 80% 70% at 50% 45%, transparent 30%, #111111 100%)',
-        }}
-        aria-hidden="true"
-      />
+      {/* React Bits Interactive Reactive Background */}
+      <ReactiveBackground className="z-[5]" />
 
-      {/* Center Radial Ember Glow */}
-      <div
-        ref={glowRef}
-        className="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] sm:w-[600px] sm:h-[600px] md:w-[800px] md:h-[800px] pointer-events-none z-[6]"
-        style={{
-          background:
-            'radial-gradient(circle, rgba(160, 42, 34, 0.22) 0%, rgba(160, 42, 34, 0.06) 40%, transparent 70%)',
-          filter: 'blur(35px)',
-        }}
-        aria-hidden="true"
-      />
-
-      <div className="jm-hero-smoke" aria-hidden="true" />
-
-      {/* Floating Ambient Dust Particles */}
-      <div ref={dustRef} className="absolute inset-0 pointer-events-none z-[8]">
-        <DustParticles />
-      </div>
+      <div className="jm-hero-smoke pointer-events-none z-[6]" aria-hidden="true" />
 
       {/* Top Left Status Pill */}
       <div
@@ -176,7 +128,7 @@ export default function HeroSection() {
         <MagneticButton>
           <a
             href="#projects"
-            className="inline-flex items-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-semibold text-xs sm:text-sm tracking-wide bg-[#A02A22] text-white hover:bg-[#B8342B] border border-transparent shadow-[0_0_30px_rgba(160,42,34,0.55)] group transition-all duration-300"
+            className="inline-flex items-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-semibold text-xs sm:text-sm tracking-wide bg-[#A02A22] text-white hover:bg-[#B8342B] active:scale-95 border border-transparent shadow-[0_0_30px_rgba(160,42,34,0.55)] group transition-all duration-300"
           >
             <span>Explore Work →</span>
           </a>
@@ -185,7 +137,7 @@ export default function HeroSection() {
         <MagneticButton>
           <Link
             href="/account"
-            className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full font-medium text-xs sm:text-sm tracking-wide bg-[#111116]/80 backdrop-blur-md text-white/85 border border-white/15 hover:border-white/35 hover:text-white transition-all duration-300"
+            className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full font-medium text-xs sm:text-sm tracking-wide bg-[#111116]/80 backdrop-blur-md text-white/85 border border-white/15 hover:border-white/35 hover:text-white active:scale-95 transition-all duration-300"
           >
             <span>Let&apos;s Talk →</span>
           </Link>

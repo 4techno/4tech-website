@@ -26,8 +26,8 @@ export default function ContactSection() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const targets = document.querySelectorAll('.contact-animate');
-      if (targets.length) {
+      const targets = sectionRef.current?.querySelectorAll('.contact-animate');
+      if (targets && targets.length) {
         gsap.fromTo(
           targets,
           { y: 50, opacity: 0 },
