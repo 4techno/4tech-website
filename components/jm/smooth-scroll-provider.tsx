@@ -2,12 +2,6 @@
 
 import React, { useEffect } from 'react';
 import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 interface SmoothScrollProps {
   children: React.ReactNode;
@@ -15,36 +9,40 @@ interface SmoothScrollProps {
 
 export default function SmoothScrollProvider({ children }: SmoothScrollProps) {
   useEffect(() => {
-    // Only run smooth scroll if user does not prefer reduced motion
+    // Only run smooth scroll if user does not prefer reduced motion and fine pointer
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    });
+    let lenis: Lenis | null = null;
+    let rafId: number = 0;
 
-    // Add lenis class to html
-    document.documentElement.classList.add('lenis', 'lenis-smooth');
+    try {
+      lenis = new Lenis({
+        duration: 1.1,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.5,
+      });
 
-    // Synchronize Lenis with GSAP ScrollTrigger ticker for 120Hz/ProMotion fluid scrolling
-    lenis.on('scroll', ScrollTrigger.update);
+      document.documentElement.classList.add('lenis', 'lenis-smooth');
 
-    const tickerCallback = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-
-    gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(0);
+      function raf(time: number) {
+        lenis?.raf(time);
+        rafId = requestAnimationFrame(raf);
+      }
+      rafId = requestAnimationFrame(raf);
+    } catch {
+      // Safe fallback to native scrolling if any initialization error occurs
+    }
 
     return () => {
-      gsap.ticker.remove(tickerCallback);
-      lenis.destroy();
+      if (rafId) cancelAnimationFrame(rafId);
+      if (lenis) {
+        lenis.destroy();
+      }
       document.documentElement.classList.remove('lenis', 'lenis-smooth');
     };
   }, []);

@@ -32,13 +32,16 @@ const HISTOGRAM_BARS = [
 export default function StudioToolsSuite() {
   const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
+  const slide0Ref = useRef<HTMLDivElement>(null);
+  const slide1Ref = useRef<HTMLDivElement>(null);
+  const slide2Ref = useRef<HTMLDivElement>(null);
+  const activeIdxRef = useRef<number>(0);
   const shouldReduceMotion = useReducedMotion();
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [isInside, setIsInside] = useState(false);
 
-  // Magnetic cursor follower spring setup (Calibrated 120Hz/240Hz AstraSprings)
+  // Magnetic cursor follower spring setup (AstraSprings fluid & snappy)
   const mouseX = useMotionValue(-500);
   const mouseY = useMotionValue(-500);
   const springX = useSpring(mouseX, AstraSprings.fluid);
@@ -79,10 +82,47 @@ export default function StudioToolsSuite() {
     badgeScale.set(1);
   }, [badgeScale]);
 
+  // Direct GPU-accelerated DOM style updates (zero React state re-renders during scrolling)
+  const updateSlidesDOM = useCallback((pProgress: number) => {
+    const p = Math.max(0, Math.min(2, pProgress * 2));
+
+    // Slide 0: Observe
+    if (slide0Ref.current) {
+      const y0 = p <= 1 ? p * -35 : -35 - (p - 1) * 25;
+      const s0 = p <= 1 ? 1 - p * 0.05 : 0.95 - (p - 1) * 0.04;
+      const o0 = p <= 1 ? 1 - p * 0.15 : Math.max(0.2, 0.85 - (p - 1) * 0.4);
+      slide0Ref.current.style.transform = `translate3d(0, ${y0.toFixed(2)}px, 0) scale(${s0.toFixed(4)})`;
+      slide0Ref.current.style.opacity = o0.toFixed(3);
+      slide0Ref.current.style.zIndex = '10';
+    }
+
+    // Slide 1: Devtools (peeks at p=0 with ~520px offset, slides down into place as p->1)
+    if (slide1Ref.current) {
+      const y1 = p <= 1 ? (1 - p) * 520 : -(p - 1) * 30;
+      const s1 = p <= 1 ? 0.96 + p * 0.04 : 1.0 - (p - 1) * 0.04;
+      const o1 = p <= 1 ? 1 : 1 - (p - 1) * 0.15;
+      slide1Ref.current.style.transform = `translate3d(0, ${y1.toFixed(2)}px, 0) scale(${s1.toFixed(4)})`;
+      slide1Ref.current.style.opacity = o1.toFixed(3);
+      slide1Ref.current.style.zIndex = '20';
+    }
+
+    // Slide 2: Deploy, mau! (sits below Slide 1, peeks at p=1, slides down into place as p->2)
+    if (slide2Ref.current) {
+      const y2 = p <= 1 ? 520 + (1 - p) * 200 : (2 - p) * 520;
+      const s2 = p <= 1 ? 0.92 + p * 0.04 : 0.96 + (p - 1) * 0.04;
+      slide2Ref.current.style.transform = `translate3d(0, ${y2.toFixed(2)}px, 0) scale(${s2.toFixed(4)})`;
+      slide2Ref.current.style.opacity = '1';
+      slide2Ref.current.style.zIndex = '30';
+    }
+  }, []);
+
   // GSAP ScrollTrigger Pinned Scroll:
   // Pins the tools section and sequences the 3 slides down into stack positions as the user scrolls.
   // After all three slides have moved down (progress >= 1.0), the pin unlocks and page scrolls down.
   useEffect(() => {
+    // Initial layout setup
+    updateSlidesDOM(0);
+
     if (shouldReduceMotion || !sectionRef.current) return;
 
     const ctx = gsap.context(() => {
@@ -96,16 +136,20 @@ export default function StudioToolsSuite() {
         anticipatePin: 1,
         scrub: 0.5,
         onUpdate: (self) => {
-          const p = self.progress;
-          setScrollProgress(p);
-          const idx = p < 0.33 ? 0 : p < 0.66 ? 1 : 2;
-          setActiveIndex(idx);
+          updateSlidesDOM(self.progress);
+
+          // Only update React state when active slide index changes (0 -> 1 -> 2)
+          const idx = self.progress < 0.33 ? 0 : self.progress < 0.66 ? 1 : 2;
+          if (idx !== activeIdxRef.current) {
+            activeIdxRef.current = idx;
+            setActiveIndex(idx);
+          }
         },
       });
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [shouldReduceMotion]);
+  }, [shouldReduceMotion, updateSlidesDOM]);
 
   // Direct click-to-slide navigation
   const scrollToSlide = (index: number) => {
@@ -115,7 +159,9 @@ export default function StudioToolsSuite() {
       const targetScroll = trigger.start + (index / 2) * (trigger.end - trigger.start);
       window.scrollTo({ top: targetScroll, behavior: 'smooth' });
     } else {
+      activeIdxRef.current = index;
       setActiveIndex(index);
+      updateSlidesDOM(index / 2);
     }
   };
 
@@ -123,86 +169,6 @@ export default function StudioToolsSuite() {
   const handleCardClick = () => {
     router.push('/account');
   };
-
-  // Compute slide transforms based on scrollProgress (0 to 1)
-  // Let p go from 0 to 2
-  const p = shouldReduceMotion ? activeIndex : scrollProgress * 2;
-
-  // Slide 0 (Observe)
-  const slide0Style: React.CSSProperties = shouldReduceMotion
-    ? {
-        transform: activeIndex === 0 ? 'translateY(0) scale(1)' : 'translateY(-30px) scale(0.95)',
-        opacity: activeIndex === 0 ? 1 : 0,
-        pointerEvents: activeIndex === 0 ? 'auto' : 'none',
-        zIndex: activeIndex === 0 ? 30 : 10,
-      }
-    : {
-        transform:
-          p <= 1
-            ? `translateY(${p * -35}px) scale(${1 - p * 0.05})`
-            : `translateY(${-35 - (p - 1) * 25}px) scale(${0.95 - (p - 1) * 0.04})`,
-        opacity: p <= 1 ? 1 - p * 0.15 : Math.max(0.2, 0.85 - (p - 1) * 0.4),
-        zIndex: 10,
-      };
-
-  // Slide 1 (Devtools)
-  // At p = 0, peeks at bottom (~540px offset, showing header like reference photo)
-  // As p -> 1, moves down into focus at translateY(0)
-  // As p -> 2, settles into background deck at translateY(-25px)
-  const slide1Y =
-    p <= 1
-      ? (1 - p) * 520
-      : -(p - 1) * 30;
-
-  const slide1Scale =
-    p <= 1
-      ? 0.96 + p * 0.04
-      : 1.0 - (p - 1) * 0.04;
-
-  const slide1Opacity =
-    p <= 1
-      ? 1
-      : 1 - (p - 1) * 0.15;
-
-  const slide1Style: React.CSSProperties = shouldReduceMotion
-    ? {
-        transform: activeIndex === 1 ? 'translateY(0) scale(1)' : 'translateY(520px) scale(0.96)',
-        opacity: activeIndex === 1 ? 1 : 0,
-        pointerEvents: activeIndex === 1 ? 'auto' : 'none',
-        zIndex: activeIndex === 1 ? 30 : 20,
-      }
-    : {
-        transform: `translateY(${slide1Y}px) scale(${slide1Scale})`,
-        opacity: slide1Opacity,
-        zIndex: 20,
-      };
-
-  // Slide 2 (Deploy, mau!)
-  // At p = 0, sits below Slide 1
-  // At p = 1, peeks at bottom (~520px offset, showing header like reference photo)
-  // As p -> 2, moves down into focus at translateY(0)
-  const slide2Y =
-    p <= 1
-      ? 520 + (1 - p) * 200
-      : (2 - p) * 520;
-
-  const slide2Scale =
-    p <= 1
-      ? 0.92 + p * 0.04
-      : 0.96 + (p - 1) * 0.04;
-
-  const slide2Style: React.CSSProperties = shouldReduceMotion
-    ? {
-        transform: activeIndex === 2 ? 'translateY(0) scale(1)' : 'translateY(720px) scale(0.92)',
-        opacity: activeIndex === 2 ? 1 : 0,
-        pointerEvents: activeIndex === 2 ? 'auto' : 'none',
-        zIndex: activeIndex === 2 ? 30 : 10,
-      }
-    : {
-        transform: `translateY(${slide2Y}px) scale(${slide2Scale})`,
-        opacity: 1,
-        zIndex: 30,
-      };
 
   return (
     <section
@@ -273,8 +239,8 @@ export default function StudioToolsSuite() {
               SLIDE 1 (TOP): OBSERVE & ERROR HISTOGRAM ANALYTICS (EXACT MATCH TO NESTJS)
               ========================================================================= */}
           <div
+            ref={slide0Ref}
             className={`${styles.sheet} ${styles.observeSheet}`}
-            style={slide0Style}
             onClick={handleCardClick}
             role="region"
             aria-label="Observe and Error Analytics Platform"
@@ -396,8 +362,8 @@ export default function StudioToolsSuite() {
               SLIDE 2 (MIDDLE): DEVTOOLS & PROBE HARDWARE STUDIO (CRIMSON RED)
               ========================================================================= */}
           <div
+            ref={slide1Ref}
             className={`${styles.sheet} ${styles.devtoolsSheet}`}
-            style={slide1Style}
             onClick={handleCardClick}
             role="region"
             aria-label="Devtools and Topology Studio"
@@ -483,8 +449,8 @@ export default function StudioToolsSuite() {
               SLIDE 3 (FRONT): DEPLOY, MAU! & HARDWARE FLEET (TITANIUM SLATE)
               ========================================================================= */}
           <div
+            ref={slide2Ref}
             className={`${styles.sheet} ${styles.deploySheet}`}
-            style={slide2Style}
             onClick={handleCardClick}
             role="region"
             aria-label="Deploy and Fleet Telemetry Platform"
