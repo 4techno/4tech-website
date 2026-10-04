@@ -45,7 +45,7 @@ export default function JmFooter() {
                 <Link href="/#philosophy" className="hover:text-ember transition-colors">The Philosophy</Link>
               </li>
               <li>
-                <Link href="/#services" className="hover:text-ember transition-colors">Capabilities</Link>
+                <Link href="/#ai-copilot" className="hover:text-ember transition-colors">Project Planner</Link>
               </li>
               <li>
                 <Link href="/#roadmap" className="hover:text-ember transition-colors">4-Phase Delivery</Link>

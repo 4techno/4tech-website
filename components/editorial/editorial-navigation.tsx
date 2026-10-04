@@ -7,7 +7,6 @@ import { openAiCopilot } from '@/components/ai/ai-copilot';
 import { openCommandPalette } from '@/components/command-palette';
 
 const navigation = [
-  { label: 'Services', href: '/#services' },
   { label: 'Roadmap', href: '/#roadmap' },
   { label: 'Project planner', href: '/#ai-copilot', action: 'copilot' },
   { label: 'Team', href: '/team' },
