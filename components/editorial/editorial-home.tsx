@@ -10,7 +10,7 @@ import IsometricPortfolio from '@/components/jm/isometric-portfolio';
 import SelectedProjects from '@/components/jm/selected-projects';
 import ExperienceTimeline from '@/components/jm/experience-timeline';
 import ContactSection from '@/components/jm/contact-section';
-import IntroSequence from '@/components/jm/intro-sequence';
+import LoadingScreen from '@/components/jm/loading-screen';
 
 const services = [
   ['Embedded systems', 'Intelligence, built in.', 'Microcontrollers, sensing and firmware shaped into testable hardware.'],
@@ -24,7 +24,7 @@ const services = [
 export default function EditorialHome() {
   return (
     <main id="main" className="jm-home">
-      <IntroSequence />
+      <LoadingScreen />
       <HeroSection />
       <StudioMetricsStrip />
       <ScrollExpandSection />
