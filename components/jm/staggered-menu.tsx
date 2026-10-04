@@ -8,13 +8,14 @@ import { siteConfig } from '@/config';
 const MENU_ITEMS = [
   { label: 'Projects', href: '/#projects', num: '01' },
   { label: 'The Philosophy', href: '/#philosophy', num: '02' },
-  { label: '4-Phase Roadmap', href: '/#roadmap', num: '03' },
-  { label: 'Our Approach', href: '/#experience', num: '04' },
-  { label: 'Team & Leadership', href: '/team', num: '05' },
-  { label: 'Project Planner', href: '/#ai-copilot', num: '06' },
-  { label: 'Idea Studio', href: '/ideas', num: '07' },
-  { label: 'Contact', href: '/#contact', num: '08' },
-  { label: 'Client Space', href: '/account', num: '09' },
+  { label: 'Capabilities', href: '/#services', num: '03' },
+  { label: '4-Phase Roadmap', href: '/#roadmap', num: '04' },
+  { label: 'Our Approach', href: '/#experience', num: '05' },
+  { label: 'Team & Leadership', href: '/team', num: '06' },
+  { label: 'Project Planner', href: '/#ai-copilot', num: '07' },
+  { label: 'Idea Studio', href: '/ideas', num: '08' },
+  { label: 'Contact', href: '/#contact', num: '09' },
+  { label: 'Client Space', href: '/account', num: '10' },
 ];
 
 export default function StaggeredMenu() {
