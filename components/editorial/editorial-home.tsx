@@ -6,9 +6,11 @@ import DeliveryRoadmap from './delivery-roadmap';
 import StudioMetricsStrip from './studio-metrics';
 import HeroSection from '@/components/jm/hero-section';
 import ScrollExpandSection from '@/components/jm/scroll-expand';
+import IsometricPortfolio from '@/components/jm/isometric-portfolio';
 import SelectedProjects from '@/components/jm/selected-projects';
 import ExperienceTimeline from '@/components/jm/experience-timeline';
 import ContactSection from '@/components/jm/contact-section';
+import IntroSequence from '@/components/jm/intro-sequence';
 
 const services = [
   ['Embedded systems', 'Intelligence, built in.', 'Microcontrollers, sensing and firmware shaped into testable hardware.'],
@@ -22,9 +24,11 @@ const services = [
 export default function EditorialHome() {
   return (
     <main id="main" className="jm-home">
+      <IntroSequence />
       <HeroSection />
       <StudioMetricsStrip />
       <ScrollExpandSection />
+      <IsometricPortfolio />
       <SelectedProjects />
 
       <section id="services" className="jm-capabilities" aria-labelledby="jm-capabilities-title">

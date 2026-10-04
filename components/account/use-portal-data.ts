@@ -4,6 +4,7 @@ import { onIdTokenChanged } from "firebase/auth";
 import { collection, collectionGroup, limit, onSnapshot, orderBy, query } from "firebase/firestore";
 import { getFirebaseClient } from "@/lib/firebase";
 import { portalError } from "@/lib/portal-client";
+import { canDisplayPrivateSnapshot } from "@/lib/portal-snapshot";
 import { OwnerAccessGuard, type OwnerAccessState } from "@/lib/owner-access";
 
 export function useOwnerAccess(uid?: string) {
@@ -62,10 +63,24 @@ export function usePortalRows<T>(path: string, enabled: boolean, mapper: (id: st
     if (!enabled) return;
     let unsubscribe = () => {};
     try {
-      const { db } = getFirebaseClient();
+      const { auth, db } = getFirebaseClient();
+      const subscribedUid = auth.currentUser?.uid;
+      if (!subscribedUid) {
+        setResult({ identity, rows: [], loading: false, error: "Please sign in again to view private account data." });
+        return;
+      }
       const source = group ? collectionGroup(db, path) : collection(db, path);
-      unsubscribe = onSnapshot(query(source, orderBy("createdAt", "desc"), limit(100)), snapshot => {
-        if (active) setResult({ identity, rows: snapshot.docs.map(record => mapper(record.id, { ...record.data(), _path: record.ref.path })), loading: false, error: "" });
+      unsubscribe = onSnapshot(query(source, orderBy("createdAt", "desc"), limit(100)), { includeMetadataChanges: true }, snapshot => {
+        if (!active) return;
+        if (!canDisplayPrivateSnapshot(subscribedUid, auth.currentUser?.uid, snapshot.metadata.fromCache)) {
+          setResult({ identity, rows: [], loading: true, error: "" });
+          return;
+        }
+        try {
+          setResult({ identity, rows: snapshot.docs.map(record => mapper(record.id, { ...record.data(), _path: record.ref.path })), loading: false, error: "" });
+        } catch (cause) {
+          setResult({ identity, rows: [], loading: false, error: portalError(cause) });
+        }
       }, cause => { if (active) setResult({ identity, rows: [], loading: false, error: portalError(cause) }); });
     } catch (cause) { setResult({ identity, rows: [], loading: false, error: portalError(cause) }); }
     return () => { active = false; unsubscribe(); };

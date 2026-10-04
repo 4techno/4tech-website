@@ -11,16 +11,16 @@ export default function Image() {
       width: '100%', height: '100%', display: 'flex', flexDirection: 'column',
       justifyContent: 'space-between', overflow: 'hidden', position: 'relative',
       backgroundColor: '#09090c', color: '#ededed', padding: '58px 70px',
-      backgroundImage: 'radial-gradient(circle at 73% 53%, rgba(252,107,47,.28), transparent 39%)',
+      backgroundImage: 'radial-gradient(circle at 73% 53%, rgba(160,42,34,.28), transparent 39%)',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', fontSize: 34, fontWeight: 800, letterSpacing: -1 }}>
-          <span style={{ color: '#fc6b2f' }}>4</span>TECH.
+          <span style={{ color: '#a02a22' }}>4</span>TECH.
         </div>
         <div style={{ display: 'flex', fontSize: 15, letterSpacing: 4, color: '#b5b5b5' }}>ENGINEERING STUDIO / INDIA</div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 970 }}>
-        <div style={{ display: 'flex', color: '#fc6b2f', fontSize: 20, letterSpacing: 5, marginBottom: 26 }}>EMBEDDED / ROBOTICS / RF</div>
+        <div style={{ display: 'flex', color: '#a02a22', fontSize: 20, letterSpacing: 5, marginBottom: 26 }}>EMBEDDED / ROBOTICS / RF</div>
         <div style={{ display: 'flex', fontSize: 82, fontWeight: 800, letterSpacing: -5, lineHeight: 1.05 }}>Ideas into reality.</div>
         <div style={{ display: 'flex', marginTop: 24, fontSize: 25, color: '#c9c9cb' }}>Engineering possibilities, together.</div>
       </div>

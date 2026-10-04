@@ -19,8 +19,18 @@ export default function HeroSection() {
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let entrance: gsap.core.Timeline | null = null;
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.2 });
+      const tl = gsap.timeline({ paused: true, delay: 0.08 });
+      entrance = tl;
+
+      const letters = sectionRef.current?.querySelectorAll('[data-pressure-letter]');
+      if (letters?.length) {
+        tl.fromTo(letters,
+          { fontVariationSettings: "'wght' 120, 'wdth' 38", opacity: 0.72, scaleY: 1.28 },
+          { fontVariationSettings: "'wght' 150, 'wdth' 55", opacity: 1, scaleY: 1, duration: 1.4, stagger: 0.07, ease: 'expo.out' },
+          0.06);
+      }
 
       // 1. Center radial glow
       if (glowRef.current) {
@@ -96,7 +106,12 @@ export default function HeroSection() {
       }
     }, sectionRef);
 
-    return () => ctx.revert();
+    const play = () => entrance?.play();
+    window.addEventListener('4tech:intro-complete', play, { once: true });
+    if (document.documentElement.dataset.techIntroComplete === 'true' || !document.querySelector('.tech-intro')) play();
+    // The intro may finish before this component hydrates on a slow connection.
+    const fallback = window.setTimeout(play, 3200);
+    return () => { window.clearTimeout(fallback); window.removeEventListener('4tech:intro-complete', play); ctx.revert(); };
   }, []);
 
   return (
@@ -120,11 +135,13 @@ export default function HeroSection() {
         className="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] sm:w-[600px] sm:h-[600px] md:w-[800px] md:h-[800px] pointer-events-none z-[6]"
         style={{
           background:
-            'radial-gradient(circle, rgba(252, 107, 47, 0.22) 0%, rgba(252, 107, 47, 0.06) 40%, transparent 70%)',
+            'radial-gradient(circle, rgba(160, 42, 34, 0.22) 0%, rgba(160, 42, 34, 0.06) 40%, transparent 70%)',
           filter: 'blur(35px)',
         }}
         aria-hidden="true"
       />
+
+      <div className="jm-hero-smoke" aria-hidden="true" />
 
       {/* Floating Ambient Dust Particles */}
       <div ref={dustRef} className="absolute inset-0 pointer-events-none z-[8]">
@@ -136,54 +153,57 @@ export default function HeroSection() {
         ref={badgeRef}
         className="jm-hero-status absolute top-20 sm:top-24 md:top-28 left-4 sm:left-8 md:left-14 lg:left-20 z-[40] flex items-center gap-2.5"
       >
-        <span className="w-2 h-2 shrink-0 rounded-full bg-ember animate-pulse shadow-[0_0_8px_#FC6B2F]" />
-        <span className="text-[10px] sm:text-[11px] text-[#B5B5B5] tracking-[0.2em] uppercase font-semibold font-mono">
-          Engineering ideas into reality
+        <span className="w-2 h-2 shrink-0 rounded-full bg-[#A02A22] animate-pulse shadow-[0_0_10px_#A02A22]" />
+        <span className="text-[10px] sm:text-[11px] text-[#A0A0A5] tracking-[0.25em] uppercase font-semibold font-mono">
+          SHIPPING IDEAS INTO REALITY.
         </span>
       </div>
 
-      {/* Center Text Pressure Title */}
+      {/* Center 4TECH Title with Overlapping Crossline Tagline */}
       <div
-        className="jm-hero-title absolute top-[32%] sm:top-[34%] md:top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[15] pointer-events-none select-none w-full flex flex-col items-center justify-center px-4"
+        className="jm-hero-title absolute top-[38%] sm:top-[40%] md:top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[15] pointer-events-none select-none w-full flex flex-col items-center justify-center px-4"
       >
-        <div className="w-full max-w-[850px] relative flex items-center justify-center transform-gpu drop-shadow-[0_0_40px_rgba(252,107,47,0.35)]">
+        <div className="w-full max-w-[900px] relative flex items-center justify-center transform-gpu drop-shadow-[0_0_50px_rgba(160,42,34,0.35)]">
           <TextPressure text="4TECH" />
-        </div>
 
-        {/* Hero Tagline */}
-        <div className="mt-4 sm:mt-6 text-center z-[20] px-4">
-          <p
-            ref={heroLineRef}
-            className="hero-line text-[clamp(0.68rem,1.4vw,0.95rem)] font-extrabold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-ember drop-shadow-[0_0_20px_rgba(252,107,47,0.7)]"
-            style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}
-          >
-            Embedded systems. Robotics. RF technology.
-          </p>
+          {/* Red Crossline Tagline Overlapping Center of 4TECH */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+            <p
+              ref={heroLineRef}
+              className="hero-line text-[clamp(0.58rem,1.35vw,0.88rem)] font-extrabold tracking-[0.24em] sm:tracking-[0.32em] uppercase text-[#A02A22] drop-shadow-[0_0_16px_rgba(160,42,34,0.85)] px-3 py-1 text-center whitespace-nowrap"
+              style={{ fontFamily: "var(--font-body), 'Inter', sans-serif" }}
+            >
+              CRAFTING HARDWARE THAT SHAPES TOMORROW.
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Bottom Left Summary Paragraph */}
       <div
         ref={summaryRef}
-        className="jm-hero-summary absolute bottom-[22%] sm:bottom-[16%] md:top-[74%] md:bottom-auto left-4 sm:left-8 md:left-14 lg:left-20 z-[40] max-w-[320px] md:max-w-[400px]"
+        className="jm-hero-summary absolute bottom-[18%] sm:bottom-[12%] md:bottom-[10%] left-4 sm:left-8 md:left-14 lg:left-20 z-[40] max-w-[320px] sm:max-w-[360px] md:max-w-[420px]"
       >
+        <p className="text-[12px] sm:text-[13px] md:text-sm font-medium text-white/90 leading-tight tracking-wide mb-1.5">
+          Independent Engineering Practice & Creative Studio
+        </p>
         <p
-          className="text-xs sm:text-sm text-[#B5B5B5] leading-[1.7] font-normal tracking-wide"
-          style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}
+          className="text-[11px] sm:text-xs md:text-[13px] text-[#A0A0A5] leading-[1.65] font-normal tracking-wide"
+          style={{ fontFamily: "var(--font-body), 'Inter', sans-serif" }}
         >
-          Independent engineering practice connecting embedded control, robotics, RF instrumentation and research prototypes.
+          engineering fast, reliable, and motion-driven hardware systems.
         </p>
       </div>
 
       {/* Bottom Right Magnetic CTAs */}
       <div
         ref={ctaRef}
-        className="jm-hero-actions absolute bottom-6 sm:bottom-[10%] md:bottom-[12%] left-4 right-4 sm:left-auto sm:right-8 md:right-14 lg:right-20 z-[40] flex flex-row sm:flex-col justify-between sm:justify-end items-center sm:items-end gap-3 sm:gap-3.5"
+        className="jm-hero-actions absolute bottom-6 sm:bottom-[10%] md:bottom-[10%] right-4 sm:right-8 md:right-14 lg:right-20 z-[40] flex flex-col items-end gap-2.5 sm:gap-3.5"
       >
         <MagneticButton>
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-3 px-6 sm:px-8 py-3.5 rounded-full font-medium text-xs sm:text-sm tracking-wide bg-ember text-white hover:bg-ember-bright border border-transparent shadow-[0_0_25px_rgba(160,42,34,0.4)] group transition-all duration-300"
+            className="inline-flex items-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-semibold text-xs sm:text-sm tracking-wide bg-[#A02A22] text-white hover:bg-[#B8342B] border border-transparent shadow-[0_0_30px_rgba(160,42,34,0.55)] group transition-all duration-300"
           >
             <span>Explore Work →</span>
           </Link>
@@ -192,9 +212,9 @@ export default function HeroSection() {
         <MagneticButton>
           <Link
             href="/account"
-            className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 rounded-full font-medium text-xs sm:text-sm tracking-wide bg-transparent text-white border border-white/20 hover:border-ember/50 hover:text-ember transition-all duration-300"
+            className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full font-medium text-xs sm:text-sm tracking-wide bg-[#111116]/80 backdrop-blur-md text-white/85 border border-white/15 hover:border-white/35 hover:text-white transition-all duration-300"
           >
-            <span>Start a conversation →</span>
+            <span>Let&apos;s Talk →</span>
           </Link>
         </MagneticButton>
       </div>
@@ -202,14 +222,14 @@ export default function HeroSection() {
       {/* Bottom Center Scroll Indicator */}
       <div
         ref={scrollRef}
-        className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-[45] hidden md:flex flex-col items-center gap-2"
+        className="absolute bottom-5 sm:bottom-7 left-1/2 -translate-x-1/2 z-[45] flex flex-col items-center gap-1.5 pointer-events-none"
       >
-        <span className="text-[9px] text-[#B5B5B5]/70 tracking-[0.35em] uppercase font-mono">
-          Scroll
+        <span className="text-[9px] sm:text-[10px] text-[#A0A0A5]/80 tracking-[0.4em] uppercase font-mono font-medium">
+          SCROLL
         </span>
-        <div className="w-[1px] h-6 bg-gradient-to-b from-white/25 to-transparent relative overflow-hidden">
+        <div className="w-[1px] h-5 sm:h-6 bg-gradient-to-b from-white/25 to-transparent relative overflow-hidden">
           <div
-            className="absolute w-full h-3 bg-ember"
+            className="absolute w-full h-3 bg-[#A02A22]"
             style={{ animation: 'reveal-up 2s ease-in-out infinite' }}
           />
         </div>
@@ -217,7 +237,7 @@ export default function HeroSection() {
 
       {/* Bottom Fade Gradient */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none z-[50]"
+        className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-[50]"
         style={{ background: 'linear-gradient(to top, #111111 0%, transparent 100%)' }}
       />
     </section>

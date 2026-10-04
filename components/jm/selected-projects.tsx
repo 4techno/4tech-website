@@ -1,17 +1,12 @@
 import Link from 'next/link';
-import { ProjectArt } from '@/components/editorial/editorial-art';
+import Image from 'next/image';
 import { featuredProjects } from '@/lib/projects';
-
-const artKind: Record<string, string> = {
-  antenna: 'antenna',
-  'robot-arm': 'robot',
-  drone: 'drone',
-  sewersense: 'telemetry',
-};
+import { getProjectMedia, representativeImageNotice } from '@/lib/project-media';
+import mediaStyles from './selected-projects.module.css';
 
 export default function SelectedProjects() {
   return (
-    <section id="projects" className="jm-work" aria-labelledby="jm-work-title">
+    <section id="case-studies" className="jm-work" aria-labelledby="jm-work-title">
       <div className="jm-shell">
         <div className="jm-work-header">
           <div>
@@ -25,7 +20,9 @@ export default function SelectedProjects() {
         </div>
 
         <div className="jm-work-list">
-          {featuredProjects.map((project, index) => (
+          {featuredProjects.map((project, index) => {
+            const media = getProjectMedia(project.id);
+            return (
             <article key={project.id} className="jm-work-card">
               <div className="jm-work-copy">
                 <div className="jm-work-meta">
@@ -44,20 +41,27 @@ export default function SelectedProjects() {
                 </div>
               </div>
               <div className={`jm-work-visual jm-work-visual--${project.id}`}>
+                {media && <Image
+                  src={media.src}
+                  alt={media.alt}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  className={mediaStyles.photo}
+                  style={{ objectPosition: media.position }}
+                />}
+                <div className={mediaStyles.shade} aria-hidden="true" />
                 <div className="jm-work-visual-top" aria-hidden="true">
                   <span>4TECH / ENGINEERING RECORD</span>
                   <span>{String(index + 1).padStart(2, '0')}</span>
                 </div>
-                <div className="jm-work-visual-art" aria-hidden="true">
-                  <ProjectArt kind={artKind[project.id] ?? 'telemetry'} />
-                </div>
                 <div className="jm-work-visual-bottom">
-                  <span>CONCEPT ILLUSTRATION</span>
+                  <span>{representativeImageNotice}</span>
                   <span>{project.stage.toUpperCase()}</span>
                 </div>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

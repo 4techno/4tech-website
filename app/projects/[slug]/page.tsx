@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { siteUrl } from '@/config';
 import { getProjectBySlug, projects } from '@/lib/projects';
+import { getProjectMedia, representativeImageNotice } from '@/lib/project-media';
+import Image from 'next/image';
 import Reveal from '@/components/reveal';
 import TextReveal from '@/components/text-reveal';
-import { ProjectVisual } from '@/components/projects/ProjectVisual';
 import styles from '@/components/projects/secondary.module.css';
 
 type ProjectPageProps = { params: Promise<{ slug: string }> };
@@ -32,6 +33,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const project = getProjectBySlug(slug);
   if (!project) notFound();
   const caseStudy = project.caseStudy;
+  const media = getProjectMedia(project.id);
   const index = projects.findIndex(entry => entry.id === project.id);
   const next = projects[(index + 1) % projects.length];
   return <main id="main" className={styles.page}>
@@ -47,9 +49,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <div><dt>Difficulty</dt><dd><span className={styles.badge} data-level={project.difficulty}>{project.difficulty}</span></dd></div>
         </dl>
       </header>
-      {caseStudy && <figure className={styles.caseFigure}>
-        <ProjectVisual art={caseStudy.visual} className={styles.caseVisual} />
-        <figcaption className={styles.caseCaption}><strong>Illustrative diagram</strong><span>{caseStudy.media}</span></figcaption>
+      {media && <figure className={styles.caseFigure}>
+        <div className={styles.caseVisual}>
+          <Image src={media.src} alt={media.alt} fill priority sizes="(max-width: 767px) 100vw, 1150px" className={styles.projectPhoto} style={{ objectPosition: media.position }} />
+          <span className={styles.photoFlag}>{representativeImageNotice}</span>
+        </div>
+        <figcaption className={styles.caseCaption}>
+          <strong>Contextual photograph</strong>
+          <span>{caseStudy?.media ?? representativeImageNotice} Photo: <a href={media.sourceUrl} target="_blank" rel="noopener noreferrer">{media.credit}</a> · <a href={media.licenseUrl} target="_blank" rel="noopener noreferrer">{media.license}</a>. Resized and converted to WebP.</span>
+        </figcaption>
       </figure>}
       <div className={styles.caseLayout}>
         <nav className={styles.caseNav} aria-label="Project sections"><a href="#problem">01 / The problem</a><a href="#approach">02 / The approach</a><a href="#technologies">03 / Technologies</a><a href="#contribution">04 / Contribution</a>{caseStudy && <a href="#evidence">05 / Evidence record</a>}<a href="#validation">{caseStudy ? '06' : '05'} / Validation</a></nav>

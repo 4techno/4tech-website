@@ -28,8 +28,8 @@ export default function TextPressure({ text = '4TECH' }: { text?: string }) {
         const rect = letter.getBoundingClientRect();
         const distance = Math.hypot(rect.left + rect.width / 2 - x, rect.top + rect.height / 2 - y);
         const influence = Math.max(0, 1 - distance / radius);
-        const weight = Math.round(530 + 370 * influence);
-        const width = Math.round(82 + 48 * influence);
+        const weight = Math.round(150 + 650 * influence);
+        const width = Math.round(55 + 70 * influence);
         letter.style.fontVariationSettings = `'wght' ${weight}, 'wdth' ${width}`;
       }
     };
@@ -43,7 +43,7 @@ export default function TextPressure({ text = '4TECH' }: { text?: string }) {
     const onLeave = () => {
       if (frame) cancelAnimationFrame(frame);
       frame = 0;
-      for (const letter of letters) letter.style.fontVariationSettings = "'wght' 650, 'wdth' 100";
+      for (const letter of letters) letter.style.fontVariationSettings = "'wght' 150, 'wdth' 55";
     };
 
     window.addEventListener('pointermove', onMove, { passive: true });
@@ -58,7 +58,7 @@ export default function TextPressure({ text = '4TECH' }: { text?: string }) {
   return (
     <h1 ref={titleRef} className="text-pressure-title jm-pressure-title" aria-label={text}>
       {characters.map((character, index) => (
-        <span key={`${character}-${index}`} data-pressure-letter aria-hidden="true" style={{ fontVariationSettings: "'wght' 650, 'wdth' 100" }}>
+        <span key={`${character}-${index}`} data-pressure-letter aria-hidden="true" style={{ fontVariationSettings: "'wght' 150, 'wdth' 55" }}>
           {character}
         </span>
       ))}

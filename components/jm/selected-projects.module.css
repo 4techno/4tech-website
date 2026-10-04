@@ -1,0 +1,2 @@
+.photo { z-index:0; object-fit:cover; filter:saturate(.66) contrast(1.09) brightness(.67); }
+.shade { position:absolute; z-index:1; inset:0; background:linear-gradient(180deg,#09090c99 0%,transparent 32%,transparent 57%,#09090cdd 100%); pointer-events:none; }

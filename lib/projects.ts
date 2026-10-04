@@ -48,7 +48,7 @@ const projectRecords: Project[] = [
         { "subject": "RF acquisition workflow", "state": "Described work", "detail": "The ESP32, AD8317 detector, NEMA17/A4988 drive and nRF24L01+ link are described alongside display, visualization and CSV-export work." },
         { "subject": "Radiation-pattern result", "state": "Not verified", "detail": "A calibrated angular dataset, reference setup and repeatability analysis have not been supplied for publication." }
       ],
-      "media": "No project-specific setup photograph, sweep plot or measurement file is included in this public portfolio. The image above is an illustration.",
+      "media": "No project-specific setup photograph, sweep plot or measurement file is included in this public portfolio. The photograph above shows a different antenna measurement setup and is not evidence for this project.",
       "nextChecks": [
         "Record the angle reference, step size, RF source, detector calibration and measurement environment.",
         "Export raw sweep data and repeat the scan under the same conditions to establish repeatability.",
@@ -88,7 +88,7 @@ const projectRecords: Project[] = [
         { "subject": "Kinematics research", "state": "Described work", "detail": "Analytical three- and four-degree-of-freedom inverse-kinematics models and neural-network approximation are described as separate studies." },
         { "subject": "Motion performance", "state": "Not verified", "detail": "No physical build, payload test, positioning-tolerance measurement or solver benchmark is provided here." }
       ],
-      "media": "No project-specific CAD render, assembly photograph or solver output is included in this public portfolio. The image above is an illustration.",
+      "media": "No project-specific CAD render, assembly photograph or solver output is included in this public portfolio. The photograph above shows a different industrial arm and is not evidence for this project.",
       "nextChecks": [
         "Publish the CAD assembly or an export showing link dimensions, joint axes and travel limits.",
         "Test the analytical and learned solutions against a defined set of reachable and unreachable targets.",
@@ -129,7 +129,7 @@ const projectRecords: Project[] = [
         { "subject": "Native PCB audit", "state": "Review finding", "detail": "The last recorded KiCad design-rule audit did not pass. No later zero-error, zero-unconnected release check is included." },
         { "subject": "Fabrication and flight", "state": "Not verified", "detail": "No fabricated-board bring-up record, motor test or flight log is included in the available portfolio evidence." }
       ],
-      "media": "No native board files, board photograph or flight-test media are included in this public portfolio. The image above is an illustration.",
+      "media": "No native board files, board photograph or flight-test media are included in this public portfolio. The photograph above shows other drone electronics and is not evidence for this project.",
       "nextChecks": [
         "Run native KiCad design-rule checks on the exact release revision until there are zero errors and zero unconnected items.",
         "Inspect power rails, USB, sensor communication and each motor channel on a fabricated board before fitting propellers.",
@@ -169,7 +169,7 @@ const projectRecords: Project[] = [
         { "subject": "Sensor and alarm integration", "state": "Review finding", "detail": "Hardware troubleshooting covered sensor detection, data updates and alarm control. Pulse readings and buzzer wiring remained unresolved in the last available test notes." },
         { "subject": "Safety performance", "state": "Not verified", "detail": "Gas sensor calibration, exposure thresholds and reliable alarm behavior have not been established. The system does not demonstrate confined-space safety." }
       ],
-      "media": "No project-specific field photograph, calibration record or end-to-end alarm test log is included in this public portfolio. The image above is an illustration.",
+      "media": "No project-specific field photograph, calibration record or end-to-end alarm test log is included in this public portfolio. The photograph above illustrates protective equipment and is not evidence for this project.",
       "nextChecks": [
         "Confirm each sensor's power, interface and calibration against its exact module documentation.",
         "Test missing, stale and warming readings so the interface never presents them as a safe condition.",

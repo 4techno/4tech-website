@@ -186,7 +186,7 @@ export default function ScrollExpandSection({
                 <div
                   className="absolute inset-0 opacity-20 pointer-events-none"
                   style={{
-                    backgroundImage: 'radial-gradient(circle, rgba(252, 107, 47, 0.4) 1px, transparent 1px)',
+                    backgroundImage: 'radial-gradient(circle, rgba(160, 42, 34, 0.4) 1px, transparent 1px)',
                     backgroundSize: '24px 24px',
                   }}
                 />

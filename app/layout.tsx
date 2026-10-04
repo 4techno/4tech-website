@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#09090C',
+  themeColor: '#050505',
   colorScheme: 'dark',
 };
 
@@ -58,11 +58,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Space+Grotesk:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
       <body id="top" className="min-h-screen bg-void text-cloud jm-body">
+          <noscript><style>{'.tech-intro{display:none!important}'}</style></noscript>
           <MotionPreferences>
             <div className="scroll-progress" aria-hidden="true" />
             <div className="noise-overlay" aria-hidden="true" />

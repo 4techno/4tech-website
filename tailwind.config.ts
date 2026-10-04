@@ -4,14 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        void: '#111111',
-        cloud: '#EDEDED',
-        ash: '#B5B5B5',
-        iron: '#555555',
-        silver: '#CCCCCC',
-        ember: '#FC6B2F',
-        'ember-bright': '#FF7A3D',
-        'ember-dark': '#A02A22',
+        void: '#050505',
+        cloud: '#E8E8EA',
+        ash: '#8A8A8D',
+        iron: '#2A2A2E',
+        silver: '#B0B0B3',
+        ember: '#A02A22',
+        'ember-bright': '#B8342B',
+        'ember-dark': '#7D1E1A',
         // legacy
         ink: '#0a0a0a',
         accent: '#ff3b55',
@@ -44,7 +44,7 @@ export default {
       boxShadow: {
         glow: '0 0 80px -30px rgba(255,59,85,.45)',
         ember: '0 0 25px rgba(160,42,34,0.4)',
-        'ember-lg': '0 0 50px rgba(252,107,47,0.3)',
+        'ember-lg': '0 0 50px rgba(160,42,34,0.3)',
         glass: '0 20px 60px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.25), inset 0 0 24px rgba(255,255,255,0.03)',
         'glass-sm': '0 15px 35px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2)',
       },

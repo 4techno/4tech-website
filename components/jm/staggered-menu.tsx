@@ -80,7 +80,7 @@ export default function StaggeredMenu() {
     <div
       className={`staggered-menu-wrapper fixed-wrapper ${isOpen ? 'sm-open' : ''}`}
       data-position="left"
-      style={{ ['--sm-accent' as string]: '#FC6B2F' }}
+      style={{ ['--sm-accent' as string]: '#A02A22' }}
     >
       {/* Backdrop */}
       <div className="sm-backdrop" onClick={closeMenu} aria-hidden="true" />
@@ -134,13 +134,13 @@ export default function StaggeredMenu() {
         </div>
 
         {/* Right Toggle Button */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <Link
             href="/#contact"
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider text-white border border-white/20 hover:border-ember transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium tracking-wider text-white border border-white/20 hover:border-[#fc6b2f] hover:text-[#fc6b2f] transition-all bg-black/40 backdrop-blur-sm"
             style={{ fontFamily: 'var(--font-display)' }}
           >
-            Start Project
+            Dive In +
           </Link>
 
           <button

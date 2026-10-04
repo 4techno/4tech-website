@@ -162,3 +162,55 @@
  .bioColumns dd,.education p:not(.kicker),.collectionFoot p,.resumeBand p{font-size:14px;line-height:1.75}
  .skillRow li{font-size:12px;line-height:1.5;padding:8px 10px}
 }
+
+/* Founder chapter: one photographic subject, two treatments, one original reveal. */
+.heroPortraitSlot{display:grid;place-items:center;min-width:0;isolation:isolate}
+.founderPortraitFigure{position:relative;width:min(100%,430px);margin:0;padding:22px}
+.founderPortraitOrbit{position:absolute;inset:5px 5px 69px;border:1px solid #ffffff24;border-radius:50%;pointer-events:none}
+.founderPortraitOrbit::before,.founderPortraitOrbit::after{content:'';position:absolute;width:7px;height:7px;border-radius:50%;background:var(--ember,#a02a22);box-shadow:0 0 18px #a02a2280}
+.founderPortraitOrbit::before{top:12%;left:13%}
+.founderPortraitOrbit::after{right:11%;bottom:14%;width:4px;height:4px;background:#e8e8ea}
+.founderPortraitButton{--reveal-x:50%;--reveal-y:50%;display:block;position:relative;aspect-ratio:1;width:100%;padding:0;overflow:hidden;border:1px solid #ffffff32;border-radius:50%;background:#151518;cursor:crosshair;box-shadow:0 24px 84px #0008,inset 0 0 0 8px #ffffff08}
+.founderPortraitButton:focus-visible{outline:2px solid var(--ember-text,#ec756a);outline-offset:7px}
+.founderPortraitBase,.founderPortraitColour,.founderPortraitGrain{position:absolute;inset:0;display:block}
+.founderPortraitBase picture,.founderPortraitColour picture{display:block;width:100%;height:100%}
+.founderPortraitBase img,.founderPortraitColour img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.19)}
+.founderPortraitBase img{filter:grayscale(1) contrast(1.08) brightness(.87)}
+.founderPortraitColour{opacity:0;mask-image:radial-gradient(circle 38% at var(--reveal-x) var(--reveal-y),#000 0%,#000 42%,#000b 65%,transparent 100%);-webkit-mask-image:radial-gradient(circle 38% at var(--reveal-x) var(--reveal-y),#000 0%,#000 42%,#000b 65%,transparent 100%);transition:opacity .22s ease}
+.founderPortraitButton[data-hovered='true'] .founderPortraitColour,.founderPortraitButton[aria-pressed='true'] .founderPortraitColour,.founderPortraitButton:focus-visible .founderPortraitColour{opacity:1}
+.founderPortraitButton[aria-pressed='true'] .founderPortraitColour,.founderPortraitButton:focus-visible .founderPortraitColour,.founderPortraitButton[data-static='true'][data-hovered='true'] .founderPortraitColour{mask-image:none;-webkit-mask-image:none}
+.founderPortraitGrain{pointer-events:none;background-image:radial-gradient(#ffffff26 .55px,transparent .55px);background-size:5px 5px;mix-blend-mode:soft-light;opacity:.45}
+.founderPortraitCaption{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin-top:25px;font:600 10px/1.55 var(--font-mono,'Geist Mono Variable',monospace);letter-spacing:.07em;text-transform:uppercase;color:#aaaab2}
+.founderPortraitCaption span:first-child{color:var(--ember-text,#ec756a)}
+.founderPortraitCaption span:last-child{text-align:left}
+.portfolioReveal{min-width:0}
+.page .textLink{color:#e0e0e4;border-color:#696970}
+.page .textLink:hover{color:var(--ember-text,#ec756a);border-color:var(--ember-text,#ec756a)}
+.page :global(.journey-nav) a{color:#b5b5bd}
+.page :global(.journey-nav) a[aria-current='page']{color:#ededed}
+
+/* The large portfolio titles carry the same condensed editorial energy on every screen. */
+.page .hero h1,.page .chapter h2,.page .contact h2,.page .manifesto{font-family:'Anton',Impact,sans-serif;font-weight:400;font-style:normal;text-transform:uppercase;letter-spacing:-.025em}
+.page .hero h1>span,.page .chapter h2>span,.page .contact h2>span{color:var(--ember-text,#ec756a);font-style:normal}
+.page .hero h1{font-size:clamp(80px,9vw,144px);line-height:.92;max-width:760px}
+.page .heroRole{color:#e8e8ea}
+.page .manifesto{font-size:clamp(42px,5vw,82px);line-height:1.1;max-width:1100px}
+.page .chapter h2,.page .contact h2{font-size:clamp(64px,7vw,112px);line-height:.98}
+
+@media(max-width:767px){
+ .heroPortraitSlot{width:100%}
+ .founderPortraitFigure{width:min(100%,355px);padding:18px}
+ .founderPortraitOrbit{inset:2px 2px 61px}
+ .founderPortraitCaption{font-size:9px;margin-top:19px}
+ .page .hero h1{font-size:clamp(46px,13.4vw,72px)}
+ .page .manifesto{font-size:clamp(42px,11vw,64px)}
+ .page .chapter h2,.page .contact h2{font-size:clamp(56px,12vw,80px)}
+}
+@media(max-width:370px){
+ .founderPortraitCaption{display:block}
+ .founderPortraitCaption span{display:block;text-align:left!important}
+ .founderPortraitCaption span+span{margin-top:6px}
+ .page .hero h1{font-size:clamp(44px,13.4vw,58px)}
+}
+@media(prefers-reduced-motion:reduce){.founderPortraitColour{transition:none}}
+:global(html[data-motion='paused']) .founderPortraitColour{transition:none}

@@ -10,6 +10,7 @@ import {
   addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc, type Unsubscribe,
 } from "firebase/firestore";
 import { getFirebaseClient, type FirebaseClient } from "@/lib/firebase";
+import { canDisplayPrivateSnapshot } from "@/lib/portal-snapshot";
 import { recordConsentedSignIn } from "@/lib/visitor-client";
 import type { RequestInput } from "@/lib/customer-request";
 import { requestCategories } from "@/lib/customer-request";
@@ -83,6 +84,7 @@ export function useCustomerAccount() {
   const [requests, setRequests] = useState<CustomerRequest[]>([]);
   const [historyState, setHistoryState] = useState<HistoryState>("idle");
   const [historyMessage, setHistoryMessage] = useState("");
+  const [historyRetry, setHistoryRetry] = useState(0);
 
   useEffect(() => {
     const mounted = ++lifecycle.current;
@@ -128,17 +130,39 @@ export function useCustomerAccount() {
     const client = clientRef.current;
     if (!uid || !client || unavailable) return;
     let current = true;
+    let timedOut = false;
     setHistoryState("loading");
     setHistoryMessage("Loading your requests…");
-    const timer = setTimeout(() => {
-      if (current) setHistoryMessage("Still connecting to your request history. Check your connection or try refreshing the page.");
-    }, 15000);
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const waitForServer = () => {
+      if (timer) return;
+      timer = setTimeout(() => {
+        timer = null;
+        if (current && session.current.uid === uid) {
+          timedOut = true;
+          setRequests([]);
+          setHistoryState("error");
+          setHistoryMessage("Your requests could not be confirmed by the server. Check your connection, then retry.");
+        }
+      }, 15000);
+    };
+    waitForServer();
     const requestQuery = query(collection(client.db, "users", uid, "requests"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(requestQuery, { includeMetadataChanges: true }, (snapshot) => {
       if (!current || session.current.uid !== uid) return;
-      if (!snapshot.metadata.fromCache) clearTimeout(timer);
-      setHistoryState(snapshot.metadata.fromCache ? "cached" : "ready");
-      setHistoryMessage(snapshot.metadata.fromCache ? "Checking for the latest updates. Saved information may be out of date." : "");
+      if (!canDisplayPrivateSnapshot(uid, client.auth.currentUser?.uid, snapshot.metadata.fromCache)) {
+        if (timedOut) return;
+        setRequests([]);
+        setHistoryState("cached");
+        setHistoryMessage("Waiting for a secure server connection before showing your requests.");
+        waitForServer();
+        return;
+      }
+      if (timer) clearTimeout(timer);
+      timer = null;
+      timedOut = false;
+      setHistoryState("ready");
+      setHistoryMessage("");
       setRequests(snapshot.docs.map((record) => {
         const data = record.data();
         return {
@@ -150,13 +174,14 @@ export function useCustomerAccount() {
       }));
     }, () => {
       if (!current || session.current.uid !== uid) return;
-      clearTimeout(timer);
+      if (timer) clearTimeout(timer);
+      timer = null;
       setHistoryState("error");
       setHistoryMessage("Your request history is unavailable. Refresh the page to retry, or contact 4tech through WhatsApp or email.");
       setRequests([]);
     });
-    return () => { current = false; clearTimeout(timer); unsubscribe(); };
-  }, [customer?.uid, unavailable]);
+    return () => { current = false; if (timer) clearTimeout(timer); unsubscribe(); };
+  }, [customer?.uid, unavailable, historyRetry]);
 
   useEffect(() => {
     if (!resetUntil) return;
@@ -360,6 +385,6 @@ export function useCustomerAccount() {
     authStatus, requestStatus, googleEnabled, emailEnabled,
     resetCoolingDown: resetUntil !== 0, verificationCoolingDown: verificationUntil !== 0,
     requests, historyState, historyMessage, signInGoogle, signInEmail, resetPassword,
-    verifyEmail, signOut, submitRequest, clearAuthStatus: () => setAuthStatus(""),
+    verifyEmail, signOut, submitRequest, retryHistory: () => setHistoryRetry(value => value + 1), clearAuthStatus: () => setAuthStatus(""),
   };
 }

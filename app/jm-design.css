@@ -5,19 +5,19 @@
 
 /* ---------- Reset & Root Variables ---------- */
 :root {
-  --ember: #FC6B2F;
-  --ember-bright: #FF7A3D;
-  --ember-dark: #A02A22;
-  --void: #09090C;
-  --surface: #111116;
+  --ember: #A02A22;
+  --ember-bright: #B8342B;
+  --ember-dark: #7D1E1A;
+  --void: #050505;
+  --surface: #0F0F12;
   --surface-raised: #181820;
-  --cloud: #EDEDED;
-  --ash: #B5B5B5;
-  --iron: #555555;
-  --silver: #CCCCCC;
-  --font-display: 'Plus Jakarta Sans', var(--font-space-grotesk, 'Space Grotesk'), sans-serif;
+  --cloud: #E8E8EA;
+  --ash: #8A8A8D;
+  --iron: #2A2A2E;
+  --silver: #B0B0B3;
+  --font-display: 'Space Grotesk', var(--font-space-grotesk, 'Geist Variable'), sans-serif;
   --font-accent: 'Syne', var(--font-space-grotesk, 'Space Grotesk'), sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', 'Geist Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', var(--font-geist-mono, monospace);
   --font-poppins: 'Poppins', sans-serif;
 }
@@ -58,7 +58,7 @@ body.jm-body {
   width: 5px;
   height: 5px;
   background: #FFFFFF;
-  box-shadow: 0 0 10px #FC6B2F, 0 0 4px #FFFFFF;
+  box-shadow: 0 0 10px #A02A22, 0 0 4px #FFFFFF;
   border-radius: 50%;
   pointer-events: none;
   transform: translate3d(-50%, -50%, 0);
@@ -77,15 +77,15 @@ body.jm-body {
   left: 0;
   width: 34px;
   height: 34px;
-  border: 1.5px solid rgba(252, 107, 47, 0.65);
-  background: rgba(252, 107, 47, 0.02);
+  border: 1.5px solid rgba(160, 42, 34, 0.65);
+  background: rgba(160, 42, 34, 0.02);
   border-radius: 50%;
   pointer-events: none;
   transform: translate3d(-50%, -50%, 0);
   will-change: transform;
   z-index: 99999;
   backface-visibility: hidden;
-  box-shadow: 0 0 14px rgba(252, 107, 47, 0.15);
+  box-shadow: 0 0 14px rgba(160, 42, 34, 0.15);
   transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.2s ease,
@@ -99,15 +99,15 @@ body.jm-body {
   width: 56px;
   height: 56px;
   border-color: rgba(255, 122, 61, 0.95);
-  background: rgba(252, 107, 47, 0.12);
-  box-shadow: 0 0 24px rgba(252, 107, 47, 0.35);
+  background: rgba(160, 42, 34, 0.12);
+  box-shadow: 0 0 24px rgba(160, 42, 34, 0.35);
 }
 
 .cursor-hover .luxury-cursor-dot {
   width: 7px;
   height: 7px;
-  background: #FF7A3D;
-  box-shadow: 0 0 12px #FF7A3D;
+  background: #B8342B;
+  box-shadow: 0 0 12px #B8342B;
 }
 
 .cursor-active .luxury-cursor-ring {
@@ -676,7 +676,7 @@ body.jm-body {
   color: rgba(255,255,255,0.25);
 }
 .contact-input:focus {
-  border-color: rgba(252,107,47,0.5);
+  border-color: rgba(160,42,34,0.5);
 }
 
 /* ---------- Scroll-triggered letter animations ---------- */
@@ -723,7 +723,7 @@ body.jm-body {
   position: absolute;
   width: 100%;
   height: 12px;
-  background: rgba(252,107,47,0.6);
+  background: rgba(160,42,34,0.6);
   animation: reveal-up 2s ease-in-out infinite;
 }
 
