@@ -1,0 +1,412 @@
+/* 4TECH Studio Tools & Devtools Suite - Inspired by NestJS Devtools & Deploy Mau */
+
+.section {
+  position: relative;
+  background: #070709;
+  padding: clamp(100px, 12vw, 170px) 0;
+  color: #e8e8ea;
+  overflow: clip;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  isolation: isolate;
+}
+
+.ambientGlow {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 1200px);
+  height: 600px;
+  background: radial-gradient(ellipse 65% 55% at 50% 50%, rgba(160, 42, 34, 0.18) 0%, rgba(42, 42, 52, 0.1) 50%, transparent 75%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.shell {
+  width: min(100% - 2 * clamp(20px, 5vw, 82px), 1280px);
+  margin-inline: auto;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =========================================================================
+   STACKED 3D SHEETS (NEST.JS DEVTOOLS & DEPLOY MAU STYLE)
+   ========================================================================= */
+
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: 1160px;
+  min-height: 720px;
+  perspective: 1400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Base Sheet Styling */
+.sheet {
+  position: relative;
+  width: 100%;
+  border-radius: clamp(24px, 3vw, 36px);
+  padding: clamp(32px, 4.5vw, 55px) clamp(24px, 4vw, 50px);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease, z-index 0.3s;
+}
+
+/* Sheet 1: Devtools (Crimson / Red Gradient) */
+.devtoolsSheet {
+  background: linear-gradient(135deg, #780f20 0%, #4a0914 45%, #180306 100%);
+  border: 1px solid rgba(255, 80, 100, 0.25);
+  margin-bottom: -180px; /* Stacking overlap with front sheet */
+  z-index: 5;
+}
+
+.devtoolsSheet:hover,
+.devtoolsSheet[data-focused='true'] {
+  z-index: 25;
+  transform: translateY(-25px) scale(1.015);
+  box-shadow: 0 40px 110px rgba(0, 0, 0, 0.9), 0 0 60px rgba(225, 29, 72, 0.3);
+}
+
+/* Sheet 2: Deploy, Mau! (Titanium Metallic Dark Slate) */
+.deploySheet {
+  background: linear-gradient(135deg, #2b2b32 0%, #1e1e24 40%, #111116 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  z-index: 10;
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.deploySheet:hover,
+.deploySheet[data-focused='true'] {
+  z-index: 25;
+  transform: translateY(-20px) scale(1.015);
+  box-shadow: 0 45px 120px rgba(0, 0, 0, 0.95), 0 0 50px rgba(255, 255, 255, 0.15);
+}
+
+/* Circular Floating Badge (e.g. "Check it out") */
+.circleBadge {
+  position: absolute;
+  top: clamp(24px, 3.5vw, 42px);
+  left: clamp(24px, 3.5vw, 45px);
+  width: clamp(75px, 8vw, 100px);
+  height: clamp(75px, 8vw, 100px);
+  border-radius: 50%;
+  background: #ffffff;
+  color: #09090c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font: 700 clamp(11px, 1.1vw, 13px) / 1.25 var(--font-body, 'Inter', sans-serif);
+  padding: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  z-index: 20;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s;
+}
+
+.sheet:hover .circleBadge {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+/* Sheet Top Content */
+.sheetHeader {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto clamp(28px, 4vw, 45px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sheetTitle {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(34px, 4.8vw, 62px);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.05;
+}
+
+.sheetSubtitle {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: clamp(13px, 1.2vw, 16px);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+  max-width: 580px;
+}
+
+/* =========================================================================
+   AUTHENTIC MOCK APPLICATION WINDOWS (NEST.JS STYLE)
+   ========================================================================= */
+
+.mockWindow {
+  background: #0c0c11;
+  border-radius: clamp(14px, 1.8vw, 20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  width: 100%;
+}
+
+.windowBar {
+  background: #14141a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.windowDots {
+  display: flex;
+  gap: 7px;
+}
+
+.windowDots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.windowDots span:nth-child(1) { background: #ff5f56; }
+.windowDots span:nth-child(2) { background: #ffbd2e; }
+.windowDots span:nth-child(3) { background: #27c93f; }
+
+.windowTitle {
+  font: 500 11px / 1 var(--font-mono, monospace);
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.05em;
+}
+
+.windowTabs {
+  display: flex;
+  gap: 6px;
+}
+
+.windowTab {
+  font: 600 10px / 1 var(--font-mono, monospace);
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.windowTabActive {
+  background: rgba(252, 107, 47, 0.2);
+  color: #FC6B2F;
+  border: 1px solid rgba(252, 107, 47, 0.4);
+}
+
+/* Devtools Inner Layout: Graph View */
+.devtoolsBody {
+  display: grid;
+  grid-template-columns: 200px 1fr 220px;
+  min-height: 290px;
+}
+
+.sideList {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font: 11px / 1.5 var(--font-mono, monospace);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.sideItem {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: transparent;
+  transition: all 0.2s;
+}
+
+.sideItemActive {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-left: 2px solid #FC6B2F;
+}
+
+.graphCanvas {
+  position: relative;
+  background: radial-gradient(circle at 50% 50%, rgba(160, 42, 34, 0.08), transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.nodeBox {
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #171720;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font: 600 11px var(--font-mono, monospace);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.nodeLine {
+  height: 2px;
+  width: 50px;
+  background: linear-gradient(90deg, #FC6B2F, #06b6d4);
+  position: relative;
+}
+
+.nodeLine::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #06b6d4;
+  box-shadow: 0 0 8px #06b6d4;
+}
+
+.inspectorBox {
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font: 11px / 1.5 var(--font-mono, monospace);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.inspectorRow {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 6px;
+}
+
+.inspectorVal {
+  color: #FC6B2F;
+  font-weight: 600;
+}
+
+/* Deploy Mau Inner Layout: CPU & Response Graphs */
+.deployBody {
+  display: grid;
+  grid-template-columns: 180px 1fr 1fr;
+  gap: 16px;
+  padding: 18px;
+  min-height: 290px;
+}
+
+.deployNav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font: 11px / 1.4 var(--font-mono, monospace);
+  color: rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding-right: 12px;
+}
+
+.deployNavItem {
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.deployNavItemActive {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FC6B2F;
+  font-weight: 600;
+}
+
+.chartCard {
+  background: #111116;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chartTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 600 11px var(--font-mono, monospace);
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 12px;
+}
+
+.chartPill {
+  font: 500 9px var(--font-mono, monospace);
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.chartSvg {
+  width: 100%;
+  height: 140px;
+  overflow: visible;
+}
+
+.chartLegend {
+  display: flex;
+  gap: 16px;
+  font: 9px var(--font-mono, monospace);
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 10px;
+}
+
+.legendDotRed {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff4d61;
+  margin-right: 4px;
+}
+
+.legendDotCyan {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #06b6d4;
+  margin-right: 4px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .stage {
+    min-height: auto;
+  }
+  .devtoolsSheet {
+    margin-bottom: 24px;
+  }
+  .devtoolsBody,
+  .deployBody {
+    grid-template-columns: 1fr;
+  }
+  .sideList,
+  .inspectorBox,
+  .deployNav {
+    display: none;
+  }
+}

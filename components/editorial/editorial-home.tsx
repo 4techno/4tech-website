@@ -6,6 +6,7 @@ import ScrollExpandSection from '@/components/jm/scroll-expand';
 import IsometricPortfolio from '@/components/jm/isometric-portfolio';
 import SelectedProjects from '@/components/jm/selected-projects';
 import FannedCapabilities from './fanned-capabilities';
+import StudioToolsSuite from './studio-tools';
 import ExperienceTimeline from '@/components/jm/experience-timeline';
 import ContactSection from '@/components/jm/contact-section';
 import LoadingScreen from '@/components/jm/loading-screen';
@@ -19,6 +20,7 @@ export default function EditorialHome() {
       <IsometricPortfolio />
       <SelectedProjects />
       <FannedCapabilities />
+      <StudioToolsSuite />
 
       <DeliveryRoadmap />
 

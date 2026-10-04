@@ -3,10 +3,14 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '@/lib/projects';
 import { getProjectMedia, representativeImageNotice } from '@/lib/project-media';
 import { useMotionPreferences } from '@/components/motion-preferences';
 import styles from './isometric-portfolio.module.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const archive = ['antenna', 'drone', 'robot-arm', 'power', 'sewersense', 'rescue', 'wind-tunnel', 'ar-hud']
   .map(id => projects.find(project => project.id === id)!)
@@ -14,16 +18,15 @@ const archive = ['antenna', 'drone', 'robot-arm', 'power', 'sewersense', 'rescue
 
 /**
  * 3D Isometric Viewfinder Portfolio Component
- * Exactly matches user reference image media_1791084175251.png:
- * - Mouse roller / wheel sliding
+ * - Pinned horizontal scrolling: page locks and scrolls sideways through all projects before continuing down
  * - Top center indicator
- * - Top right count (08 / 08)
+ * - Top right count (01 / 08)
  * - Parallel 3D perspective slanted cards
  * - Active card glowing coral/red outline
- * - Bottom circular arrows + millimeter tick ruler with active coral tick
  */
 export default function IsometricPortfolio() {
-  const [active, setActive] = useState(7); // Default to Card 08 as shown in reference photo
+  const [active, setActive] = useState(0); // Starts at Card 01
+  const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number } | null>(null);
   const moved = useRef(false);
@@ -35,7 +38,32 @@ export default function IsometricPortfolio() {
     setActive(Math.max(0, Math.min(archive.length - 1, index)));
   }, []);
 
-  // Mouse Roller / Wheel sliding support
+  // Pinned Horizontal Scroll with GSAP ScrollTrigger:
+  // Pins the section while scrolling vertically, sliding cards horizontally sideways from 01 to 08,
+  // and only then allows the page to continue scrolling down.
+  useEffect(() => {
+    if (staticMotion || !sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${archive.length * 360}`,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        scrub: 0.35,
+        onUpdate: (self) => {
+          const idx = Math.min(archive.length - 1, Math.floor(self.progress * archive.length));
+          setActive(idx);
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [staticMotion]);
+
+  // Fallback direct Mouse Roller / Wheel sliding support
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
@@ -44,16 +72,13 @@ export default function IsometricPortfolio() {
     let accumulatedDelta = 0;
 
     const onWheel = (e: WheelEvent) => {
-      // Prioritize dominant axis (vertical roller or horizontal touchpad)
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
       if (Math.abs(delta) < 3) return;
 
       const goingNext = delta > 0;
       const goingPrev = delta < 0;
 
-      // Only hijack wheel scrolling when sliding within the gallery boundaries
       if ((goingNext && active < archive.length - 1) || (goingPrev && active > 0)) {
-        e.preventDefault();
         accumulatedDelta += delta;
 
         if (!wheelCooldown && Math.abs(accumulatedDelta) >= 14) {
@@ -71,16 +96,16 @@ export default function IsometricPortfolio() {
       }
     };
 
-    stage.addEventListener('wheel', onWheel, { passive: false });
+    stage.addEventListener('wheel', onWheel, { passive: true });
     return () => stage.removeEventListener('wheel', onWheel);
   }, [active, select]);
 
   return (
-    <section id="projects" className={styles.section} aria-labelledby="archive-title">
+    <section id="projects" ref={sectionRef} className={styles.section} aria-labelledby="archive-title">
       {/* Top Center White Bar Indicator matching reference photo */}
       <div className={styles.topIndicator} aria-hidden="true" />
 
-      {/* Header with Title and 08 / 08 Count */}
+      {/* Header with Title and Count */}
       <div className={styles.header}>
         <div>
           <p className="jm-kicker">[ PROJECT ARCHIVE / 4TECH ]</p>
