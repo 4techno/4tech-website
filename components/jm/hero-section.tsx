@@ -179,12 +179,12 @@ export default function HeroSection() {
         className="jm-hero-actions absolute bottom-6 sm:bottom-[10%] md:bottom-[10%] right-4 sm:right-8 md:right-14 lg:right-20 z-[40] flex flex-col items-end gap-2.5 sm:gap-3.5"
       >
         <MagneticButton>
-          <Link
-            href="/#projects"
+          <a
+            href="#projects"
             className="inline-flex items-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-semibold text-xs sm:text-sm tracking-wide bg-[#A02A22] text-white hover:bg-[#B8342B] border border-transparent shadow-[0_0_30px_rgba(160,42,34,0.55)] group transition-all duration-300"
           >
             <span>Explore Work →</span>
-          </Link>
+          </a>
         </MagneticButton>
 
         <MagneticButton>
