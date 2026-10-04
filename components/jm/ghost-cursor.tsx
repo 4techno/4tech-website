@@ -34,11 +34,18 @@ export default function GhostCursor() {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
+      const target = e.target as HTMLElement | null;
+
+      // Yield cursor to the specialized magnetic badge when inside #tools
+      if (target && target.closest('#tools')) {
+        document.body.classList.add('cursor-hidden');
+        return;
+      }
+
       // Update Center Dot instantly with 0ms latency for precision sub-pixel tracking
       dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0px) translate(-50%, -50%)`;
 
       // Check if hovering over interactive elements
-      const target = e.target as HTMLElement | null;
       if (target && target.closest(interactiveSelectors)) {
         if (!isHovering) {
           isHovering = true;
@@ -93,8 +100,7 @@ export default function GhostCursor() {
       lastTime = time;
 
       // Frame-rate independent spring interpolation for buttery smooth magnetic ring
-      // Standard lerp factor around 0.22 at 60fps, mathematically scaled by delta
-      const factor = 1 - Math.exp(-18 * delta);
+      const factor = 1 - Math.exp(-22 * delta);
       ringX += (mouseX - ringX) * factor;
       ringY += (mouseY - ringY) * factor;
 

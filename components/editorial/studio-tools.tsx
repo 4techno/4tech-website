@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { AstraSprings } from '@/lib/astra-architecture';
 import styles from './studio-tools.module.css';
 
 if (typeof window !== 'undefined') {
@@ -37,13 +38,13 @@ export default function StudioToolsSuite() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isInside, setIsInside] = useState(false);
 
-  // Magnetic cursor follower spring setup
+  // Magnetic cursor follower spring setup (Calibrated 120Hz/240Hz AstraSprings)
   const mouseX = useMotionValue(-500);
   const mouseY = useMotionValue(-500);
-  const springX = useSpring(mouseX, { stiffness: 450, damping: 28, mass: 0.5 });
-  const springY = useSpring(mouseY, { stiffness: 450, damping: 28, mass: 0.5 });
-  const badgeScale = useSpring(0, { stiffness: 350, damping: 25 });
-  const badgeOpacity = useSpring(0, { stiffness: 350, damping: 25 });
+  const springX = useSpring(mouseX, AstraSprings.fluid);
+  const springY = useSpring(mouseY, AstraSprings.fluid);
+  const badgeScale = useSpring(0, AstraSprings.snappy);
+  const badgeOpacity = useSpring(0, AstraSprings.snappy);
 
   // Handle pointer tracking inside the section
   const handlePointerEnter = useCallback((e: React.PointerEvent<HTMLElement>) => {

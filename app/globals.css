@@ -3,11 +3,56 @@
 @tailwind utilities;
 
 @layer base {
-  :root{color-scheme:dark;--accent:#ff3b55;--muted:#a2a2aa}
-  *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:35px}body{margin:0;background:#0a0a0a;color:#f2f2f3;font-family:'Geist Variable',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  :root {
+    color-scheme: dark;
+    --accent: #ff3b55;
+    --muted: #a2a2aa;
+    --vibrant-orange: #fc6b2f;
+    --ember: #a02a22;
+    --void: #050505;
+  }
+  @supports (color: color(display-p3 1 1 1)) {
+    :root {
+      --accent: color(display-p3 1 0.231 0.333);
+      --vibrant-orange: color(display-p3 0.988 0.420 0.184);
+      --ember: color(display-p3 0.627 0.165 0.133);
+      --void: color(display-p3 0.019 0.019 0.023);
+    }
+  }
+  * { box-sizing: border-box; }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 35px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    margin: 0;
+    background: var(--void);
+    color: #f2f2f3;
+    font-family: 'Geist Variable', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
   body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(#ffffff03 1px,transparent 1px),linear-gradient(90deg,#ffffff03 1px,transparent 1px);background-size:84px 84px}
   ::selection{background:#ff3b5560;color:#fff}button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}a{transition:color .2s,background .2s,border-color .2s}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}a:hover{color:#fff}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #ff7388;outline-offset:5px}
   input,textarea,select{font:inherit}h1,h2,h3{font-weight:500}p{line-height:1.75}[hidden]{display:none!important}
+}
+
+@media screen and (min-width: 1920px), (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  html, body {
+    text-rendering: optimizeLegibility;
+    image-rendering: -webkit-optimize-contrast;
+  }
+  svg {
+    shape-rendering: geometricPrecision;
+    text-rendering: geometricPrecision;
+  }
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
 }
 @layer components {
   .container-shell{@apply mx-auto w-[90%] max-w-[1320px]}
