@@ -9,12 +9,10 @@ import FannedCapabilities from './fanned-capabilities';
 import StudioToolsSuite from './studio-tools';
 import ExperienceTimeline from '@/components/jm/experience-timeline';
 import ContactSection from '@/components/jm/contact-section';
-import LoadingScreen from '@/components/jm/loading-screen';
 
 export default function EditorialHome() {
   return (
     <main id="main" className="jm-home">
-      <LoadingScreen />
       <HeroSection />
       <ScrollExpandSection />
       <IsometricPortfolio />

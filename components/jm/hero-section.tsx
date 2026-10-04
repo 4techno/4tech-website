@@ -20,7 +20,7 @@ export default function HeroSection() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let entrance: gsap.core.Timeline | null = null;
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ paused: true, delay: 0.08 });
+      const tl = gsap.timeline({ delay: 0.08 });
       entrance = tl;
 
       const letters = sectionRef.current?.querySelectorAll('[data-pressure-letter]');
@@ -95,12 +95,7 @@ export default function HeroSection() {
       }
     }, sectionRef);
 
-    const play = () => entrance?.play();
-    window.addEventListener('4tech:intro-complete', play, { once: true });
-    if (document.documentElement.dataset.techIntroComplete === 'true' || !document.querySelector('.tech-intro')) play();
-    // The intro may finish before this component hydrates on a slow connection.
-    const fallback = window.setTimeout(play, 3200);
-    return () => { window.clearTimeout(fallback); window.removeEventListener('4tech:intro-complete', play); ctx.revert(); };
+    return () => ctx.revert();
   }, []);
 
   return (
