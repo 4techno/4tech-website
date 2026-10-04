@@ -184,42 +184,8 @@ export default function IsometricPortfolio() {
         </div>
       </div>
 
-      {/* Bottom Controls: Circular Arrows and Ruler with Active Coral Tick */}
+      {/* Selected Project Technical Detail Summary */}
       <div className={styles.footer}>
-        <div className={styles.controls} aria-label="Project gallery controls">
-          <button
-            type="button"
-            onClick={() => select((active - 1 + archive.length) % archive.length)}
-            aria-label="Previous project"
-          >
-            ←
-          </button>
-
-          {/* Tick Ruler: Active tick turns coral/red exactly like uploaded photo */}
-          <div className={styles.ruler}>
-            {archive.map((project, index) => (
-              <button
-                key={project.id}
-                type="button"
-                aria-label={`Show project ${index + 1}: ${project.name}`}
-                aria-pressed={active === index}
-                onClick={() => select(index)}
-              >
-                <span />
-              </button>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => select((active + 1) % archive.length)}
-            aria-label="Next project"
-          >
-            →
-          </button>
-        </div>
-
-        {/* Selected Project Technical Detail Summary */}
         <div className={styles.detail}>
           <div aria-live="polite">
             <p className="jm-kicker">{current.category}</p>

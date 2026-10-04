@@ -10,7 +10,6 @@ import MagneticButton from './magnetic-button';
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
-  const heroLineRef = useRef<HTMLParagraphElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -42,17 +41,7 @@ export default function HeroSection() {
         );
       }
 
-      // 2. Hero tagline
-      if (heroLineRef.current) {
-        tl.fromTo(
-          heroLineRef.current,
-          { y: 40, scale: 0.85, opacity: 0 },
-          { y: 0, scale: 1, opacity: 1, duration: 1, ease: 'back.out(1.8)' },
-          0.7
-        );
-      }
-
-      // 3. Top-left status badge
+      // 2. Top-left status badge
       if (badgeRef.current) {
         tl.fromTo(
           badgeRef.current,
@@ -159,23 +148,12 @@ export default function HeroSection() {
         </span>
       </div>
 
-      {/* Center 4TECH Title with Clean Tagline Below */}
+      {/* Center 4TECH Title */}
       <div
-        className="jm-hero-title absolute top-[36%] sm:top-[38%] md:top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[15] pointer-events-none select-none w-full flex flex-col items-center justify-center px-4"
+        className="jm-hero-title absolute top-[38%] sm:top-[40%] md:top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[15] pointer-events-none select-none w-full flex flex-col items-center justify-center px-4"
       >
         <div className="w-full max-w-[900px] relative flex items-center justify-center transform-gpu drop-shadow-[0_0_50px_rgba(160,42,34,0.35)]">
           <TextPressure text="4TECH" />
-        </div>
-
-        {/* Red / Coral Tagline Positioned Below 4TECH - No Letter Stems Artifacts */}
-        <div className="mt-3 sm:mt-4 md:mt-5 text-center z-20 px-2 pointer-events-none">
-          <p
-            ref={heroLineRef}
-            className="hero-line text-[clamp(0.6rem,1.35vw,0.88rem)] font-extrabold tracking-[0.2em] sm:tracking-[0.28em] uppercase text-[#FC6B2F] drop-shadow-[0_0_20px_rgba(252,107,47,0.7)] text-center whitespace-nowrap"
-            style={{ fontFamily: "var(--font-body), 'Inter', sans-serif" }}
-          >
-            CRAFTING HARDWARE THAT SHAPES TOMORROW.
-          </p>
         </div>
       </div>
 

@@ -163,83 +163,6 @@
   font-weight: 500;
 }
 
-.controls {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 36px;
-}
-
-.controls > button {
-  width: 44px;
-  height: 44px;
-  flex: none;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(18, 18, 22, 0.75);
-  backdrop-filter: blur(8px);
-  border-radius: 50%;
-  font-size: 18px;
-  color: #d1d5db;
-  display: grid;
-  place-items: center;
-  transition: all 0.25s ease;
-  cursor: pointer;
-}
-
-.controls > button:hover {
-  border-color: rgba(255, 255, 255, 0.6);
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
-  transform: scale(1.06);
-}
-
-.ruler {
-  min-width: 0;
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  max-width: 460px;
-  width: 100%;
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
-  margin-top: 21px;
-  padding: 0;
-  position: relative;
-}
-
-.ruler button {
-  width: 36px;
-  height: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-}
-
-.ruler span {
-  display: block;
-  width: 0;
-  height: 12px;
-  border-left: 1.5px solid rgba(255, 255, 255, 0.4);
-  transition: height 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.ruler button:hover span {
-  border-color: rgba(255, 255, 255, 0.85);
-  height: 16px;
-}
-
-.ruler button[aria-pressed='true'] span {
-  height: 24px;
-  border-left: 2px solid #FC6B2F !important;
-  box-shadow: 0 0 10px #FC6B2F, 0 0 20px rgba(252, 107, 47, 0.5);
-}
-
 .detail {
   display: flex;
   align-items: center;
@@ -307,14 +230,6 @@
     align-items: center;
     gap: 15px;
   }
-  .controls {
-    gap: 7px;
-  }
-  .ruler button {
-    min-width: 0;
-    width: auto;
-    flex: 1;
-  }
   .count {
     font-size: 10px;
   }
@@ -325,8 +240,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .track,
-  .card img,
-  .ruler span {
+  .card img {
     transition: none !important;
   }
 }
