@@ -203,7 +203,7 @@ export default function ScrollExpandSection({
                   <div className="flex flex-col items-center justify-center gap-4 sm:gap-7 max-w-4xl mx-auto px-4 sm:px-6">
                     <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-ember/30 bg-ember/10 backdrop-blur-md">
                       <span className="w-1.5 h-1.5 rounded-full bg-ember shadow-[0_0_8px_#A02A22]" />
-                      <span className="text-ember text-[10px] sm:text-xs font-semibold tracking-[0.3em] uppercase">
+                      <span className="text-ember text-[10px] sm:text-xs font-semibold tracking-[0.14em] uppercase">
                         The Philosophy
                       </span>
                     </div>
@@ -212,7 +212,7 @@ export default function ScrollExpandSection({
                       Good engineering makes the invisible testable. We connect mathematical ideas, physical systems and clear evidence.
                     </h2>
 
-                    <p className="text-xs sm:text-sm font-mono tracking-widest text-[#B5B5B5] uppercase">
+                    <p className="text-xs sm:text-sm font-mono tracking-wider text-[#B5B5B5] uppercase">
                       4TECH / Engineering philosophy
                     </p>
                   </div>

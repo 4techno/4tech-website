@@ -92,7 +92,7 @@ export default function ContactSection() {
       <div className="max-w-6xl mx-auto px-4 sm:px-8 relative z-10">
         {/* Heading */}
         <div className="mb-12 sm:mb-16 md:mb-20 text-center contact-animate">
-          <span className="text-ember text-xs font-semibold tracking-[0.25em] uppercase block mb-3 font-mono">
+          <span className="text-ember text-xs font-semibold tracking-[0.14em] uppercase block mb-3 font-mono">
             Get in Touch
           </span>
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.15] tracking-tight max-w-3xl mx-auto">

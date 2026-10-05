@@ -1,3 +1,4 @@
+import IntroSequence from '@/components/jm/intro-sequence';
 import TeamOverview from '@/components/team/team-overview';
 import AiHomeSection from '@/components/ai/ai-home-section';
 import DeliveryRoadmap from './delivery-roadmap';
@@ -12,7 +13,9 @@ import ContactSection from '@/components/jm/contact-section';
 
 export default function EditorialHome() {
   return (
-    <main id="main" className="jm-home">
+    <>
+      <IntroSequence />
+      <main id="main" className="jm-home">
       <HeroSection />
       <ScrollExpandSection />
       <IsometricPortfolio />
@@ -30,5 +33,6 @@ export default function EditorialHome() {
       <AiHomeSection />
       <ContactSection />
     </main>
+    </>
   );
 }

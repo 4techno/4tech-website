@@ -101,10 +101,10 @@ export default function HeroSection() {
       {/* Top Left Status Pill */}
       <div
         ref={badgeRef}
-        className="jm-hero-status absolute top-20 sm:top-24 md:top-28 left-4 sm:left-8 md:left-14 lg:left-20 z-[40] flex items-center gap-2.5"
+        className="jm-hero-status absolute top-20 sm:top-24 md:top-28 left-4 sm:left-8 md:left-14 lg:left-20 z-[40] flex items-center gap-2"
       >
-        <span className="w-2 h-2 shrink-0 rounded-full bg-[#A02A22] animate-pulse shadow-[0_0_10px_#A02A22]" />
-        <span className="text-[10px] sm:text-[11px] text-[#A0A0A5] tracking-[0.25em] uppercase font-semibold font-mono">
+        <span className="w-2 h-2 shrink-0 rounded-full bg-[#E52320] animate-pulse shadow-[0_0_10px_#E52320]" />
+        <span className="text-[10px] sm:text-[11px] text-[#C4C0BC] tracking-[0.14em] uppercase font-semibold font-mono">
           SHIPPING IDEAS INTO REALITY.
         </span>
       </div>
@@ -113,7 +113,7 @@ export default function HeroSection() {
       <div
         className="jm-hero-title absolute top-[38%] sm:top-[40%] md:top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[15] pointer-events-none select-none w-full flex flex-col items-center justify-center px-4"
       >
-        <div className="w-full max-w-[900px] relative flex items-center justify-center transform-gpu drop-shadow-[0_0_50px_rgba(160,42,34,0.35)]">
+        <div className="w-full max-w-[850px] relative flex items-center justify-center transform-gpu drop-shadow-[0_0_50px_rgba(229,35,32,0.35)]">
           <TextPressure text="4TECH" />
         </div>
       </div>
@@ -123,14 +123,14 @@ export default function HeroSection() {
         ref={summaryRef}
         className="jm-hero-summary absolute bottom-[18%] sm:bottom-[12%] md:bottom-[10%] left-4 sm:left-8 md:left-14 lg:left-20 z-[40] max-w-[320px] sm:max-w-[360px] md:max-w-[420px]"
       >
-        <p className="text-[12px] sm:text-[13px] md:text-sm font-medium text-white/90 leading-tight tracking-wide mb-1.5">
-          Independent Engineering Practice & Creative Studio
+        <p className="text-[12px] sm:text-[13px] md:text-sm font-medium text-white/95 leading-snug tracking-[-0.01em] mb-1.5">
+          Independent Engineering Practice &amp; Creative Studio
         </p>
         <p
-          className="text-[11px] sm:text-xs md:text-[13px] text-[#A0A0A5] leading-[1.65] font-normal tracking-wide"
+          className="text-[11px] sm:text-xs md:text-[13px] text-[#A0A0A5] leading-[1.6] font-normal tracking-[-0.01em]"
           style={{ fontFamily: "var(--font-body), 'Inter', sans-serif" }}
         >
-          engineering fast, reliable, and motion-driven hardware systems.
+          Engineering high-reliability hardware, spatial computing, and robotic mechanisms.
         </p>
       </div>
 
