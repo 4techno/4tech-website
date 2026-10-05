@@ -27,7 +27,7 @@ export const teamMembers = [
   {
     id: 'yashwanth-c', name: 'Yashwanth C', role: 'Co-founder',
     focus: 'Circuit design · Robotic kinematics · Project coordination',
-    image: '/assets/team/yashwanth-c.png', position: '50% 40%',
+    image: '/assets/team/yashwanth-c.jpg', position: '50% 22%',
     headline: 'Circuit-level thinking. A system-level perspective.',
     introduction: 'I connect circuit design, embedded hardware and computational robotics with practical project scoping, feasibility analysis and coordinated delivery.',
     biography: 'I am a B.Tech Electrical and Electronics Engineering student at B.S. Abdur Rahman Crescent Institute of Science and Technology. As a co-founder of 4TECH, I contribute to project scoping, prototype development, resource planning and budgeting. My technical interests include neural-network approaches to robotic kinematics, power conversion and resonant circuits. I also serve as Co-Treasurer and Event Coordinator of Crescent Energy Club.',

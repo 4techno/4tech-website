@@ -30,6 +30,7 @@ export default function CoFounderPage() {
             <Link href="/portfolio/sabeel-ahamed">Explore member portfolio</Link>
             <Link href="/resume/sabeel-ahamed">View résumé</Link>
             <Link href="/founder">Meet Mohammed Vashir (Founder) →</Link>
+            <Link href="/team/yashwanth-c">Meet Yashwanth C (Co-Founder) →</Link>
           </div>
         </div>
         <MemberPortrait

@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
+import AsciiWaves from '@/components/reactbits/ascii-waves';
 import ReactiveBackground from '@/components/reactbits/reactive-background';
 import TextPressure from './text-pressure';
 import MagneticButton from './magnetic-button';
@@ -79,6 +80,19 @@ export default function HeroSection() {
       ref={sectionRef}
       className="jm-hero relative h-screen h-[100svh] min-h-[100svh] overflow-hidden select-none touch-pan-y bg-[#060608]"
     >
+      {/* React Bits Pro Ascii Waves in Professional Red */}
+      <AsciiWaves
+        className="z-[4] opacity-80"
+        color="#E52320"
+        waveTension={0.45}
+        waveTwist={0.16}
+        speed={0.75}
+        elementSize={14}
+        intensity={1.1}
+        hasCursorInteraction={true}
+        interactionIntensity={1.25}
+      />
+
       {/* React Bits Interactive Reactive Background */}
       <ReactiveBackground className="z-[5]" />
 
