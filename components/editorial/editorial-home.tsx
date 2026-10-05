@@ -5,7 +5,6 @@ import DeliveryRoadmap from './delivery-roadmap';
 import HeroSection from '@/components/jm/hero-section';
 import ScrollExpandSection from '@/components/jm/scroll-expand';
 import IsometricPortfolio from '@/components/jm/isometric-portfolio';
-import SelectedProjects from '@/components/jm/selected-projects';
 import FannedCapabilities from './fanned-capabilities';
 import StudioToolsSuite from './studio-tools';
 import ExperienceTimeline from '@/components/jm/experience-timeline';
@@ -19,7 +18,6 @@ export default function EditorialHome() {
       <HeroSection />
       <ScrollExpandSection />
       <IsometricPortfolio />
-      <SelectedProjects />
       <FannedCapabilities />
       <StudioToolsSuite />
 

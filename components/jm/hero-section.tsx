@@ -163,8 +163,8 @@ export default function HeroSection() {
         className="jm-hero-status absolute top-20 sm:top-24 md:top-28 left-4 sm:left-8 md:left-14 lg:left-20 z-[40] flex items-center gap-2.5"
       >
         <span className="w-2 h-2 shrink-0 rounded-full bg-[#E52320] animate-pulse shadow-[0_0_10px_#E52320]" />
-        <span className="text-[10px] sm:text-[11px] text-[#A0A0A5] tracking-[0.25em] uppercase font-semibold font-mono">
-          SHIPPING IDEAS INTO REALITY.
+        <span className="text-[10px] sm:text-[11px] text-[#A0A0A5] tracking-[0.2em] uppercase font-semibold font-mono">
+          4TECH ENGINEERING // SHIPPING IDEAS INTO REALITY.
         </span>
       </div>
 
@@ -194,7 +194,7 @@ export default function HeroSection() {
         className="jm-hero-summary absolute bottom-[18%] sm:bottom-[12%] md:bottom-[10%] left-4 sm:left-8 md:left-14 lg:left-20 z-[40] max-w-[340px] sm:max-w-[380px] md:max-w-[420px]"
       >
         <p className="text-[12px] sm:text-[13px] md:text-sm font-medium text-white/90 leading-tight tracking-wide mb-1.5">
-          Independent Engineering Practice &amp; Creative Studio
+          4TECH Engineering Practice &amp; Creative Studio
         </p>
         <p
           className="text-[11px] sm:text-xs md:text-[13px] text-[#A0A0A5] leading-[1.65] font-normal tracking-wide"

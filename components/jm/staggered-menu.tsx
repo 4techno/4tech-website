@@ -6,16 +6,18 @@ import { openCommandPalette } from '@/components/command-palette';
 import { siteConfig } from '@/config';
 
 const MENU_ITEMS = [
-  { label: 'Projects', href: '/#projects', num: '01' },
-  { label: 'The Philosophy', href: '/#philosophy', num: '02' },
+  { label: 'The Philosophy', href: '/#philosophy', num: '01' },
+  { label: 'Built to Explore', href: '/#projects', num: '02' },
   { label: 'Capabilities', href: '/#services', num: '03' },
-  { label: '4-Phase Roadmap', href: '/#roadmap', num: '04' },
-  { label: 'Our Approach', href: '/#experience', num: '05' },
-  { label: 'Team & Leadership', href: '/team', num: '06' },
-  { label: 'Project Planner', href: '/#ai-copilot', num: '07' },
-  { label: 'Idea Studio', href: '/ideas', num: '08' },
-  { label: 'Contact', href: '/#contact', num: '09' },
-  { label: 'Client Space', href: '/account', num: '10' },
+  { label: 'Engineering Interface', href: '/#tools', num: '04' },
+  { label: 'All Works & Case Studies', href: '/projects', num: '05' },
+  { label: '4-Phase Roadmap', href: '/#roadmap', num: '06' },
+  { label: 'Our Approach', href: '/#experience', num: '07' },
+  { label: 'Team & Leadership', href: '/team', num: '08' },
+  { label: 'Codex Pet / Planner', href: '/#ai-copilot', num: '09' },
+  { label: 'Idea Studio', href: '/ideas', num: '10' },
+  { label: 'Contact', href: '/#contact', num: '11' },
+  { label: 'Client Space', href: '/account', num: '12' },
 ];
 
 export default function StaggeredMenu() {
@@ -101,12 +103,15 @@ export default function StaggeredMenu() {
         <div className="sm-logo">
           <Link
             href="/"
-            className="text-white font-bold text-xl tracking-tight flex items-center gap-1"
+            className="text-white font-bold text-lg sm:text-xl tracking-tight flex items-center gap-1.5"
             style={{ fontFamily: 'var(--font-display)' }}
             onClick={closeMenu}
-            aria-label="4TECH home"
+            aria-label="4TECH Engineering home"
           >
             <span style={{ color: 'var(--ember)' }}>4</span>TECH
+            <span className="text-[11px] sm:text-xs font-semibold tracking-[0.14em] uppercase text-[#D0CCC6] ml-0.5">
+              ENGINEERING
+            </span>
             <span style={{ color: 'var(--ember)' }}>.</span>
           </Link>
         </div>

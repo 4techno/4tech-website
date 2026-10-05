@@ -1,21 +1,25 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { featuredProjects } from '@/lib/projects';
+import { featuredProjects, projects } from '@/lib/projects';
 import { getProjectMedia, representativeImageNotice } from '@/lib/project-media';
 import mediaStyles from './selected-projects.module.css';
 
-export default function SelectedProjects() {
+export default function SelectedProjects({ isDedicatedPage = false }: { isDedicatedPage?: boolean }) {
   return (
     <section id="case-studies" className="jm-work" aria-labelledby="jm-work-title">
       <div className="jm-shell">
         <div className="jm-work-header">
           <div>
-            <p className="jm-kicker"><span aria-hidden="true" /> [ 02 / SELECTED WORK ]</p>
+            <p className="jm-kicker"><span aria-hidden="true" /> [ {isDedicatedPage ? '01 / FEATURED CASE STUDIES' : '02 / SELECTED WORK'} ]</p>
             <h2 id="jm-work-title">Engineering, made tangible.</h2>
           </div>
           <div className="jm-work-header-aside">
-            <p>Four projects that show how 4TECH approaches measurement, motion, control and connected systems.</p>
-            <Link href="/projects">Explore all projects <span aria-hidden="true">→</span></Link>
+            <p>Four deep-dive projects that show how 4TECH Engineering approaches measurement, motion, control and connected systems.</p>
+            {isDedicatedPage ? (
+              <a href="#all-archive">Browse all {projects.length} systems below <span aria-hidden="true">↓</span></a>
+            ) : (
+              <Link href="/projects#case-studies">Explore all projects <span aria-hidden="true">→</span></Link>
+            )}
           </div>
         </div>
 

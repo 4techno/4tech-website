@@ -163,7 +163,7 @@ export default function IntroSequence() {
       <div className="tech-intro__top">
         <div className="flex items-center gap-2.5">
           <span className="w-2 h-2 shrink-0 rounded-full bg-[#E52320] animate-pulse shadow-[0_0_10px_#E52320]" />
-          <span>4TECH // SPATIAL &amp; HARDWARE SYSTEMS</span>
+          <span>4TECH ENGINEERING // SPATIAL &amp; HARDWARE SYSTEMS</span>
         </div>
         <button
           type="button"

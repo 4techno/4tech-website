@@ -17,10 +17,13 @@ export default function JmFooter() {
           <div className="md:col-span-2 space-y-4">
             <Link
               href="/"
-              className="text-white font-bold text-2xl tracking-tight inline-flex items-center gap-1"
+              className="text-white font-bold text-2xl tracking-tight inline-flex items-center gap-1.5"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               <span className="text-ember">4</span>TECH
+              <span className="text-xs sm:text-sm font-semibold tracking-[0.14em] uppercase text-[#D0CCC6] ml-1">
+                ENGINEERING
+              </span>
               <span className="text-ember">.</span>
             </Link>
             <p className="text-xs text-ash max-w-sm leading-relaxed">

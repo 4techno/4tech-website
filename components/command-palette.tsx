@@ -43,15 +43,33 @@ const COMMAND_ITEMS: CommandItem[] = [
   {
     id: 'action-copilot',
     category: 'Quick Actions',
-    title: 'Open AI Project Planner',
-    subtitle: 'Local browser-based engineering scope estimator',
-    badge: 'AI Planner',
+    title: 'Open Codex Pet (AI Companion)',
+    subtitle: 'Local browser-based engineering scope estimator and companion',
+    badge: 'Codex Pet',
     icon: (
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
       </svg>
     ),
     action: () => openAiCopilot(),
+  },
+  {
+    id: 'action-toggle-pet',
+    category: 'Quick Actions',
+    title: 'Show / Hide Codex Pet',
+    subtitle: 'Toggle the corner companion robot on or off',
+    badge: 'Codex Pet',
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
+      </svg>
+    ),
+    action: () => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('4tech:codex-pet-toggle'));
+      }
+    },
   },
   {
     id: 'action-whatsapp',
@@ -256,6 +274,20 @@ const COMMAND_ITEMS: CommandItem[] = [
   },
 
   // Studio Navigation
+  {
+    id: 'nav-works',
+    category: 'Studio Navigation',
+    title: 'All Works & Detailed Case Studies',
+    subtitle: 'Comprehensive portfolio of 4TECH Engineering systems and hardware',
+    badge: 'Portfolio',
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      </svg>
+    ),
+    href: '/projects',
+  },
   {
     id: 'nav-founder',
     category: 'Studio Navigation',

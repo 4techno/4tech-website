@@ -23,23 +23,23 @@ import { siteConfig, siteUrl } from '@/config';
 // Server Component: fonts, navigation, document shell and SEO never depend on WebGL.
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
-  title: { default: '4TECH — Technology That Shapes Tomorrow.', template: '%s — 4TECH' },
+  title: { default: '4TECH Engineering — Technology That Shapes Tomorrow.', template: '%s — 4TECH Engineering' },
   description: siteConfig.description,
-  applicationName: '4tech',
+  applicationName: '4TECH Engineering',
   authors: [{ name: siteConfig.founder.name }],
   // Keep this public tag in place to retain Google Search Console ownership.
   verification: { google: 'ridPpTRjP7lcZMd-jm1K3y6zE0CEV3cEXp5twz4oK3c' },
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    siteName: '4TECH',
-    title: '4TECH — Technology That Shapes Tomorrow.',
+    siteName: '4TECH Engineering',
+    title: '4TECH Engineering — Technology That Shapes Tomorrow.',
     description: siteConfig.description,
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: '4TECH — engineering ideas into reality' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: '4TECH Engineering — shipping ideas into reality' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '4TECH — Technology That Shapes Tomorrow.',
+    title: '4TECH Engineering — Technology That Shapes Tomorrow.',
     description: siteConfig.description,
     images: ['/opengraph-image'],
   },

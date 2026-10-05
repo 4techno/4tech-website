@@ -34,6 +34,7 @@ export function ProbeAvatar({ compact = false }: { compact?: boolean }) {
 
 export default function AiPetAssistant() {
   const [open, setOpen] = useState(false);
+  const [isRemoved, setIsRemoved] = useState(false);
   const [prefill, setPrefill] = useState('');
   const [state, setState] = useState<CompanionState>('idle');
   const [pageVisible, setPageVisible] = useState(true);
@@ -43,6 +44,39 @@ export default function AiPetAssistant() {
   const springNode = useRef<HTMLSpanElement>(null);
   const sleepTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const successTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined' && localStorage.getItem('4tech:codex-pet-hidden') === 'true') {
+        setIsRemoved(true);
+      }
+    } catch {}
+  }, []);
+
+  const removePet = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setIsRemoved(true);
+    setOpen(false);
+    try {
+      localStorage.setItem('4tech:codex-pet-hidden', 'true');
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    const handleToggle = (e: Event) => {
+      const detail = (e as CustomEvent<{ visible?: boolean }>).detail;
+      setIsRemoved(prev => {
+        const next = detail?.visible !== undefined ? !detail.visible : !prev;
+        try {
+          if (next) localStorage.setItem('4tech:codex-pet-hidden', 'true');
+          else localStorage.removeItem('4tech:codex-pet-hidden');
+        } catch {}
+        return next;
+      });
+    };
+    window.addEventListener('4tech:codex-pet-toggle', handleToggle);
+    return () => window.removeEventListener('4tech:codex-pet-toggle', handleToggle);
+  }, []);
 
   const wake = useCallback(() => {
     if (sleepTimer.current) clearTimeout(sleepTimer.current);
@@ -62,6 +96,7 @@ export default function AiPetAssistant() {
     const onOpen = (event: Event) => {
       const value = (event as CustomEvent<{ prompt?: unknown }>).detail?.prompt;
       setPrefill(typeof value === 'string' ? value.slice(0, 6000) : '');
+      setIsRemoved(false);
       setOpen(true); wake();
     };
     const visibility = () => setPageVisible(!document.hidden);
@@ -120,14 +155,53 @@ export default function AiPetAssistant() {
     };
   }, [open, motionPaused, state]);
 
+  if (isRemoved && !open) return null;
+
   return (
     <div className={styles.root} data-state={state} data-paused={motionPaused || undefined}>
-      <button ref={launcher} type="button" className={styles.launcher} hidden={open} onPointerEnter={wake} onFocus={wake}
-        onClick={() => { wake(); setOpen(true); }} aria-label="Open 4TECH engineering companion" aria-haspopup="dialog" aria-expanded={open}>
-        <span className={styles.launcherLabel}><strong>4TECH / PROBE</strong><span>{state === 'sleep' ? 'Tap to wake' : 'Engineering companion'}</span></span>
-        <span ref={springNode} className={styles.probeMount}><ProbeAvatar /></span>
-      </button>
-      {open && <EngineeringHud initialPrompt={prefill} onClose={close} onStateChange={changeState} launcherRef={launcher} />}
+      <div className={styles.launcherWrap} hidden={open}>
+        <button
+          ref={launcher}
+          type="button"
+          className={styles.launcher}
+          onPointerEnter={wake}
+          onFocus={wake}
+          onClick={() => { wake(); setOpen(true); }}
+          aria-label="Open Codex Pet engineering companion"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+        >
+          <span className={styles.launcherLabel}>
+            <strong>CODEX PET</strong>
+            <span>{state === 'sleep' ? 'Tap to wake' : 'Engineering companion'}</span>
+          </span>
+          <span ref={springNode} className={styles.probeMount}>
+            <ProbeAvatar />
+          </span>
+        </button>
+        <button
+          type="button"
+          className={styles.removePetBtn}
+          onClick={removePet}
+          title="Remove Codex Pet"
+          aria-label="Remove Codex Pet from screen"
+        >
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+          <span className={styles.removeTooltip}>Remove pet</span>
+        </button>
+      </div>
+      {open && (
+        <EngineeringHud
+          initialPrompt={prefill}
+          onClose={close}
+          onRemovePet={removePet}
+          onStateChange={changeState}
+          launcherRef={launcher}
+        />
+      )}
     </div>
   );
 }

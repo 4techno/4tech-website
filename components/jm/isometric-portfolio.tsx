@@ -191,7 +191,7 @@ export default function IsometricPortfolio() {
       <div className={styles.footer}>
         <div className={styles.controls} aria-label="Project gallery controls">
           <button type="button" disabled={active === 0} onClick={() => select(active - 1)} aria-label="Previous project">← Previous</button>
-          <a href="#case-studies">Continue to case studies</a>
+          <Link href="/projects#case-studies">Explore all works &amp; case studies →</Link>
           <button type="button" disabled={active === archive.length - 1} onClick={() => select(active + 1)} aria-label="Next project">Next →</button>
         </div>
         <div className={styles.detail}>
