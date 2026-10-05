@@ -37,6 +37,14 @@ writeFileSync('.next-pages/_headers', `/*
 
 /opengraph-image
   Content-Type: image/png
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
 `);
 writeFileSync('.next-pages/_redirects', retiredProjectIds.flatMap(id => [`/projects/${id} /projects 301`, `/projects/${id}.html /projects 301`]).join('\n') + `\n/projects.html /projects 301
 /founder.html /founder 301
