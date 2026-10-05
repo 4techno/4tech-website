@@ -66,11 +66,11 @@ body.jm-body :is(a, button, input, select, textarea):focus-visible { outline: 2p
 .jm-home .jm-hero::after { content: ''; position: absolute; width: min(72vw, 1050px); aspect-ratio: 1; left: 50%; top: 42%; transform: translate(-50%, -50%); border: 1px solid #a02a2216; border-radius: 50%; pointer-events: none; box-shadow: 0 0 0 70px #a02a2206, 0 0 0 140px #a02a2204; }
 .jm-hero-smoke { position: absolute; z-index: 5; pointer-events: none; left: 50%; bottom: 0; width: min(86vw, 1100px); height: 42%; transform: translateX(-50%); opacity: .88; filter: blur(30px); background: radial-gradient(ellipse 65% 55% at 50% 95%, #fc6b2f 0%, #b8342b 28%, #a02a22 55%, transparent 80%), radial-gradient(ellipse 55% 45% at 42% 90%, rgba(252, 107, 47, 0.65) 0%, transparent 60%), radial-gradient(ellipse 55% 45% at 58% 90%, rgba(184, 52, 43, 0.75) 0%, transparent 60%); mask-image: linear-gradient(0deg, #000 20%, #000 65%, transparent 100%); animation: jm-smoke-drift 8s ease-in-out infinite alternate; }
 @keyframes jm-smoke-drift { from { transform: translateX(-51%) scaleX(.96) scaleY(.96); opacity: .78; } to { transform: translateX(-49%) scaleX(1.05) scaleY(1.04); opacity: .95; } }
-.jm-home .jm-hero-title { max-width: 900px; top: 41%; }
-.jm-home .jm-pressure-title { display: inline-flex; align-items: center; justify-content: center; gap: clamp(0.012em, 1vw, 0.032em); width: auto; margin: 0 auto; white-space: nowrap; font: 150 clamp(4.2rem, 17vw, 12.5rem)/.88 'Roboto Flex', sans-serif; letter-spacing: -0.025em; color: #f5f3f0; text-align: center; }
+.jm-home .jm-hero-title { max-width: 1080px; top: 41%; width: 100%; }
+.jm-home .jm-pressure-title { display: flex; align-items: center; justify-content: space-between; gap: .035em; width: 100%; margin: 0; white-space: nowrap; font: 150 clamp(4.2rem, 18vw, 13.5rem)/.88 'Roboto Flex', sans-serif; letter-spacing: 0; color: #f5f3f0; text-align: center; }
 .jm-home .jm-pressure-title span { flex: 0 0 auto; transition: font-variation-settings .12s ease-out; }
-.jm-home .jm-hero-title > div { width: auto; max-width: 900px; margin: 0 auto; display: flex; justify-content: center; }
-.jm-home .jm-hero-title p { font: 650 clamp(.72rem, 1.1vw, .95rem)/1.6 var(--font-mono) !important; letter-spacing: .22em; text-wrap: balance; color:var(--ember-text); background:#111b; }
+.jm-home .jm-hero-title > div { width: 100%; max-width: 1080px; margin: 0 auto; position: relative; }
+.hero-line { text-shadow: 0 0 16px rgba(229, 35, 32, 0.85); }
 .jm-home .jm-hero-status { top: clamp(92px, 12vh, 132px); }
 .jm-home .jm-hero-status span:last-child { color: #c4c0bc; }
 .jm-home .jm-hero-summary p { max-width: 420px; font-size: clamp(13px, 1.1vw, 16px); line-height: 1.75; color: #c7c1bd; }
@@ -192,12 +192,12 @@ body.jm-body :is(a, button, input, select, textarea):focus-visible { outline: 2p
 
 @media (max-width: 760px) {
   .jm-home .jm-hero { height: max(700px, 100svh); min-height: 700px; }
-  .jm-home .jm-hero-title { top: 35%; padding-inline: 18px; }
-  .jm-home .jm-pressure-title { font-size: clamp(5rem, 19vw, 9rem); letter-spacing: 0; }
-  .jm-home .jm-hero-title p { font-size: 11px !important; letter-spacing: .12em; line-height: 1.55; }
-  .jm-home .jm-hero-summary { left: 20px; right: 20px; bottom: 245px; max-width: 360px; }
+  .jm-home .jm-hero-title { top: 37%; padding-inline: 16px; }
+  .jm-home .jm-pressure-title { font-size: clamp(4.6rem, 19vw, 8.5rem); letter-spacing: 0; justify-content: space-between; width: 100%; }
+  .hero-line { font-size: 10px !important; letter-spacing: .16em; }
+  .jm-home .jm-hero-summary { left: 20px; right: 20px; bottom: 225px; max-width: 360px; }
   .jm-home .jm-hero-summary p { font-size: 12px; }
-  .jm-home .jm-hero-actions { left: auto; right: 20px; bottom: 105px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  .jm-home .jm-hero-actions { left: auto; right: 20px; bottom: 95px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
   .jm-home .jm-hero-actions a { min-height: 42px; padding: 9px 18px; font-size: 12px; }
   .jm-home .jm-hero::after { width: 90vw; }
   .jm-hero-smoke { width: 115vw; height: 35%; bottom: 0; opacity: .82; }
