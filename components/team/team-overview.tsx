@@ -17,7 +17,7 @@ export default function TeamOverview({ home = false }: { home?: boolean }) {
       </div>
       <div className={styles.memberGrid}>
         {teamMembers.map((member) => {
-          const directPage = member.id === 'mohammed-vashir' ? '/founder' : '/co-founder';
+          const directPage = member.profile;
           return (
             <article className={styles.memberCard} key={member.id}>
               <MemberPortrait name={member.name} src={member.image} position={member.position} />

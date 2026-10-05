@@ -285,6 +285,52 @@ const COMMAND_ITEMS: CommandItem[] = [
     href: '/co-founder',
   },
   {
+    id: 'nav-yashwanth-profile',
+    category: 'Studio Navigation',
+    title: 'Co-Founder Profile — Yashwanth C',
+    subtitle: 'Meet Yashwanth C and explore his engineering background',
+    badge: 'Co-Founder',
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+    ),
+    href: '/team/yashwanth-c',
+  },
+  {
+    id: 'nav-yashwanth-portfolio',
+    category: 'Studio Navigation',
+    title: 'Personal Portfolio — Yashwanth C',
+    subtitle: 'Selected projects, technical skills and engineering experience',
+    badge: 'Portfolio',
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+      </svg>
+    ),
+    href: '/portfolio/yashwanth-c',
+  },
+  {
+    id: 'nav-yashwanth-resume',
+    category: 'Studio Navigation',
+    title: 'Résumé — Yashwanth C',
+    subtitle: 'Education, skills and project experience of the 4TECH co-founder',
+    badge: 'Document',
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+      </svg>
+    ),
+    href: '/resume/yashwanth-c',
+  },
+  {
     id: 'nav-team',
     category: 'Studio Navigation',
     title: 'Leadership & Team Overview',

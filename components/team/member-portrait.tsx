@@ -27,11 +27,11 @@ export default function MemberPortrait({
         onClick={() => setColour((v) => !v)}
       >
         <picture>
-          <source
+          {/\.jpe?g$/i.test(src) && <source
             type="image/webp"
             srcSet={`${imageBase}-384.webp 384w, ${imageBase}-768.webp 768w`}
             sizes="(max-width: 767px) 300px, 400px"
-          />
+          />}
           <img
             src={src}
             alt={name}

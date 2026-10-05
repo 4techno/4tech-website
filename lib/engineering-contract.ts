@@ -183,7 +183,7 @@ const part = (item: string, purpose: string, selectionCriteria: string): Enginee
 
 export function buildLocalEngineeringReply(message: string): EngineeringReply {
   const query = message.toLowerCase();
-  const isPortfolio = /portfolio|4tech|project.*(?:completed|built)|founder|mohammed|vashir|sabeel/.test(query);
+  const isPortfolio = /portfolio|4tech|project.*(?:completed|built)|founder|mohammed|vashir|sabeel|yashwanth/.test(query);
   const isDrone = /drone|quadcopter|uav|flight|propulsion/.test(query);
   const isRobot = /robot|motor|pid|kinematic|torque|actuator|stepper|\barm\b|gripper/.test(query);
   const isWpt = /wireless power|resonant|inductive|coil|inverter|\bwpt\b|\blc\b/.test(query);
@@ -199,7 +199,7 @@ export function buildLocalEngineeringReply(message: string): EngineeringReply {
   let sourceIds: string[] = [];
 
   if (isPortfolio) {
-    overview = "4TECH is an engineering practice led by Mohammed Vashir and Sabeel Ahamed. Its public project pages describe the work and distinguish documented evidence from results that have not been verified for publication.";
+    overview = "4TECH is an engineering practice led by Mohammed Vashir, Sabeel Ahamed and Yashwanth C. Its public project pages describe the work and distinguish documented evidence from results that have not been verified for publication.";
     assumptions = ["A project description is not a substitute for a build photograph, measurement record or independent validation."];
     steps = ["Open the relevant project page and read its problem, approach and evidence status.", "Use the Idea Studio to define a new scope and acceptance test.", "Submit an editable brief through the customer portal for review."];
     questions = ["Which project or engineering domain would you like to discuss?"];

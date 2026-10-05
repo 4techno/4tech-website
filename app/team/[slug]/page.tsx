@@ -9,7 +9,7 @@ export function generateStaticParams() { return teamMembers.map(member => ({ slu
 type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params; const member = teamMembers.find(person => person.id === slug); if (!member) notFound();
-  return { title: `${member.name} | ${member.role}`, description: member.introduction, alternates: { canonical: member.id === 'mohammed-vashir' ? '/founder' : '/co-founder' } };
+  return { title: `${member.name} | ${member.role}`, description: member.introduction, alternates: { canonical: member.profile } };
 }
 export default async function MemberPage({ params }: Props) {
   const { slug } = await params; const member = teamMembers.find(person => person.id === slug); if (!member) notFound();

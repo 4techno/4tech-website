@@ -87,7 +87,7 @@ export default function JmFooter() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
           <p className="text-ash">
-            © {new Date().getFullYear()} 4TECH · Mohammed Vashir &amp; Sabeel Ahamed. Engineering with purpose.
+            © {new Date().getFullYear()} 4TECH · Mohammed Vashir, Sabeel Ahamed &amp; Yashwanth C. Engineering with purpose.
           </p>
 
           <button

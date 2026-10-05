@@ -129,7 +129,7 @@ ${phaseLines}
 
 ${notes ? `6. ADDITIONAL USER NOTES\n  ${notes}\n` : ''}
 ${separator}
-Mohammed Vashir (Founder) and Sabeel Ahamed (Co-founder)
+Mohammed Vashir (Founder), Sabeel Ahamed (Co-founder) and Yashwanth C (Co-founder)
 4TECH — Tamil Nadu, India
 Web: https://4tech-9cy.pages.dev/
 This worksheet is not a validated design or quotation.
