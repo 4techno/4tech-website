@@ -29,9 +29,9 @@
 @keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
 @media (max-width: 600px) {
   .footerClearance { display: block; height: calc(64px + env(safe-area-inset-bottom)); }
-  .root { right: max(8px, env(safe-area-inset-right)); bottom: max(8px, env(safe-area-inset-bottom)); }
-  .launcher { width: 62px; height: 62px; min-height: 62px; border-radius: 17px; padding: 5px; justify-content: center; }
+  .root { right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); }
+  .launcher { width: 56px; height: 56px; min-height: 56px; border-radius: 16px; padding: 4px; justify-content: center; }
   .launcherLabel { display: none; }
-  .probeMount { width: 49px; height: 49px; }
+  .probeMount { width: 44px; height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) { .root *, .root *::before, .root *::after { animation: none !important; transition: none !important; } }

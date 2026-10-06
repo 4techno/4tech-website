@@ -20,6 +20,23 @@ const MENU_ITEMS = [
   { label: 'Client Space', href: '/account', num: '12' },
 ];
 
+const PRIMARY_MOBILE_ITEMS = [
+  { label: 'Work', href: '/#projects', num: '01' },
+  { label: 'Services', href: '/#services', num: '02' },
+  { label: 'Team', href: '/team', num: '03' },
+  { label: 'Idea Studio', href: '/ideas', num: '04' },
+  { label: 'Contact', href: '/#contact', num: '05' },
+];
+
+const SECONDARY_MOBILE_ITEMS = [
+  { label: 'Client Space', href: '/account' },
+  { label: 'Technical Résumé', href: '/resume' },
+  { label: 'The Philosophy', href: '/#philosophy' },
+  { label: '4-Phase Roadmap', href: '/#roadmap' },
+  { label: 'Engineering Interface', href: '/#tools' },
+  { label: 'All Works', href: '/projects' },
+];
+
 export default function StaggeredMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -109,7 +126,7 @@ export default function StaggeredMenu() {
             aria-label="4TECH Engineering home"
           >
             <span style={{ color: 'var(--ember)' }}>4</span>TECH
-            <span className="text-[11px] sm:text-xs font-semibold tracking-[0.14em] uppercase text-[#D0CCC6] ml-0.5">
+            <span className="text-[11px] sm:text-xs font-semibold tracking-[0.14em] uppercase text-[#D0CCC6] ml-0.5 hidden min-[440px]:inline">
               ENGINEERING
             </span>
             <span style={{ color: 'var(--ember)' }}>.</span>
@@ -143,10 +160,12 @@ export default function StaggeredMenu() {
         <div className="flex items-center gap-2.5 sm:gap-3">
           <Link
             href="/#contact"
-            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium tracking-wider text-white border border-white/20 hover:border-[#C5221F] hover:text-[#E53935] hover:shadow-[0_0_16px_rgba(197,34,31,0.45)] transition-all bg-black/40 backdrop-blur-sm"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider text-white border border-white/20 hover:border-[#C5221F] hover:text-[#E53935] hover:shadow-[0_0_16px_rgba(197,34,31,0.45)] transition-all bg-black/50 backdrop-blur-sm whitespace-nowrap min-h-[44px]"
             style={{ fontFamily: 'var(--font-display)' }}
+            aria-label="Start a project enquiry"
           >
-            Dive In +
+            <span className="sm:hidden">Start a project</span>
+            <span className="hidden sm:inline">Dive In +</span>
           </Link>
 
           <button
@@ -199,7 +218,8 @@ export default function StaggeredMenu() {
             </button>
           </div>
 
-          <ul className="sm-panel-list" role="list">
+          {/* Desktop Navigation List (Full 12 items unchanged) */}
+          <ul className="sm-panel-list hidden sm:block" role="list">
             {MENU_ITEMS.map((item) => (
               <li key={item.href} className="sm-panel-itemWrap">
                 <Link
@@ -227,6 +247,43 @@ export default function StaggeredMenu() {
               </li>
             ))}
           </ul>
+
+          {/* Mobile Navigation List (Primary 5 destinations + Secondary grid) */}
+          <div className="sm:hidden mb-8">
+            <ul className="space-y-1 mb-6" role="list">
+              {PRIMARY_MOBILE_ITEMS.map((item) => (
+                <li key={item.href} className="border-b border-white/10">
+                  <Link
+                    href={item.href}
+                    onClick={closeMenu}
+                    className="flex items-center justify-between py-3.5 text-[#EAE6E1] text-lg font-bold tracking-tight hover:text-white"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    <span>{item.label}</span>
+                    <span className="text-[10px] font-mono text-ember opacity-80">{item.num}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="pt-2">
+              <span className="text-[10px] font-mono tracking-widest text-[#A0A0A5] uppercase block mb-3 font-semibold">
+                Client &amp; Practice Workspaces
+              </span>
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                {SECONDARY_MOBILE_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeMenu}
+                    className="py-2.5 px-3 rounded-lg bg-white/[0.04] border border-white/10 text-[#C4C0BC] hover:text-white hover:border-white/20 transition-all flex items-center min-h-[44px]"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* Socials */}
           <div className="sm-socials" aria-label="Social links">

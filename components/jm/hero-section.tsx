@@ -160,26 +160,26 @@ export default function HeroSection() {
       {/* Top Left Status Pill */}
       <div
         ref={badgeRef}
-        className="jm-hero-status absolute top-20 sm:top-24 md:top-28 left-4 sm:left-8 md:left-14 lg:left-20 z-[40] flex items-center gap-2.5"
+        className="jm-hero-status absolute top-20 sm:top-24 md:top-28 left-4 right-4 sm:right-auto sm:left-8 md:left-14 lg:left-20 z-[40] flex items-center gap-2 overflow-hidden"
       >
         <span className="w-2 h-2 shrink-0 rounded-full bg-[#E52320] animate-pulse shadow-[0_0_10px_#E52320]" />
-        <span className="text-[10px] sm:text-[11px] text-[#A0A0A5] tracking-[0.2em] uppercase font-semibold font-mono">
+        <span className="text-[9px] sm:text-[11px] text-[#A0A0A5] tracking-[0.14em] sm:tracking-[0.2em] uppercase font-semibold font-mono truncate">
           4TECH ENGINEERING // SHIPPING IDEAS INTO REALITY.
         </span>
       </div>
 
       {/* Center 4TECH Title with Overlapping Crossline Tagline */}
       <div
-        className="jm-hero-title absolute top-[38%] sm:top-[40%] md:top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[15] pointer-events-none select-none w-full flex flex-col items-center justify-center px-4"
+        className="jm-hero-title absolute top-[36%] sm:top-[40%] md:top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[15] pointer-events-none select-none w-full flex flex-col items-center justify-center px-4"
       >
-        <div className="w-full max-w-[1080px] relative flex items-center justify-center transform-gpu drop-shadow-[0_0_50px_rgba(160,42,34,0.35)]">
+        <div className="w-full max-w-[1080px] relative flex flex-col items-center justify-center transform-gpu drop-shadow-[0_0_50px_rgba(160,42,34,0.35)]">
           <TextPressure text="4TECH" />
 
-          {/* Red Crossline Tagline Overlapping Center of 4TECH */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+          {/* Red Tagline: Below 4TECH on mobile in its own readable badge; centered crossline on desktop */}
+          <div className="mt-4 sm:mt-0 sm:absolute sm:inset-0 flex items-center justify-center pointer-events-none z-20">
             <p
               ref={heroLineRef}
-              className="hero-line text-[clamp(0.58rem,1.3vw,0.88rem)] font-extrabold tracking-[0.24em] sm:tracking-[0.32em] uppercase text-[#E52320] drop-shadow-[0_0_16px_rgba(229,35,32,0.85)] px-3 py-1 text-center whitespace-nowrap"
+              className="hero-line text-[11px] sm:text-[clamp(0.58rem,1.3vw,0.88rem)] font-extrabold tracking-[0.16em] sm:tracking-[0.32em] uppercase text-[#E53935] bg-[#111116]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#E53935]/35 sm:border-transparent rounded-full px-4 py-1.5 sm:p-0 text-center whitespace-nowrap shadow-[0_0_20px_rgba(229,57,53,0.35)] sm:shadow-none"
               style={{ fontFamily: "var(--font-body), 'Inter', sans-serif" }}
             >
               CRAFTING HARDWARE THAT SHAPES TOMORROW.
@@ -212,7 +212,7 @@ export default function HeroSection() {
         <MagneticButton>
           <a
             href="#projects"
-            className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-semibold text-xs sm:text-sm tracking-wide bg-[#A02A22] text-white hover:bg-[#B8342B] active:scale-95 border border-transparent shadow-[0_0_30px_rgba(160,42,34,0.55)] group transition-all duration-300"
+            className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-semibold text-xs sm:text-sm tracking-wide bg-[#A02A22] text-white hover:bg-[#B8342B] active:scale-95 border border-transparent shadow-[0_0_30px_rgba(160,42,34,0.55)] group transition-all duration-300 min-h-[46px]"
           >
             <span className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center text-[11px] shrink-0 font-bold">↗</span>
             <span>Explore Work →</span>
@@ -222,9 +222,9 @@ export default function HeroSection() {
         <MagneticButton>
           <Link
             href="/account"
-            className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full font-medium text-xs sm:text-sm tracking-wide bg-[#111116]/80 backdrop-blur-md text-white/85 border border-white/15 hover:border-white/35 hover:text-white active:scale-95 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full font-medium text-xs sm:text-sm tracking-wide bg-[#111116]/80 backdrop-blur-md text-white/85 border border-white/15 hover:border-white/35 hover:text-white active:scale-95 transition-all duration-300 min-h-[46px]"
           >
-            <span>Let&apos;s Talk →</span>
+            <span>Start a conversation →</span>
           </Link>
         </MagneticButton>
       </div>

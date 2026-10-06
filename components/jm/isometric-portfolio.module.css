@@ -1,4 +1,5 @@
 .section {
+  --item-width: 195px;
   position: relative;
   overflow: clip;
   background: #111111;
@@ -83,7 +84,7 @@
 }
 
 .item {
-  width: 195px;
+  width: var(--item-width, 195px);
   flex: none;
   display: flex;
   align-items: center;
@@ -227,14 +228,27 @@
 }
 
 @media (max-width: 767px) {
-  .section { min-height: 0; padding-block: 65px; }
+  .section { --item-width: min(76vw, 240px); min-height: 0; padding-block: 55px; }
   .controls { gap: 6px; }
-  .controls button { white-space: nowrap; padding-inline: 12px; }
-  .controls a { font-size: 11px; padding-inline: 5px; }
+  .controls button { white-space: nowrap; padding-inline: 14px; min-height: 44px; }
+  .controls a { font-size: 12px; padding-inline: 6px; min-height: 44px; display: inline-flex; align-items: center; }
   .stage {
-    min-height: 385px;
-    padding-block: 55px 16px;
+    min-height: 380px;
+    padding-block: 28px 16px;
+    perspective: none;
   }
+  .item {
+    perspective: none;
+  }
+  .card {
+    width: calc(var(--item-width) - 16px);
+    transform-style: flat;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65);
+  }
+  .card[aria-pressed='true'] {
+    box-shadow: 0 0 24px rgba(229, 57, 53, 0.45), 0 14px 34px rgba(0, 0, 0, 0.8);
+  }
+
   .detail {
     display: block;
   }

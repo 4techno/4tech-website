@@ -26,6 +26,7 @@ const archive = ['antenna', 'drone', 'robot-arm', 'power', 'sewersense', 'rescue
  */
 export default function IsometricPortfolio() {
   const [active, setActive] = useState(0); // Starts at Card 01
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<ScrollTrigger | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -76,6 +77,14 @@ export default function IsometricPortfolio() {
 
     return () => media.revert();
   }, [staticMotion]);
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 767px)');
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
 
   return (
     <section id="projects" ref={sectionRef} className={styles.section} aria-labelledby="archive-title">
@@ -134,7 +143,7 @@ export default function IsometricPortfolio() {
         <div
           className={styles.track}
           style={{
-            transform: `translateX(calc(50% - 97.5px - ${active * 195}px))`,
+            transform: `translateX(calc(50% - (var(--item-width, 195px) / 2) - (${active} * var(--item-width, 195px))))`,
             transitionDuration: staticMotion ? '0s' : undefined,
           }}
         >
@@ -154,11 +163,11 @@ export default function IsometricPortfolio() {
                     if (!moved.current) select(index);
                   }}
                   animate={{
-                    rotateY: staticMotion ? 0 : selected ? -20 : -26,
-                    rotateX: staticMotion ? 0 : 12,
-                    skewY: staticMotion ? 0 : -8,
-                    y: selected ? -14 : 0,
-                    scale: selected ? 1.06 : 0.94,
+                    rotateY: staticMotion || isMobile ? 0 : selected ? -20 : -26,
+                    rotateX: staticMotion || isMobile ? 0 : 12,
+                    skewY: staticMotion || isMobile ? 0 : -8,
+                    y: selected ? (isMobile ? -4 : -14) : 0,
+                    scale: isMobile ? (selected ? 1.02 : 0.94) : (selected ? 1.06 : 0.94),
                   }}
                   transition={{ duration: staticMotion ? 0 : 0.65, ease: [0.16, 1, 0.3, 1] }}
                 >

@@ -104,6 +104,31 @@ export default function JmFooter() {
             </span>
           </button>
         </div>
+
+        {/* Ambient NestJS Mascot Cat Feature with Crimson Glow */}
+        <div className="mt-8 pt-6 border-t border-white/5 flex flex-col items-center justify-center relative">
+          <div
+            className="absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-24 rounded-full pointer-events-none opacity-50 blur-2xl"
+            style={{
+              background: 'radial-gradient(ellipse at center, rgba(229, 57, 53, 0.45) 0%, rgba(197, 34, 31, 0.15) 50%, transparent 80%)',
+            }}
+            aria-hidden="true"
+          />
+          <div className="relative group flex flex-col items-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/nest-cat.gif"
+              alt="4TECH engineering mascot"
+              width={64}
+              height={64}
+              className="relative z-10 transition-transform duration-300 group-hover:scale-110 select-none pointer-events-none"
+              loading="lazy"
+            />
+            <span className="text-[10px] font-mono tracking-widest uppercase text-white/40 mt-1.5">
+              Engineered with care · 4TECH
+            </span>
+          </div>
+        </div>
       </div>
     </footer>
   );

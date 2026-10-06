@@ -4,32 +4,15 @@ import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMotionPreferences } from '@/components/motion-preferences';
 import { OPEN_COPILOT_EVENT } from './ai-copilot-events';
+import WalleAvatar from './WalleAvatar';
 import styles from './AiPetAssistant.module.css';
 
 export type CompanionState = 'idle' | 'thinking' | 'success' | 'sleep' | 'error';
 const EngineeringHud = dynamic(() => import('./AiPetHud'), { ssr: false });
 
-/** Original vector companion illustration, animated independently of React rendering. */
+/** High-fidelity WALL-E companion avatar for 4TECH Engineering */
 export function ProbeAvatar({ compact = false }: { compact?: boolean }) {
-  return (
-    <svg className={`${styles.probe} ${compact ? styles.compactProbe : ''}`} viewBox="0 0 100 100" fill="none" aria-hidden="true">
-      <g className={styles.probeBody}>
-        <path d="M50 8v11M44 8h12" stroke="currentColor" strokeWidth="1.5" />
-        <circle className={styles.sensor} cx="50" cy="7" r="2.5" />
-        <path d="m20 43-7 7v17l8 5M80 43l7 7v17l-8 5" fill="#161616" stroke="#888" strokeWidth="1.3" />
-        <path d="M24 28 39 21h22l15 7 6 37-12 17H30L18 65z" fill="#111" stroke="#b7b7b7" strokeWidth="1.4" />
-        <path d="m26 31 12-5h24l12 5M30 76h40" stroke="#484848" />
-        <rect x="25" y="37" width="50" height="29" rx="11" fill="#030303" stroke="#393939" />
-        <g className={styles.eyes}>
-          <rect className={styles.sensor} x="34" y="47" width="9" height="7" rx="3.5" />
-          <rect className={styles.sensor} x="57" y="47" width="9" height="7" rx="3.5" />
-        </g>
-        <path d="M45 60h10" stroke="#666" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="m33 83-3 5m37-5 3 5M42 84v5m16-5v5" stroke="#666" strokeWidth="1.6" />
-        <path className={styles.thruster} d="M37 90h26M42 94h16" stroke="#888" strokeLinecap="round" />
-      </g>
-    </svg>
-  );
+  return <WalleAvatar compact={compact} />;
 }
 
 export default function AiPetAssistant() {
@@ -38,6 +21,7 @@ export default function AiPetAssistant() {
   const [prefill, setPrefill] = useState('');
   const [state, setState] = useState<CompanionState>('idle');
   const [pageVisible, setPageVisible] = useState(true);
+  const [gaze, setGaze] = useState({ pupilX: 0, pupilY: 0, headTilt: 0, headPitch: 0 });
   const { reduced, paused } = useMotionPreferences();
   const motionPaused = !pageVisible || reduced || paused;
   const launcher = useRef<HTMLButtonElement>(null);
@@ -130,25 +114,68 @@ export default function AiPetAssistant() {
     };
     const animate = () => { if (!frame && !media.matches) frame = requestAnimationFrame(paint); };
     const pointer = (event: PointerEvent) => {
+      if (document.hidden) return;
+      const rect = launcher.current?.getBoundingClientRect() || node.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = event.clientX - centerX;
+      const dy = event.clientY - centerY;
+      const angle = Math.atan2(dy, dx);
+      const dist = Math.hypot(dx, dy);
+      const pupilDist = Math.min(4.2, Math.max(0.4, dist / 45));
+      const px = Number((Math.cos(angle) * pupilDist).toFixed(2));
+      const py = Number((Math.sin(angle) * pupilDist).toFixed(2));
+      const winW = window.innerWidth || 1200;
+      const winH = window.innerHeight || 800;
+      const tilt = Number(Math.max(-10, Math.min(10, (dx / winW) * 20)).toFixed(2));
+      const pitch = Number(Math.max(-5, Math.min(5, (dy / winH) * 10)).toFixed(2));
+      setGaze({ pupilX: px, pupilY: py, headTilt: tilt, headPitch: pitch });
+
       if (event.pointerType !== 'mouse' || media.matches) return;
-      const rect = node.getBoundingClientRect();
-      targetX = Math.max(-4, Math.min(4, (event.clientX - rect.left - rect.width / 2) / 90));
-      targetY = Math.max(-4, Math.min(4, (event.clientY - rect.top - rect.height / 2) / 100));
+      targetX = Math.max(-4, Math.min(4, dx / 90));
+      targetY = Math.max(-4, Math.min(4, dy / 100));
       animate();
+    };
+    const touch = (event: TouchEvent) => {
+      if (event.touches.length > 0) {
+        const t = event.touches[0];
+        const rect = launcher.current?.getBoundingClientRect() || node.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const dx = t.clientX - centerX;
+        const dy = t.clientY - centerY;
+        const angle = Math.atan2(dy, dx);
+        const dist = Math.hypot(dx, dy);
+        const pupilDist = Math.min(4.2, Math.max(0.4, dist / 45));
+        const px = Number((Math.cos(angle) * pupilDist).toFixed(2));
+        const py = Number((Math.sin(angle) * pupilDist).toFixed(2));
+        const winW = window.innerWidth || 1200;
+        const winH = window.innerHeight || 800;
+        const tilt = Number(Math.max(-10, Math.min(10, (dx / winW) * 20)).toFixed(2));
+        const pitch = Number(Math.max(-5, Math.min(5, (dy / winH) * 10)).toFixed(2));
+        setGaze({ pupilX: px, pupilY: py, headTilt: tilt, headPitch: pitch });
+      }
     };
     const scroll = () => {
       const delta = window.scrollY - lastScroll; lastScroll = window.scrollY;
       targetY = 0; vy = Math.max(-1.5, Math.min(1.5, delta / 70)); animate();
     };
-    const reset = () => { targetX = 0; targetY = 0; animate(); };
+    const reset = () => {
+      targetX = 0; targetY = 0; animate();
+      setGaze({ pupilX: 0, pupilY: 0, headTilt: 0, headPitch: 0 });
+    };
     const preference = () => { cancelAnimationFrame(frame); frame = 0; node.style.transform = ''; };
     window.addEventListener('pointermove', pointer, { passive: true });
+    window.addEventListener('touchmove', touch, { passive: true });
+    window.addEventListener('touchstart', touch, { passive: true });
     window.addEventListener('scroll', scroll, { passive: true });
     document.addEventListener('pointerleave', reset);
     media.addEventListener('change', preference);
     return () => {
       cancelAnimationFrame(frame); node.style.transform = '';
       window.removeEventListener('pointermove', pointer);
+      window.removeEventListener('touchmove', touch);
+      window.removeEventListener('touchstart', touch);
       window.removeEventListener('scroll', scroll);
       document.removeEventListener('pointerleave', reset);
       media.removeEventListener('change', preference);
@@ -167,16 +194,22 @@ export default function AiPetAssistant() {
           onPointerEnter={wake}
           onFocus={wake}
           onClick={() => { wake(); setOpen(true); }}
-          aria-label="Open Codex Pet engineering companion"
+          aria-label="Open WALL·E engineering companion"
           aria-haspopup="dialog"
           aria-expanded={open}
         >
           <span className={styles.launcherLabel}>
-            <strong>CODEX PET</strong>
+            <strong>WALL·E PET</strong>
             <span>{state === 'sleep' ? 'Tap to wake' : 'Engineering companion'}</span>
           </span>
           <span ref={springNode} className={styles.probeMount}>
-            <ProbeAvatar />
+            <WalleAvatar
+              pupilX={gaze.pupilX}
+              pupilY={gaze.pupilY}
+              headTilt={gaze.headTilt}
+              headPitch={gaze.headPitch}
+              state={state}
+            />
           </span>
         </button>
         <button

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import styles from './fanned-capabilities.module.css';
@@ -160,7 +160,16 @@ const CAPABILITIES: CapabilityCard[] = [
 
 export default function FannedCapabilities() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 899px)');
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
 
   return (
     <section id="services" className={styles.section} aria-label="4TECH Engineering Capabilities">
@@ -185,7 +194,7 @@ export default function FannedCapabilities() {
                     zIndex: isHovered ? 40 : index + 1,
                   }}
                   animate={
-                    shouldReduceMotion
+                    shouldReduceMotion || isMobile
                       ? {}
                       : isHovered
                       ? {
