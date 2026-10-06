@@ -243,7 +243,7 @@
 
 /* Shared project, portfolio and résumé surfaces on the ember theme. */
 .page {
-  --work-accent:#fc6b2f;
+  --work-accent:#c5221f;
   --work-ink:#ededed;
   --work-muted:#b5b5b5;
   --work-line:#383840;
@@ -255,46 +255,46 @@
 .page :is(.stageNote strong,.resumeAside strong,.resumeSkills dt,.caseMeta dd,.nextProject strong) { color:var(--work-ink); }
 .page :is(.stageNote,.controls,.invite,.profileSection,.skillRow,.certification,.resumeAside,.resumeDocument,.resumeSection,.caseMeta,.caseBlock,.nextProject,.evidenceList,.evidenceList li,.nextChecks) { border-color:var(--work-line); }
 .page :is(.back,.textLink,.skillRow a,.resumeAside a,.caseNav a,.nextProject) { color:#e5e5e8; }
-.page :is(.back,.textLink,.skillRow a,.resumeAside a,.caseNav a,.nextProject):hover { color:#ffae8c; }
+.page :is(.back,.textLink,.skillRow a,.resumeAside a,.caseNav a,.nextProject):hover { color:#ff8a80; }
 
 .card,.empty,.focusLab { color:#ededed; background:#111116; border-color:#383840; box-shadow:none; }
-.card:hover,.card:focus-within { color:#ededed; background:#181820; border-color:#fc6b2f88; box-shadow:none; }
+.card:hover,.card:focus-within { color:#ededed; background:#181820; border-color:rgba(197, 34, 31, 0.55); box-shadow:none; }
 .card h3,.card h3 a,.viewLink,.viewLink span[aria-hidden=true],.empty h2,.labCaption a { color:#ededed; }
-.card h3 a:hover,.viewLink:hover,.labCaption a:hover { color:#ffae8c; }
+.card h3 a:hover,.viewLink:hover,.labCaption a:hover { color:#ff8a80; }
 .card :is(.summary,.stage,.domain),.empty p,.labCaption span { color:#b5b5b5; }
 .cardVisual,.projectGrid>div:first-child .cardVisual,.viewLink,.labTabs,.labCaption { border-color:#383840; }
-.badge,.badge[data-level='Research Level'] { color:#ffd0bd; background:#fc6b2f18; border-color:#fc6b2f70; }
+.badge,.badge[data-level='Research Level'] { color:#ffcdd2; background:rgba(197, 34, 31, 0.14); border-color:rgba(197, 34, 31, 0.45); }
 .tags li,.caseTech li,.skillRow li { color:#d5d5d9; background:#1b1b23; border-color:#42424a; }
 .empty { border-color:#383840; }
 
 .filterTabs button { color:#d0d0d4; background:#111116; border-color:#383840; }
-.filterTabs button:hover { color:#ededed; background:#181820; border-color:#fc6b2f88; }
-.filterTabs button[aria-pressed=true],.labTabs button[aria-pressed=true] { color:#09090c; background:#fc6b2f; border-color:#fc6b2f; }
+.filterTabs button:hover { color:#ededed; background:#181820; border-color:rgba(197, 34, 31, 0.55); }
+.filterTabs button[aria-pressed=true],.labTabs button[aria-pressed=true] { color:#ffffff; background:#c5221f; border-color:#c5221f; }
 .searchField label,.resultCount { color:#b5b5b5; }
 .searchField input { color:#ededed; background:#111116; border-color:#44444c; }
 .searchField input::placeholder { color:#9999a2; }
-.searchField input:focus { border-color:#fc6b2f; box-shadow:0 0 0 3px #fc6b2f24; }
-.resultCount button { color:#ffae8c; }
+.searchField input:focus { border-color:#c5221f; box-shadow:0 0 0 3px rgba(197, 34, 31, 0.25); }
+.resultCount button { color:#ff8a80; }
 .labTabs button { color:#c0c0c6; }
-.labTabs button:not([aria-pressed=true]):hover { color:#ffae8c; background:#181820; }
+.labTabs button:not([aria-pressed=true]):hover { color:#ff8a80; background:#181820; }
 .labCaption { background:#111116; }
 
 .caseCaption { color:#ededed; background:#111116; border-color:#383840; }
 .caseCaption strong,.evidenceHeading h3,.validation h2,.nextChecks h3 { color:#ededed; }
 .caseCaption span,.evidenceList p,.validation p,.nextChecks li { color:#b5b5b5; }
-.caseMeta dd .badge { color:#ffd0bd; }
+.caseMeta dd .badge { color:#ffcdd2; }
 .caseFigure .caseVisual { border-color:#383840; }
 .cardVisual,.caseFigure .caseVisual { filter:none; background:#09090c; }
 .cardVisual::after,.caseFigure .caseVisual::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,transparent 53%,#09090caa 100%); }
 .caseFigure .caseVisual { position:relative; overflow:hidden; }
 .projectPhoto { object-fit:cover; filter:saturate(.72) contrast(1.04) brightness(.82); }
 .photoFlag { position:absolute; z-index:2; left:1rem; bottom:1rem; max-width:calc(100% - 2rem); padding:.45rem .65rem; border:1px solid #ffffff4d; border-radius:3px; background:#080808a8; color:#f5f5f0; font:600 .55rem/1.4 'Geist Mono Variable',monospace; letter-spacing:.05em; text-transform:uppercase; backdrop-filter:blur(7px); }
-.caseCaption a { color:#fc8e61; text-decoration:underline; text-underline-offset:.2rem; }
-.caseCaption a:hover { color:#ffd2be; }
-.evidenceSection .recordKicker,.nextChecks li::before { color:#ffae8c; }
+.caseCaption a { color:#e53935; text-decoration:underline; text-underline-offset:.2rem; }
+.caseCaption a:hover { color:#ff8a80; }
+.evidenceSection .recordKicker,.nextChecks li::before { color:#ff8a80; }
 .evidenceState { color:#dedee2; background:#1b1b23; border-color:#45454d; }
-.evidenceState[data-state='Not verified'],.evidenceState[data-state='Review finding'] { color:#ffd0bd; background:#fc6b2f18; border-color:#fc6b2f66; }
-.validation { color:#ededed; background:#181820; border-color:#fc6b2f; }
+.evidenceState[data-state='Not verified'],.evidenceState[data-state='Review finding'] { color:#ffcdd2; background:rgba(197, 34, 31, 0.14); border-color:rgba(197, 34, 31, 0.45); }
+.validation { color:#ededed; background:#181820; border-color:#c5221f; }
 
 @media print {
   .page { --work-accent:#111; --work-ink:#111; --work-muted:#333; --work-line:#ccc; color:#111; background:#fff; }

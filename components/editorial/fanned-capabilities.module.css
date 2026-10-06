@@ -18,7 +18,7 @@
   transform: translateX(-50%);
   width: min(90vw, 1100px);
   height: 480px;
-  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(252, 107, 47, 0.12) 0%, rgba(139, 92, 246, 0.06) 45%, transparent 75%);
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(197, 34, 31, 0.18) 0%, rgba(160, 42, 34, 0.08) 45%, transparent 75%);
   filter: blur(60px);
   pointer-events: none;
   z-index: 0;
@@ -202,7 +202,7 @@
 }
 
 .specRow span:first-child {
-  color: #FC6B2F;
+  color: #E53935;
   font-size: 10px;
 }
 
@@ -233,12 +233,12 @@
 }
 
 .monoKicker span {
-  color: #FC6B2F;
+  color: #E53935;
 }
 
 .cursor {
   display: inline-block;
-  color: #FC6B2F;
+  color: #E53935;
   font-weight: 700;
   animation: blink 1.1s infinite;
 }
@@ -261,8 +261,8 @@
 
 .headline em {
   font-style: normal;
-  color: #FC6B2F;
-  background: linear-gradient(135deg, #FC6B2F 0%, #ff8a50 100%);
+  color: #E53935;
+  background: linear-gradient(135deg, #E53935 0%, #ff5252 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -285,7 +285,7 @@
 }
 
 .primaryCta {
-  background: #FC6B2F;
+  background: linear-gradient(135deg, #C5221F 0%, #A02A22 100%);
   color: #ffffff;
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 14px;
@@ -293,19 +293,19 @@
   letter-spacing: 0.02em;
   padding: 14px 28px;
   border-radius: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 6px 24px rgba(252, 107, 47, 0.4);
+  box-shadow: 0 6px 24px rgba(197, 34, 31, 0.45);
   transition: all 0.25s ease;
 }
 
 .primaryCta:hover {
-  background: #ff7d45;
+  background: linear-gradient(135deg, #E53935 0%, #B8342B 100%);
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(252, 107, 47, 0.55);
+  box-shadow: 0 10px 32px rgba(229, 57, 53, 0.6);
 }
 
 .secondaryCta {

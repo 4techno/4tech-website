@@ -126,7 +126,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       {/* Center 1 to 100 Animated Counter */}
       <span
         ref={counterRef}
-        className="loading-counter text-[#F5F5F7] font-extrabold leading-none tracking-tight select-none drop-shadow-[0_0_40px_rgba(252,107,47,0.3)]"
+        className="loading-counter text-[#F5F5F7] font-extrabold leading-none tracking-tight select-none drop-shadow-[0_0_40px_rgba(197,34,31,0.35)]"
         style={{
           fontSize: 'clamp(84px, 14vw, 160px)',
           fontFamily: "var(--font-display), 'Geist Variable', sans-serif",
@@ -137,10 +137,10 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       </span>
 
       {/* Loading Progress Track & Fill */}
-      <div className="loading-bar-track bg-white/10 rounded-full overflow-hidden w-[min(280px,60vw)] h-[2px] mt-6 relative shadow-[0_0_15px_rgba(252,107,47,0.25)]">
+      <div className="loading-bar-track bg-white/10 rounded-full overflow-hidden w-[min(280px,60vw)] h-[2px] mt-6 relative shadow-[0_0_15px_rgba(197,34,31,0.3)]">
         <div
           ref={barRef}
-          className="loading-bar-fill bg-gradient-to-r from-[#A02A22] to-[#FC6B2F] h-full origin-left"
+          className="loading-bar-fill bg-gradient-to-r from-[#8B1E18] via-[#C5221F] to-[#E53935] h-full origin-left"
           style={{ transform: 'scaleX(0.01)', transformOrigin: '0% 50%' }}
         />
       </div>

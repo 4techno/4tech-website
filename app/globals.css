@@ -7,14 +7,14 @@
     color-scheme: dark;
     --accent: #ff3b55;
     --muted: #a2a2aa;
-    --vibrant-orange: #fc6b2f;
+    --vibrant-orange: #c5221f;
     --ember: #a02a22;
     --void: #050505;
   }
   @supports (color: color(display-p3 1 1 1)) {
     :root {
       --accent: color(display-p3 1 0.231 0.333);
-      --vibrant-orange: color(display-p3 0.988 0.420 0.184);
+      --vibrant-orange: color(display-p3 0.773 0.133 0.122);
       --ember: color(display-p3 0.627 0.165 0.133);
       --void: color(display-p3 0.019 0.019 0.023);
     }

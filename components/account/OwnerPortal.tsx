@@ -159,7 +159,7 @@ export default function OwnerPortal() {
             <h2 className="!text-2xl font-bold tracking-tight text-white">Owner access restricted</h2>
             <p className="portal-muted text-xs mt-1">4TECH founder workspace</p>
           </div>
-          <span className="portal-tag border border-[#fc6b2f]/40 text-[#ffae8c]">Restricted</span>
+          <span className="portal-tag border border-[#c5221f]/50 text-[#ff8a80]">Restricted</span>
         </div>
 
         <p className="portal-muted text-sm leading-relaxed">
@@ -213,7 +213,7 @@ export default function OwnerPortal() {
         </div>
         <div className="flex items-center gap-3">
           <button
-            className="portal-button border border-white/20 hover:border-[#fc6b2f] text-xs"
+            className="portal-button border border-white/20 hover:border-[#c5221f] text-xs"
             onClick={() => void handleLock()}
             disabled={locking}
             title="Lock founder dashboard session"

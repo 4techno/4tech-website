@@ -29,7 +29,7 @@
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #FC6B2F;
+  color: #E53935;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -37,9 +37,9 @@
 }
 
 .aiBadge {
-  background: rgba(252, 107, 47, 0.14);
-  color: #FC6B2F;
-  border: 1px solid rgba(252, 107, 47, 0.35);
+  background: rgba(197, 34, 31, 0.16);
+  color: #E53935;
+  border: 1px solid rgba(229, 57, 53, 0.35);
   padding: 0.18rem 0.5rem;
   border-radius: 4px;
   font-size: 0.65rem;
@@ -59,7 +59,7 @@
 
 .title em {
   font-style: italic;
-  color: #FC6B2F;
+  color: #E53935;
 }
 
 .lead {
@@ -107,14 +107,14 @@
 .input:focus {
   outline: none;
   background: #0e0e13;
-  border-color: #FC6B2F;
-  box-shadow: 0 0 0 3px rgba(252, 107, 47, 0.2);
+  border-color: #C5221F;
+  box-shadow: 0 0 0 3px rgba(197, 34, 31, 0.25);
 }
 
 .submitBtn {
-  background: #FC6B2F;
+  background: linear-gradient(135deg, #C5221F 0%, #A02A22 100%);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 8px;
   padding: 0.95rem 1.75rem;
   font-family: var(--font-body, 'Inter', sans-serif);
@@ -127,13 +127,13 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 18px rgba(252, 107, 47, 0.35);
+  box-shadow: 0 4px 20px rgba(197, 34, 31, 0.45);
 }
 
 .submitBtn:hover {
-  background: #ff7d45;
+  background: linear-gradient(135deg, #E53935 0%, #B8342B 100%);
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(252, 107, 47, 0.5);
+  box-shadow: 0 6px 28px rgba(229, 57, 53, 0.6);
 }
 
 /* Architecture Cards Grid */
@@ -161,8 +161,8 @@
 .card:hover {
   transform: translateY(-3px);
   background: #202029;
-  border-color: rgba(252, 107, 47, 0.5);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(252, 107, 47, 0.15);
+  border-color: rgba(229, 57, 53, 0.5);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 57, 53, 0.2);
 }
 
 .cardTop {
@@ -176,9 +176,9 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #FC6B2F;
-  background: rgba(252, 107, 47, 0.12);
-  border: 1px solid rgba(252, 107, 47, 0.3);
+  color: #E53935;
+  background: rgba(197, 34, 31, 0.15);
+  border: 1px solid rgba(229, 57, 53, 0.35);
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
 }
@@ -218,13 +218,13 @@
 }
 
 .card:hover .cardFooter {
-  color: #FC6B2F;
+  color: #E53935;
 }
 
 .cardArrow {
   font-size: 0.95rem;
   transition: transform 0.2s ease;
-  color: #FC6B2F;
+  color: #E53935;
 }
 
 .card:hover .cardArrow {
@@ -264,8 +264,8 @@
 }
 
 .ideaLink:hover {
-  color: #FC6B2F;
-  border-bottom-color: #FC6B2F;
+  color: #E53935;
+  border-bottom-color: #E53935;
 }
 
 @media (max-width: 768px) {

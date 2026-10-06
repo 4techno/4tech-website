@@ -83,7 +83,7 @@ export default function ContactSection() {
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90vw] max-w-[800px] h-[350px] sm:h-[400px] pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse, rgba(252, 107, 47, 0.16) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(197, 34, 31, 0.22) 0%, transparent 70%)',
           filter: 'blur(80px)',
         }}
         aria-hidden="true"

@@ -18,7 +18,7 @@
   font: 600 11px/1.5 var(--font-mono, monospace);
   letter-spacing: 2.8px;
   text-transform: uppercase;
-  color: #FC6B2F;
+  color: #E53935;
   margin-bottom: 14px;
 }
 
@@ -61,8 +61,8 @@
 
 .phaseCard:hover {
   transform: translateY(-6px);
-  border-color: rgba(252, 107, 47, 0.4);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 20px rgba(252, 107, 47, 0.1);
+  border-color: rgba(229, 57, 53, 0.45);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 24px rgba(229, 57, 53, 0.2);
 }
 
 .phaseCard::before {
@@ -72,7 +72,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: #FC6B2F;
+  background: linear-gradient(90deg, #C5221F, #E53935);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -93,7 +93,7 @@
   font-family: var(--font-display, 'Space Grotesk', sans-serif);
   font-size: 26px;
   font-weight: 700;
-  color: #FC6B2F;
+  color: #E53935;
 }
 
 .phaseDuration {
@@ -103,9 +103,9 @@
   text-transform: uppercase;
   padding: 3px 8px;
   border-radius: 20px;
-  background: rgba(252, 107, 47, 0.12);
-  color: #FC6B2F;
-  border: 1px solid rgba(252, 107, 47, 0.3);
+  background: rgba(197, 34, 31, 0.16);
+  color: #E53935;
+  border: 1px solid rgba(229, 57, 53, 0.35);
 }
 
 .phaseTitle {
@@ -160,7 +160,7 @@
 }
 
 .checkIcon {
-  color: #FC6B2F;
+  color: #E53935;
   font-size: 12px;
   font-weight: 800;
   flex-shrink: 0;
@@ -202,26 +202,26 @@
 }
 
 .primaryBtn {
-  background: #FC6B2F;
+  background: linear-gradient(135deg, #C5221F 0%, #A02A22 100%);
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;
   padding: 12px 24px;
   border-radius: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 18px rgba(252, 107, 47, 0.35);
+  box-shadow: 0 4px 22px rgba(197, 34, 31, 0.45);
   transition: all 0.2s ease;
 }
 
 .primaryBtn:hover {
-  background: #ff7d45;
+  background: linear-gradient(135deg, #E53935 0%, #B8342B 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(252, 107, 47, 0.5);
+  box-shadow: 0 6px 28px rgba(229, 57, 53, 0.6);
 }
 
 .secondaryBtn {

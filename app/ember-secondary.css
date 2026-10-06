@@ -78,13 +78,13 @@ body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-button { color: 
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) :is(.portal-space,.portal-panel) { --portal-accent: #a02a22; color: #ededed; }
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-muted,
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-empty { color: #b5b5b5; }
-body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-tag[data-accent=true] { color: #ffae8c; background: #a02a2218; border-color: #a02a2277; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-tag[data-accent=true] { color: #ff8a80; background: #a02a2218; border-color: #a02a2277; }
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-tabs button { color: #b5b5b5; background: #111116; border-color: #383840; }
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-tabs button[aria-pressed=true] { color: #fff; background: #a02a22; border-color: #a02a22; }
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-detail,
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-notification,
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-row { border-color: #34343d; }
-body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-status { color: #ffd0bd; background: #a02a2212; border-color: #a02a2244; }
+body.jm-body main:not(.jm-home):not(.ed-editorial-home) .portal-status { color: #ffcdd2; background: #a02a2212; border-color: #a02a2244; }
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='portfolio_chapterNav_'] { background: #111116ee; border-color: #383840; }
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='portfolio_chapterNav_'] a { color: #b5b5b5; }
 body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='portfolio_chapterNav_'] a:hover { color: #a02a22; }
@@ -97,7 +97,7 @@ body.jm-body main:not(.jm-home):not(.ed-editorial-home) [class*='idea-studio_chi
 body.jm-body .owner-page > div:first-child a { color: #d6d6da; border-color: #555560; }
 body.jm-body .owner-page > div:first-child a:hover { color: #a02a22; border-color: #a02a22; }
 body.jm-body .owner-page .portal-panel { color: #ededed; background: #111116; border-color: #383840; }
-body.jm-body .owner-page .portal-panel .portal-tag { color: #ffae8c; border-color: #a02a2277; background: #a02a2218; }
+body.jm-body .owner-page .portal-panel .portal-tag { color: #ff8a80; border-color: #a02a2277; background: #a02a2218; }
 body.jm-body .owner-page .portal-panel .portal-muted { color: #b5b5b5; }
 body.jm-body .owner-page #auth-panel { background: #181820; color: #ededed; }
 body.jm-body .owner-page #auth-panel .section-kicker { color: #a02a22; }

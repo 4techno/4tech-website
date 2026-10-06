@@ -316,9 +316,9 @@
 }
 
 .windowTabActive {
-  background: rgba(252, 107, 47, 0.2);
-  color: #FC6B2F;
-  border: 1px solid rgba(252, 107, 47, 0.4);
+  background: rgba(197, 34, 31, 0.22);
+  color: #E53935;
+  border: 1px solid rgba(229, 57, 53, 0.45);
 }
 
 /* =========================================================================
@@ -570,7 +570,7 @@
 .sideItemActive {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
-  border-left: 2px solid #FC6B2F;
+  border-left: 2px solid #C5221F;
 }
 
 .graphCanvas {
@@ -601,7 +601,7 @@
 .nodeLine {
   height: 24px;
   width: 2px;
-  background: linear-gradient(90deg, #FC6B2F, #06b6d4);
+  background: linear-gradient(90deg, #C5221F, #06b6d4);
   position: relative;
 }
 
@@ -636,7 +636,7 @@
 }
 
 .inspectorVal {
-  color: #FC6B2F;
+  color: #E53935;
   font-weight: 600;
 }
 
@@ -671,7 +671,7 @@
 
 .deployNavItemActive {
   background: rgba(255, 255, 255, 0.08);
-  color: #FC6B2F;
+  color: #E53935;
   font-weight: 600;
 }
 
@@ -928,7 +928,7 @@
   .nodeLine {
     width: 2px;
     height: 14px;
-    background: linear-gradient(180deg, #FC6B2F, #06b6d4);
+    background: linear-gradient(180deg, #C5221F, #06b6d4);
   }
   .nodeLine::after {
     top: auto;

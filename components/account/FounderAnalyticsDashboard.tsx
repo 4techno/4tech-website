@@ -118,12 +118,12 @@ function AnalyticsWorkspace({ uid }: { uid: string }) {
           <svg viewBox="0 0 720 250" className={styles.svgChart} role="img" aria-labelledby={`${graphId}-chart-title ${graphId}-chart-desc`}>
             <title id={`${graphId}-chart-title`}>Recorded traffic over {range} UTC days</title><desc id={`${graphId}-chart-desc`}>Daily session bars and page-view line on the same count scale. Exact values are available in the date selector and daily data table below.</desc>
             {[0, 0.5, 1].map(ratio => { const y = chart.bottom - (chart.bottom - chart.top) * ratio; return <g key={ratio}><line x1={chart.left} x2={700} y1={y} y2={y} stroke="#333" strokeDasharray="3 3"/><text x={chart.left - 8} y={y + 4} textAnchor="end" fill="#aaa" fontSize="11">{Math.round(chart.max * ratio)}</text></g>; })}
-            <defs><linearGradient id={`${graphId}-gradient`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#fc6b2f" stopOpacity=".22"/><stop offset="1" stopColor="#fc6b2f" stopOpacity="0"/></linearGradient></defs>
-            <path d={area} fill={`url(#${graphId}-gradient)`}/><path d={line} fill="none" stroke="#fc6b2f" strokeWidth="2"/>
+            <defs><linearGradient id={`${graphId}-gradient`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#C5221F" stopOpacity=".25"/><stop offset="1" stopColor="#C5221F" stopOpacity="0"/></linearGradient></defs>
+            <path d={area} fill={`url(#${graphId}-gradient)`}/><path d={line} fill="none" stroke="#C5221F" strokeWidth="2"/>
             {chart.points.map((point, index) => <g key={point.date} onPointerEnter={() => setSelectedDate(point.date)} onClick={() => setSelectedDate(point.date)} className={styles.barGroup}>
               <rect x={point.x - chart.step / 2} y={chart.top} width={chart.step} height={chart.bottom - chart.top} fill="transparent"/>
-              <rect x={point.x - Math.min(18, chart.step * 0.55) / 2} y={point.visitY} width={Math.min(18, chart.step * 0.55)} height={chart.bottom - point.visitY} fill={selected.date === point.date ? "#ff9a70" : "#a3a3ad"}/>
-              <circle cx={point.x} cy={point.viewY} r="3" fill="#fc6b2f"/>
+              <rect x={point.x - Math.min(18, chart.step * 0.55) / 2} y={point.visitY} width={Math.min(18, chart.step * 0.55)} height={chart.bottom - point.visitY} fill={selected.date === point.date ? "#E53935" : "#a3a3ad"}/>
+              <circle cx={point.x} cy={point.viewY} r="3" fill="#C5221F"/>
               {(index % (range === 30 ? 5 : range === 14 ? 2 : 1) === 0 || index === points.length - 1) && <text x={point.x} y={242} fill="#aaa" textAnchor="middle" fontSize="10">{point.label}</text>}
             </g>)}
           </svg>

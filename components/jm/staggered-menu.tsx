@@ -143,7 +143,7 @@ export default function StaggeredMenu() {
         <div className="flex items-center gap-2.5 sm:gap-3">
           <Link
             href="/#contact"
-            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium tracking-wider text-white border border-white/20 hover:border-[#fc6b2f] hover:text-[#fc6b2f] transition-all bg-black/40 backdrop-blur-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium tracking-wider text-white border border-white/20 hover:border-[#C5221F] hover:text-[#E53935] hover:shadow-[0_0_16px_rgba(197,34,31,0.45)] transition-all bg-black/40 backdrop-blur-sm"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Dive In +

@@ -42,13 +42,13 @@ export const ASTRA_COLORS: Record<string, AstraColorToken> = {
   },
   vibrantOrange: {
     name: 'vibrantOrange',
-    srgb: '#FC6B2F',
-    p3: 'color(display-p3 0.988 0.420 0.184)',
+    srgb: '#C5221F',
+    p3: 'color(display-p3 0.773 0.133 0.122)',
   },
   vibrantOrangeBright: {
     name: 'vibrantOrangeBright',
-    srgb: '#FF7D42',
-    p3: 'color(display-p3 1.000 0.490 0.230)',
+    srgb: '#E53935',
+    p3: 'color(display-p3 0.898 0.224 0.208)',
   },
   ember: {
     name: 'ember',

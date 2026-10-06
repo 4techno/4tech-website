@@ -154,7 +154,7 @@ export default function ReactiveBackground({
       const rand = Math.random();
       const colorType =
         rand < 0.38
-          ? 'ember' // 4TECH Ember Orange (#FC6B2F)
+          ? 'ember' // 4TECH Precision Crimson (#C5221F)
           : rand < 0.68
           ? 'ruby' // 4TECH Ruby Crimson (#ff3355)
           : rand < 0.88
@@ -299,7 +299,7 @@ export default function ReactiveBackground({
 
         let fillStyle = '';
         if (p.colorType === 'ember') {
-          fillStyle = `rgba(252, 107, 47, ${p.alpha})`;
+          fillStyle = `rgba(197, 34, 31, ${p.alpha})`;
         } else if (p.colorType === 'ruby') {
           fillStyle = `rgba(255, 51, 85, ${p.alpha})`;
         } else if (p.colorType === 'cyan') {
@@ -333,7 +333,7 @@ export default function ReactiveBackground({
           const d = Math.hypot(p1.x - p2.x, p1.y - p2.y);
           if (d < lineDist) {
             const lineAlpha = (1 - d / lineDist) * 0.14 * Math.min(p1.alpha, p2.alpha);
-            ctx.strokeStyle = `rgba(252, 107, 47, ${lineAlpha})`;
+            ctx.strokeStyle = `rgba(197, 34, 31, ${lineAlpha})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
@@ -363,7 +363,7 @@ export default function ReactiveBackground({
 
         ctx.beginPath();
         ctx.arc(r.x, r.y, r.radius * 0.65, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(252, 107, 47, ${r.alpha * 0.5})`;
+        ctx.strokeStyle = `rgba(197, 34, 31, ${r.alpha * 0.5})`;
         ctx.lineWidth = 1;
         ctx.stroke();
         ctx.restore();
@@ -412,7 +412,7 @@ export default function ReactiveBackground({
             className="absolute top-0 left-0 w-[420px] h-[420px] sm:w-[650px] sm:h-[650px] md:w-[850px] md:h-[850px] rounded-full pointer-events-none will-change-transform z-[1]"
             style={{
               background:
-                'radial-gradient(circle closest-side, rgba(160, 42, 34, 0.28) 0%, rgba(252, 107, 47, 0.10) 45%, transparent 75%)',
+                'radial-gradient(circle closest-side, rgba(160, 42, 34, 0.28) 0%, rgba(197, 34, 31, 0.12) 45%, transparent 75%)',
               filter: 'blur(45px)',
             }}
           />
@@ -444,10 +444,10 @@ export default function ReactiveBackground({
           <circle cx="500" cy="500" r="490" stroke="rgba(255, 255, 255, 0.025)" strokeWidth="1" strokeDasharray="3 9" />
 
           {/* Telemetry Crosshair Ticks */}
-          <line x1="500" y1="90" x2="500" y2="130" stroke="rgba(252, 107, 47, 0.35)" strokeWidth="1.5" />
-          <line x1="500" y1="870" x2="500" y2="910" stroke="rgba(252, 107, 47, 0.35)" strokeWidth="1.5" />
-          <line x1="90" y1="500" x2="130" y2="500" stroke="rgba(252, 107, 47, 0.35)" strokeWidth="1.5" />
-          <line x1="870" y1="500" x2="910" y2="500" stroke="rgba(252, 107, 47, 0.35)" strokeWidth="1.5" />
+          <line x1="500" y1="90" x2="500" y2="130" stroke="rgba(229, 57, 53, 0.4)" strokeWidth="1.5" />
+          <line x1="500" y1="870" x2="500" y2="910" stroke="rgba(229, 57, 53, 0.4)" strokeWidth="1.5" />
+          <line x1="90" y1="500" x2="130" y2="500" stroke="rgba(229, 57, 53, 0.4)" strokeWidth="1.5" />
+          <line x1="870" y1="500" x2="910" y2="500" stroke="rgba(229, 57, 53, 0.4)" strokeWidth="1.5" />
 
           {/* Diagonal Corner Markers */}
           <circle cx="232" cy="232" r="2" fill="rgba(255, 51, 85, 0.5)" />

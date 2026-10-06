@@ -1,14 +1,14 @@
 .container { display: flex; flex-direction: column; gap: 24px; min-width: 0; color: #f5f5f0; font-family: var(--font-geist, sans-serif); }
 .header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; padding-bottom: 24px; border-bottom: 1px solid #333; }
-.tag { display: inline-block; font-family: var(--font-geist-mono), monospace; font-size: 10px; letter-spacing: .1em; color: #fc6b2f; margin-bottom: 10px; }
+.tag { display: inline-block; font-family: var(--font-geist-mono), monospace; font-size: 10px; letter-spacing: .1em; color: #E53935; margin-bottom: 10px; }
 .title { font-size: clamp(24px, 2.8vw, 36px); font-weight: 500; margin: 0; letter-spacing: -.03em; color: #fff; }
 .subtitle { color: #b0b0b0; font-size: 14px; margin: 8px 0 0; max-width: 850px; line-height: 1.7; }
 .rangeSelector { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .rangeBtn, .rangeBtnActive, .refreshBtn { min-height: 44px; font-family: var(--font-geist-mono), monospace; font-size: 12px; padding: 10px 14px; border-radius: 4px; cursor: pointer; transition: background-color .15s, color .15s; }
 .rangeBtn, .refreshBtn { background: #111; color: #ccc; border: 1px solid #444; }
 .rangeBtn:hover, .refreshBtn:hover { background: #282828; color: #fff; }
-.rangeBtnActive { background: #fc6b2f; color: #09090c; border: 1px solid #fc6b2f; font-weight: 700; }
-.container button:focus-visible, .container summary:focus-visible, .container [tabindex]:focus-visible, .container select:focus-visible { outline: 2px solid #fc6b2f; outline-offset: 4px; }
+.rangeBtnActive { background: #C5221F; color: #fff; border: 1px solid #C5221F; font-weight: 700; box-shadow: 0 0 16px rgba(197, 34, 31, 0.4); }
+.container button:focus-visible, .container summary:focus-visible, .container [tabindex]:focus-visible, .container select:focus-visible { outline: 2px solid #C5221F; outline-offset: 4px; }
 .metricsGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .copyButton { background: transparent; border: 0; padding: 0; color: #eee; cursor: pointer; text-align: left; font: inherit; overflow-wrap: anywhere; }
 .copyButton span { color: #aaa; font-size: 10px; white-space: nowrap; }
@@ -21,7 +21,7 @@
 .tab, .tabActive { min-height: 44px; font-family: var(--font-geist-mono), monospace; font-size: 12px; padding: 12px 16px; background: transparent; cursor: pointer; white-space: nowrap; border: none; border-bottom: 2px solid transparent; }
 .tab { color: #aaa; }
 .tab:hover { color: #fff; }
-.tabActive { color: #fc6b2f; border-bottom-color: #fc6b2f; font-weight: 600; }
+.tabActive { color: #E53935; border-bottom-color: #C5221F; font-weight: 600; }
 .graphPanel, .tablePanel { min-width: 0; background: #080808; border: 1px solid #333; border-radius: 6px; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
 .graphHeader h3 { font-size: 17px; font-weight: 500; margin: 0 0 8px; color: #fff; }
 .graphLegend { font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.7; color: #bbb; margin: 0; }
@@ -36,7 +36,7 @@
 .tableToolbar { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 16px; }
 .searchLabel { display: flex; flex: 1; flex-direction: column; gap: 8px; font-size: 13px; color: #ccc; }
 .searchInput { width: 100%; max-width: 420px; min-height: 44px; padding: 10px 14px; background: #121212; border: 1px solid #555; border-radius: 4px; color: #fff; font-size: 16px; }
-.searchInput:focus { outline: 2px solid #fc6b2f; outline-offset: 2px; }
+.searchInput:focus { outline: 2px solid #C5221F; outline-offset: 2px; }
 .tableCount { font-family: var(--font-geist-mono), monospace; font-size: 11px; color: #bbb; padding-bottom: 12px; }
 .tableScroll { overflow-x: auto; border: 1px solid #333; border-radius: 4px; }
 .dataTable { width: 100%; min-width: 580px; border-collapse: collapse; text-align: left; font-size: 13px; }

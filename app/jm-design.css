@@ -15,9 +15,9 @@
   --ash: #8A8A8D;
   --iron: #2A2A2E;
   --silver: #B0B0B3;
-  --vibrant-orange: #FC6B2F;
-  --vibrant-orange-bright: #FF7D42;
-  --vibrant-orange-glow: rgba(252, 107, 47, 0.35);
+  --vibrant-orange: #C5221F;
+  --vibrant-orange-bright: #E53935;
+  --vibrant-orange-glow: rgba(197, 34, 31, 0.38);
   --cyan-accent: #06B6D4;
   --cyan-glow: rgba(6, 182, 212, 0.4);
   --font-display: 'Space Grotesk', var(--font-space-grotesk, 'Geist Variable'), sans-serif;
@@ -33,9 +33,9 @@
     --void: color(display-p3 0.019 0.019 0.023);
     --surface: color(display-p3 0.058 0.058 0.070);
     --surface-raised: color(display-p3 0.094 0.094 0.125);
-    --vibrant-orange: color(display-p3 0.988 0.420 0.184);
-    --vibrant-orange-bright: color(display-p3 1.000 0.490 0.230);
-    --vibrant-orange-glow: color(display-p3 0.988 0.420 0.184 / 0.38);
+    --vibrant-orange: color(display-p3 0.773 0.133 0.122);
+    --vibrant-orange-bright: color(display-p3 0.898 0.224 0.208);
+    --vibrant-orange-glow: color(display-p3 0.773 0.133 0.122 / 0.40);
     --ember: color(display-p3 0.627 0.165 0.133);
     --ember-bright: color(display-p3 0.722 0.204 0.169);
     --ember-dark: color(display-p3 0.490 0.118 0.102);
