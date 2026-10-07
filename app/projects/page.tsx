@@ -10,7 +10,7 @@ import styles from '@/components/projects/secondary.module.css';
 
 const description = 'Explore the 4TECH Engineering portfolio: robotics, embedded systems, RF technology, automation and experimental R&D. Browse by engineering difficulty and development stage.';
 export const metadata: Metadata = {
-  title: 'Engineering Works & Portfolio — 4TECH Engineering',
+  title: 'Engineering Works & Portfolio',
   description,
   alternates: { canonical: siteUrl('/projects') },
   openGraph: {

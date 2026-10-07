@@ -3,7 +3,7 @@ import { siteUrl } from '@/config';
 import ProjectsPage from '@/app/projects/page';
 
 export const metadata: Metadata = {
-  title: 'All Engineering Works — 4TECH Engineering',
+  title: 'All Engineering Works',
   description: 'Explore the full portfolio of 4TECH Engineering works: robotics, embedded systems, RF instrumentation, power electronics, and autonomous systems.',
   alternates: { canonical: siteUrl('/works') },
   openGraph: {
