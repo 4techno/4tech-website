@@ -1,0 +1,680 @@
+/* =========================================================================
+   4TECH Precision Odometer Machine Intro
+   Skeuomorphic industrial product design with mechanical rolling drums
+   Strict constraint: Zero emojis
+   ========================================================================= */
+
+.root {
+  --red: #e3170a;
+  --highlight-red: #ff2d1b;
+  --shadow-red: #a80f05;
+  --ink: #0d0d0d;
+  --drum-paper: #f4f2ed;
+  --drum-border: #d4d0c7;
+  --cream-text: #fff6ee;
+  --gold: #d4af37;
+  --card-red: #c5221f;
+
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 2500;
+  overflow: hidden;
+  background-color: #e3170a;
+  background-image: 
+    radial-gradient(circle 850px at var(--mouse-x, 50%) var(--mouse-y, 45%), #ff2e1c 0%, #e3170a 48%, #aa0f04 100%);
+  color: var(--cream-text);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  user-select: none;
+  touch-action: pan-y;
+  perspective: 1200px;
+}
+
+/* Subtle Static Texture Overlay */
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: radial-gradient(#000000 1px, transparent 1px);
+  background-size: 3px 3px;
+  z-index: 2;
+}
+
+/* =========================================================================
+   NAVIGATION BAR (Fixed 3-Column Grid)
+   ========================================================================= */
+
+.nav {
+  position: absolute;
+  top: max(20px, env(safe-area-inset-top));
+  left: clamp(20px, 4.5vw, 64px);
+  right: clamp(20px, 4.5vw, 64px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  z-index: 50;
+}
+
+.logo {
+  font-family: 'Archivo', var(--font-display, sans-serif);
+  font-weight: 900;
+  font-size: clamp(22px, 2.4vw, 30px);
+  letter-spacing: -0.05em;
+  color: var(--ink);
+  line-height: 1;
+  display: inline-flex;
+  align-items: baseline;
+  text-decoration: none;
+}
+
+.logo sup {
+  font-size: 11px;
+  margin-left: 2px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.5vw, 36px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navItem {
+  position: relative;
+  overflow: hidden;
+  height: 20px;
+  line-height: 20px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.navLink {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--cream-text);
+  transition: transform 0.35s cubic-bezier(0.22, 1.28, 0.42, 1);
+}
+
+.navLink span:last-child {
+  color: var(--ink);
+}
+
+.navItem:hover .navLink {
+  transform: translateY(-50%);
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Mini Rolling Clock */
+.clockWrap {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--cream-text);
+  font-variant-numeric: tabular-nums;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Sound Equalizer Toggle */
+.soundBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: none;
+  color: var(--cream-text);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.soundBtn:hover {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.eqBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 12px;
+}
+
+.eqBar {
+  width: 2.5px;
+  background: var(--cream-text);
+  border-radius: 1px;
+  transition: height 0.15s ease;
+}
+
+.eqBar[data-active='true']:nth-child(1) {
+  animation: eqBounce1 0.7s infinite alternate ease-in-out;
+}
+.eqBar[data-active='true']:nth-child(2) {
+  animation: eqBounce2 0.5s infinite alternate ease-in-out;
+}
+.eqBar[data-active='true']:nth-child(3) {
+  animation: eqBounce3 0.8s infinite alternate ease-in-out;
+}
+
+@keyframes eqBounce1 {
+  0% { height: 3px; }
+  100% { height: 11px; }
+}
+@keyframes eqBounce2 {
+  0% { height: 10px; }
+  100% { height: 4px; }
+}
+@keyframes eqBounce3 {
+  0% { height: 5px; }
+  100% { height: 12px; }
+}
+
+/* Action Talk Button */
+.talkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--ink);
+  color: var(--cream-text);
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.22, 1.28, 0.42, 1);
+  text-decoration: none;
+}
+
+.talkBtn:hover {
+  background: var(--cream-text);
+  color: var(--ink);
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.talkDot {
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulseBeacon 2s infinite ease-in-out;
+}
+
+@keyframes pulseBeacon {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* =========================================================================
+   THE MACHINE (Centerpiece)
+   ========================================================================= */
+
+.machineStage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  padding: clamp(60px, 8vh, 90px) 16px 50px;
+  pointer-events: none;
+  background: transparent !important;
+}
+
+.machineUnit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 1240px);
+  transform-style: preserve-3d;
+  transition: transform 0.18s ease-out;
+  pointer-events: auto;
+}
+
+/* Top Plate (Scene Number) */
+.scenePlate {
+  background: linear-gradient(180deg, #18181c 0%, #0d0d10 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 2px solid #050505;
+  border-radius: 6px;
+  padding: 6px 20px;
+  box-shadow: 
+    0 10px 24px rgba(0, 0, 0, 0.65),
+    inset 0 1px 1px rgba(255, 255, 255, 0.22);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 10;
+  transition: transform 0.3s cubic-bezier(0.22, 1.28, 0.42, 1);
+}
+
+.scenePlateLed {
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #ff3b30;
+  text-shadow: 0 0 12px rgba(255, 59, 48, 0.75);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Odometer Recessed Window & Enclosure */
+.counterEnclosure {
+  display: flex;
+  align-items: center;
+  background: #09090c;
+  border: 2px solid #1a1a20;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 
+    0 24px 50px rgba(0, 0, 0, 0.75),
+    0 6px 16px rgba(0, 0, 0, 0.6),
+    inset 0 3px 12px rgba(0, 0, 0, 0.95),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  gap: 8px;
+}
+
+/* Drums Bank Aperture */
+.drumsBank {
+  display: flex;
+  align-items: center;
+  background: #070709;
+  border-radius: 6px;
+  box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.95), inset 0 -10px 20px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Individual Drum Track Cell */
+.drumCell {
+  position: relative;
+  overflow: hidden;
+  width: clamp(28px, 6.5vw, 76px);
+  height: clamp(55px, 13.8vw, 162px);
+  background: var(--drum-paper, #f4f2ed);
+  box-shadow: 
+    inset 2px 0 3px rgba(0, 0, 0, 0.1),
+    inset -2px 0 3px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #161619;
+}
+
+.drumCell:last-child {
+  border-right: none;
+}
+
+/* Projected Drum Face */
+.drumFace {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: clamp(34px, 8.5vw, 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Archivo', var(--font-display, sans-serif);
+  font-weight: 900;
+  font-size: clamp(26px, 7.2vw, 86px);
+  color: #0d0d0d;
+  line-height: 1;
+  backface-visibility: hidden;
+  transform-origin: center center;
+  pointer-events: none;
+  z-index: 2;
+  will-change: transform, opacity;
+}
+
+/* Shading Gradient on Top and Bottom of Drum */
+.drumsShading {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.42) 16%,
+    rgba(255, 255, 255, 0.08) 46%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.08) 54%,
+    rgba(0, 0, 0, 0.42) 84%,
+    rgba(0, 0, 0, 0.82) 100%
+  );
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+/* Card Slot Attached on Right */
+.cardSlot {
+  position: relative;
+  width: clamp(100px, 13vw, 160px);
+  aspect-ratio: 10 / 8.5;
+  background: #0d0d10;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.cardMouth {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  height: 4px;
+  background: #000000;
+  border-radius: 2px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.95);
+  z-index: 2;
+}
+
+.cardItem {
+  width: 90%;
+  height: 88%;
+  background: linear-gradient(135deg, #d32f2f 0%, #aa1e16 100%);
+  border-radius: 6px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 10px;
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.22, 1.28, 0.42, 1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.cardSlot:hover .cardItem {
+  transform: translateY(-8px);
+}
+
+.cardItem[data-ejected='true'] {
+  transform: translateY(120%) scale(0.9);
+  opacity: 0;
+}
+
+.cardChip {
+  width: 20px;
+  height: 15px;
+  background: linear-gradient(135deg, #e5c158 0%, #aa8528 100%);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.cardMeta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.cardLogo {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+/* Pull Knob Under Counter */
+.knobContainer {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.knobBall {
+  width: clamp(28px, 3.2vw, 40px);
+  height: clamp(28px, 3.2vw, 40px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #3a3a42 0%, #16161a 50%, #070709 100%);
+  box-shadow: 
+    0 10px 22px rgba(0, 0, 0, 0.75),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.9);
+  transition: transform 0.15s cubic-bezier(0.22, 1.28, 0.42, 1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.knobContainer:hover .knobBall {
+  transform: scale(1.06);
+}
+
+.knobContainer:active .knobBall {
+  transform: scale(0.92);
+}
+
+.knobLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: var(--cream-text);
+  opacity: 0.85;
+}
+
+/* Big Caption Under Machine */
+.captionWrap {
+  margin-top: clamp(22px, 3.8vh, 38px);
+  text-align: center;
+  max-width: 900px;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.captionText {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(28px, 4.5vw, 56px);
+  line-height: 1.15;
+  color: var(--cream-text);
+  margin: 0;
+  font-weight: 400;
+}
+
+.captionText em {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #0d0d0d;
+  padding: 0 4px;
+}
+
+/* =========================================================================
+   BOTTOM RAIL & TRANSITION TO SITE
+   ========================================================================= */
+
+.rail {
+  position: absolute;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  left: clamp(20px, 4.5vw, 64px);
+  right: clamp(20px, 4.5vw, 64px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  z-index: 50;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.railLeft {
+  color: rgba(255, 246, 238, 0.75);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Scene Progress Segments */
+.progressSegments {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.progressSegment {
+  width: 22px;
+  height: 2.5px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressSegmentFill {
+  height: 100%;
+  width: 0%;
+  background: var(--ink);
+  transition: width 0.1s linear;
+}
+
+.progressSegment[data-past='true'] .progressSegmentFill {
+  width: 100%;
+}
+
+.enterSiteBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  color: var(--cream-text);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 8px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.enterSiteBtn:hover {
+  background: var(--ink);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.scrollIndicatorLine {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.scrollPip {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background: var(--ink);
+  animation: dropPip 1.6s infinite ease-in-out;
+}
+
+@keyframes dropPip {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+/* =========================================================================
+   RESPONSIVE DESIGN (Mobile <= 768px & <= 560px)
+   ========================================================================= */
+
+@media (max-width: 768px) {
+  .navLinks, .clockWrap, .soundBtn {
+    display: none;
+  }
+  .railLeft {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .cardSlot {
+    display: none;
+  }
+  .counterEnclosure {
+    padding: 6px;
+  }
+  .scenePlate {
+    padding: 4px 12px;
+    margin-bottom: 10px;
+  }
+  .scenePlateLed {
+    font-size: 10px;
+  }
+  .captionWrap {
+    margin-top: 18px;
+    min-height: 54px;
+    padding-inline: 8px;
+  }
+  .captionText {
+    font-size: clamp(22px, 6vw, 28px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .machineUnit {
+    transition: none !important;
+  }
+  .scrollPip, .eqBar {
+    animation: none !important;
+  }
+}
