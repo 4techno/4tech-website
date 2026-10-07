@@ -160,6 +160,7 @@ const CAPABILITIES: CapabilityCard[] = [
 
 export default function FannedCapabilities() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [activeMobileIdx, setActiveMobileIdx] = useState<number>(1);
   const [isMobile, setIsMobile] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
@@ -171,6 +172,15 @@ export default function FannedCapabilities() {
     return () => mql.removeEventListener('change', handler);
   }, []);
 
+  const hoveredIdx = hoveredId !== null ? CAPABILITIES.findIndex(c => c.id === hoveredId) : -1;
+
+  const nextMobile = () => {
+    setActiveMobileIdx(prev => (prev + 1) % CAPABILITIES.length);
+  };
+  const prevMobile = () => {
+    setActiveMobileIdx(prev => (prev - 1 + CAPABILITIES.length) % CAPABILITIES.length);
+  };
+
   return (
     <section id="services" className={styles.section} aria-label="4TECH Engineering Capabilities">
       <span id="capabilities" className="jm-anchor" aria-hidden="true" />
@@ -178,47 +188,93 @@ export default function FannedCapabilities() {
 
       <div className={styles.shell}>
         {/* =========================================================================
-            TOP: FANNED 3D CARDS DECK (NEST.JS MODEL BOX)
+            TOP: FANNED 3D CARDS DECK (EXACTLY LIKE NESTJS.COM ON DESKTOP & MOBILE)
             ========================================================================= */}
         <div className={styles.deckWrapper}>
           <div className={styles.cardsTrack}>
             {CAPABILITIES.map((card, index) => {
-              const isHovered = hoveredId === card.id;
+              const isHovered = hoveredIdx === index;
+              const isCenterMobile = activeMobileIdx === index;
+
+              // Desktop positioning: parting the sea when a card is hovered
+              let desktopX = card.xOffset;
+              let desktopY = card.yOffset;
+              let desktopRotate = card.rotation;
+              let desktopScale = 1;
+              let desktopZ = index + 1;
+
+              if (hoveredIdx !== -1) {
+                if (index === hoveredIdx) {
+                  desktopX = card.xOffset;
+                  desktopY = -38;
+                  desktopRotate = 0;
+                  desktopScale = 1.09;
+                  desktopZ = 50;
+                } else if (index < hoveredIdx) {
+                  desktopX = card.xOffset - 145;
+                  desktopRotate = card.rotation - 3;
+                  desktopScale = 0.98;
+                } else {
+                  desktopX = card.xOffset + 145;
+                  desktopRotate = card.rotation + 3;
+                  desktopScale = 0.98;
+                }
+              }
+
+              // Mobile positioning: curved radial arc matching user reference image
+              const m = index - activeMobileIdx;
+              const mobileX = m * 140;
+              const mobileY = Math.abs(m) * 20;
+              const mobileRotate = m * 8.5;
+              const mobileScale = m === 0 ? 1.04 : 0.92;
+              const mobileZ = 30 - Math.abs(m);
+              const mobileOpacity = Math.abs(m) > 2 ? 0.25 : 1;
 
               return (
                 <motion.div
                   key={card.id}
                   className={styles.card}
-                  data-active={isHovered}
+                  data-active={isMobile ? isCenterMobile : isHovered}
                   style={{
-                    zIndex: isHovered ? 40 : index + 1,
+                    zIndex: isMobile ? mobileZ : desktopZ,
                   }}
                   animate={
-                    shouldReduceMotion || isMobile
+                    shouldReduceMotion
                       ? {}
-                      : isHovered
+                      : isMobile
                       ? {
-                          x: card.xOffset,
-                          y: -38,
-                          rotate: 0,
-                          scale: 1.08,
-                          boxShadow: `0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px ${card.borderAccent}66`,
+                          x: mobileX,
+                          y: mobileY,
+                          rotate: mobileRotate,
+                          scale: mobileScale,
+                          opacity: mobileOpacity,
+                          boxShadow:
+                            isCenterMobile
+                              ? `0 22px 50px rgba(0, 0, 0, 0.75), 0 0 25px ${card.borderAccent}55`
+                              : '0 12px 30px rgba(0, 0, 0, 0.5)',
                         }
                       : {
-                          x: card.xOffset,
-                          y: card.yOffset,
-                          rotate: card.rotation,
-                          scale: 1,
-                          boxShadow: '0 16px 40px rgba(0, 0, 0, 0.55)',
+                          x: desktopX,
+                          y: desktopY,
+                          rotate: desktopRotate,
+                          scale: desktopScale,
+                          opacity: 1,
+                          boxShadow:
+                            isHovered
+                              ? `0 28px 65px rgba(0, 0, 0, 0.85), 0 0 32px ${card.borderAccent}66`
+                              : '0 16px 40px rgba(0, 0, 0, 0.55)',
                         }
                   }
                   transition={{
                     type: 'spring',
-                    stiffness: 280,
-                    damping: 24,
+                    stiffness: 300,
+                    damping: 25,
                   }}
-                  onMouseEnter={() => setHoveredId(card.id)}
-                  onMouseLeave={() => setHoveredId(null)}
+                  onClick={() => {
+                    if (isMobile) setActiveMobileIdx(index);
+                  }}
+                  onMouseEnter={() => !isMobile && setHoveredId(card.id)}
+                  onMouseLeave={() => !isMobile && setHoveredId(null)}
                   tabIndex={0}
                   onFocus={() => setHoveredId(card.id)}
                   onBlur={() => setHoveredId(null)}
@@ -246,14 +302,14 @@ export default function FannedCapabilities() {
                     <p className={styles.cardLead}>{card.lead}</p>
                   </div>
 
-                  {/* Card Bottom Specs */}
+                  {/* Card Bottom Specs (NestJS style: ▶ 20 lessons /  2 hours) */}
                   <div className={styles.cardSpecs}>
                     <div className={styles.specRow}>
                       <span aria-hidden="true">▶</span>
                       <span>{card.spec1}</span>
                     </div>
                     <div className={styles.specRow}>
-                      <span aria-hidden="true">⚡</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                       <span>{card.spec2}</span>
                     </div>
                   </div>
@@ -261,6 +317,37 @@ export default function FannedCapabilities() {
               );
             })}
           </div>
+
+          {/* Mobile arc navigation indicators */}
+          <div className={styles.mobileNavRow}>
+              <button
+                type="button"
+                onClick={prevMobile}
+                className={styles.mobileNavBtn}
+                aria-label="Previous capability"
+              >
+                ←
+              </button>
+              <div className={styles.mobileDots}>
+                {CAPABILITIES.map((c, i) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => setActiveMobileIdx(i)}
+                    className={`${styles.mobileDot} ${i === activeMobileIdx ? styles.mobileDotActive : ''}`}
+                    aria-label={`Select ${c.title}`}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={nextMobile}
+                className={styles.mobileNavBtn}
+                aria-label="Next capability"
+              >
+                →
+              </button>
+            </div>
         </div>
 
         {/* =========================================================================

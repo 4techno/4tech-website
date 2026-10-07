@@ -64,9 +64,9 @@
   position: absolute;
   width: clamp(230px, 24vw, 275px);
   height: clamp(340px, 34vw, 395px);
-  border-radius: 22px;
-  background: #111116;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+  background: linear-gradient(to bottom, #202020, #0e0e0e);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
@@ -119,6 +119,7 @@
 
 .card:hover,
 .card[data-active='true'] {
+  background: linear-gradient(to bottom, #323236, #121216);
   border-color: rgba(255, 255, 255, 0.45);
 }
 
@@ -181,7 +182,7 @@
   overflow: hidden;
 }
 
-/* Card Bottom Specs (NestJS style: ▶ 20 lessons / 🕒 2 hours) */
+/* Card Bottom Specs (NestJS style: ▶ 20 lessons /  2 hours) */
 .cardSpecs {
   position: relative;
   z-index: 2;
@@ -327,36 +328,96 @@
   border-color: rgba(255, 255, 255, 0.4);
 }
 
+/* Mobile Arc Navigation Controls */
+.mobileNavRow {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 14px;
+  position: relative;
+  z-index: 35;
+}
+
+.mobileNavBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+.mobileNavBtn:hover,
+.mobileNavBtn:active {
+  background: rgba(229, 57, 53, 0.3);
+  border-color: #E53935;
+  box-shadow: 0 0 12px rgba(229, 57, 53, 0.5);
+}
+
+.mobileDots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobileDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mobileDotActive {
+  width: 22px;
+  border-radius: 10px;
+  background: #E53935;
+  box-shadow: 0 0 10px rgba(229, 57, 53, 0.7);
+}
+
 /* =========================================================================
    RESPONSIVE LAYOUT
    ========================================================================= */
 
 @media (max-width: 900px) {
-  .deckWrapper {
-    overflow-x: auto;
-    overflow-y: visible;
-    padding-block: 20px 40px;
-    justify-content: flex-start;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+  .mobileNavRow {
+    display: flex;
   }
-  .deckWrapper::-webkit-scrollbar {
-    display: none;
+  .deckWrapper {
+    overflow: visible;
+    width: 100%;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
   }
   .cardsTrack {
     position: relative;
-    width: max-content;
-    height: auto;
-    padding: 0 24px;
-    gap: 16px;
-    justify-content: flex-start;
+    width: 100%;
+    max-width: 380px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
   }
   .card {
-    position: relative !important;
-    transform: none !important;
-    flex-shrink: 0;
-    width: 250px;
-    height: 360px;
+    position: absolute;
+    width: clamp(215px, 66vw, 255px);
+    height: clamp(300px, 82vw, 355px);
+    padding: 20px 18px;
   }
 }
 

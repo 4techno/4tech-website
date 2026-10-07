@@ -93,51 +93,46 @@ export default function IntroSequence() {
       }
     }
 
-    const progress = { value: 0 };
+    const progress = { value: 1 };
     const timeline = gsap.timeline({
       onComplete: () => {
         gsap.to(root, {
           yPercent: -101,
           opacity: 0.95,
-          duration: 0.85,
-          ease: 'expo.inOut',
+          duration: 0.9,
+          ease: 'power4.inOut',
           onComplete: finish,
         });
       },
     });
     timelineRef.current = timeline;
 
-    // 1. Telemetry & title fade-in (0.0s - 0.4s)
-    if (title) {
-      timeline.fromTo(title, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, 0.05);
-    }
-
-    // 2. Coordinated progress counter & bar (0.1s - 2.8s)
+    // Coordinated 1-100 progress counter & bar (Jishnu portfolio style)
     timeline.to(
       progress,
       {
         value: 100,
-        duration: 2.75,
-        ease: 'power1.inOut',
+        duration: 2.3,
+        ease: 'power2.inOut',
         onUpdate: () => {
           const val = Math.min(100, Math.round(progress.value));
-          if (counter) counter.textContent = `${val.toString().padStart(3, '0')}%`;
+          if (counter) counter.textContent = `${val}`;
           if (bar) bar.style.width = `${val}%`;
         },
       },
-      0.1
+      0.05
     );
 
-    // 3. Fingertip touch & radiant ASCII explosion burst (t = 2.15s)
+    // Radiant ASCII contact burst flash (t = 1.95s)
     if (flash) {
       timeline
         .fromTo(
           flash,
           { opacity: 0, scale: 0.25 },
           { opacity: 0.95, scale: 1.1, duration: 0.2, ease: 'power2.out' },
-          2.12
+          1.92
         )
-        .to(flash, { opacity: 0, scale: 3.2, duration: 0.55, ease: 'power2.out' }, 2.32);
+        .to(flash, { opacity: 0, scale: 3.2, duration: 0.55, ease: 'power2.out' }, 2.12);
     }
 
     // Fallback safety timeout (in case of tab backgrounding or video stall)
@@ -202,18 +197,31 @@ export default function IntroSequence() {
         <div className="tech-intro__media-glow" />
       </div>
 
+      {/* Jishnu Portfolio Preloader Centerpiece: 1-100 and below that 4TECH */}
+      <div className="tech-intro__centerpiece" aria-hidden="true">
+        <div className="tech-intro__counter-row">
+          <span ref={counterRef} className="tech-intro__big-counter">
+            1
+          </span>
+          <span className="tech-intro__counter-unit">%</span>
+        </div>
+        <div className="tech-intro__center-bar">
+          <div ref={barRef} className="tech-intro__center-bar-fill" />
+        </div>
+        <div className="tech-intro__brand-row">
+          <span className="tech-intro__brand-name">4TECH</span>
+          <span className="tech-intro__brand-sub">ENGINEERING</span>
+        </div>
+        <p className="tech-intro__brand-tag">SHAPING HARDWARE INTO REALITY</p>
+      </div>
+
       {/* Radiant ASCII contact burst flash */}
       <div ref={flashRef} className="tech-intro__flash" aria-hidden="true" />
 
-      {/* Bottom HUD Telemetry & Progress Indicator */}
+      {/* Bottom HUD Telemetry */}
       <div className="tech-intro__bottom">
         <span>ROBOTICS · EMBEDDED SYSTEMS · RF INSTRUMENTATION</span>
-        <div className="tech-intro__bar-wrap" aria-hidden="true">
-          <div ref={barRef} className="tech-intro__bar-fill" />
-        </div>
-        <span ref={counterRef} className="tech-intro__counter">
-          000%
-        </span>
+        <span className="tech-intro__counter">4TECH STUDIO</span>
       </div>
     </div>
   );

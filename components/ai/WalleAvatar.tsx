@@ -99,6 +99,24 @@ export default function WalleAvatar({
           <feGaussianBlur stdDeviation="1.5" result="blur" />
           <feComposite in="SourceGraphic" in2="blur" operator="over" />
         </filter>
+        <style>{`
+          @keyframes walleIdlePlay {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            35% { transform: translateY(-2px) rotate(0.7deg); }
+            70% { transform: translateY(1px) rotate(-0.5deg); }
+          }
+          @keyframes walleEyeSparkle {
+            0%, 100% { opacity: 0.95; transform: scale(1); }
+            50% { opacity: 0.65; transform: scale(0.85); }
+          }
+          .walle-playing-body {
+            animation: walleIdlePlay 4s ease-in-out infinite;
+            transform-origin: 60px 85px;
+          }
+          .walle-sparkle {
+            animation: walleEyeSparkle 2.5s ease-in-out infinite;
+          }
+        `}</style>
       </defs>
 
       {/* =========================================================================
@@ -147,7 +165,7 @@ export default function WalleAvatar({
       {/* =========================================================================
           2. MAIN CHASSIS (WEATHERED YELLOW CUBE BODY)
           ========================================================================= */}
-      <g id="chassis">
+      <g id="chassis" className="walle-playing-body">
         {/* Chassis Cube Shadow & Base */}
         <rect x="29" y="58" width="62" height="42" rx="4" fill="#755206" />
 

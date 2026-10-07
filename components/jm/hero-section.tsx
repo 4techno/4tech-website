@@ -175,11 +175,11 @@ export default function HeroSection() {
         <div className="w-full max-w-[1080px] relative flex flex-col items-center justify-center transform-gpu drop-shadow-[0_0_50px_rgba(160,42,34,0.35)]">
           <TextPressure text="4TECH" />
 
-          {/* Red Tagline: Below 4TECH on mobile in its own readable badge; centered crossline on desktop */}
-          <div className="mt-4 sm:mt-0 sm:absolute sm:inset-0 flex items-center justify-center pointer-events-none z-20">
+          {/* Red Tagline: Centered across 4TECH wordmark as in site_tablet_768.png reference */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20 px-2">
             <p
               ref={heroLineRef}
-              className="hero-line text-[11px] sm:text-[clamp(0.58rem,1.3vw,0.88rem)] font-extrabold tracking-[0.16em] sm:tracking-[0.32em] uppercase text-[#E53935] bg-[#111116]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#E53935]/35 sm:border-transparent rounded-full px-4 py-1.5 sm:p-0 text-center whitespace-nowrap shadow-[0_0_20px_rgba(229,57,53,0.35)] sm:shadow-none"
+              className="hero-line text-[clamp(8px,2.4vw,14px)] font-extrabold tracking-[0.18em] sm:tracking-[0.32em] uppercase text-[#E53935] text-center whitespace-nowrap drop-shadow-[0_0_16px_rgba(229,57,53,0.85)]"
               style={{ fontFamily: "var(--font-body), 'Inter', sans-serif" }}
             >
               CRAFTING HARDWARE THAT SHAPES TOMORROW.
@@ -214,7 +214,7 @@ export default function HeroSection() {
             href="#projects"
             className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-semibold text-xs sm:text-sm tracking-wide bg-[#A02A22] text-white hover:bg-[#B8342B] active:scale-95 border border-transparent shadow-[0_0_30px_rgba(160,42,34,0.55)] group transition-all duration-300 min-h-[46px]"
           >
-            <span className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center text-[11px] shrink-0 font-bold">↗</span>
+            <span className="w-3.5 h-3.5 rounded-full bg-white shrink-0" />
             <span>Explore Work →</span>
           </a>
         </MagneticButton>

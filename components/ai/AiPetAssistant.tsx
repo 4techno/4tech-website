@@ -30,9 +30,11 @@ export default function AiPetAssistant() {
   const successTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    // Ensure WALL-E is active and visible on both desktop and mobile
+    setIsRemoved(false);
     try {
-      if (typeof window !== 'undefined' && localStorage.getItem('4tech:codex-pet-hidden') === 'true') {
-        setIsRemoved(true);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('4tech:codex-pet-hidden');
       }
     } catch {}
   }, []);
@@ -41,37 +43,25 @@ export default function AiPetAssistant() {
     e?.stopPropagation();
     setIsRemoved(true);
     setOpen(false);
-    try {
-      localStorage.setItem('4tech:codex-pet-hidden', 'true');
-    } catch {}
   }, []);
 
   useEffect(() => {
     const handleToggle = (e: Event) => {
       const detail = (e as CustomEvent<{ visible?: boolean }>).detail;
-      setIsRemoved(prev => {
-        const next = detail?.visible !== undefined ? !detail.visible : !prev;
-        try {
-          if (next) localStorage.setItem('4tech:codex-pet-hidden', 'true');
-          else localStorage.removeItem('4tech:codex-pet-hidden');
-        } catch {}
-        return next;
-      });
+      setIsRemoved(prev => (detail?.visible !== undefined ? !detail.visible : !prev));
     };
     window.addEventListener('4tech:codex-pet-toggle', handleToggle);
     return () => window.removeEventListener('4tech:codex-pet-toggle', handleToggle);
   }, []);
 
   const wake = useCallback(() => {
-    if (sleepTimer.current) clearTimeout(sleepTimer.current);
     setState(current => current === 'sleep' ? 'idle' : current);
-    sleepTimer.current = setTimeout(() => setState(current => current === 'idle' ? 'sleep' : current), 45_000);
   }, []);
   const changeState = useCallback((next: CompanionState) => {
     if (successTimer.current) clearTimeout(successTimer.current);
     setState(next);
-    if (next === 'success') successTimer.current = setTimeout(() => { setState('idle'); wake(); }, 2800);
-  }, [wake]);
+    if (next === 'success') successTimer.current = setTimeout(() => { setState('idle'); }, 2800);
+  }, []);
   const close = useCallback(() => {
     setOpen(false); setPrefill(''); changeState('idle'); wake();
   }, [changeState, wake]);

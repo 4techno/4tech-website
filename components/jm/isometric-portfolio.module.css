@@ -1,7 +1,7 @@
 .section {
   --item-width: 195px;
   position: relative;
-  overflow: clip;
+  overflow: hidden;
   background: #111111;
   padding: 48px 0;
   min-height: min(860px, calc(100svh - 88px));
@@ -57,7 +57,7 @@
   min-height: 370px;
   display: flex;
   align-items: center;
-  overflow: clip;
+  overflow: hidden;
   touch-action: pan-y;
   user-select: none;
   padding-block: 46px 16px;
@@ -98,7 +98,7 @@
   width: 175px;
   aspect-ratio: 10 / 14;
   border-radius: 14px;
-  overflow: clip;
+  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.22);
   background: #161618;
   box-shadow: -15px 23px 38px rgba(0, 0, 0, 0.8);
